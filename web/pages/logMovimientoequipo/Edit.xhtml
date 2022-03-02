@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LogMovimientoequipoEditDlg" widgetVar="LogMovimientoequipoEditDialog" 
+                  header="#{bundle.Edit} #{bundle.LogMovimientoequipo}"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="LogMovimientoequipoEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" rendered="#{logMovimientoequipoController.selected != null}">
+                        <p:outputLabel value="#{bundle.idLogmovimientoequipo}" for="idLogmovimientoequipo" />
+                        <p:inputText id="idLogmovimientoequipo" disabled="true" value="#{logMovimientoequipoController.selected.idLogmovimientoequipo}"   />
+                        <p:outputLabel value="#{bundle.tipocrudLogmovimientoequipo}" for="tipocrudLogmovimientoequipo" />
+                        <p:inputText id="tipocrudLogmovimientoequipo" value="#{logMovimientoequipoController.selected.tipocrudLogmovimientoequipo}"  />
+                        <p:outputLabel value="#{bundle.fechaLogmovimientoequipo}" for="fechaLogmovimientoequipo" />
+                        <p:calendar id="fechaLogmovimientoequipo" pattern="yyyy-MM-dd HH:mm:ss" timeZone="GMT-5" locale="es_EC" readonlyInput="true"   navigator="true" value="#{logMovimientoequipoController.selected.fechaLogmovimientoequipo}" showButtonPanel="true"   showOn="button"/>
+                        <p:outputLabel value="#{bundle.idMovimientoequipo}" for="idMovimientoequipo" />
+                        <p:inputText id="idMovimientoequipo" value="#{logMovimientoequipoController.selected.idMovimientoequipo}"  />
+                        <p:outputLabel value="#{bundle.idEquipo}" for="idEquipo" />
+                        <p:inputText id="idEquipo" value="#{logMovimientoequipoController.selected.idEquipo}"  />
+                        <p:outputLabel value="#{bundle.idUsuario}" for="idUsuario" />
+                        <p:inputText id="idUsuario" value="#{logMovimientoequipoController.selected.idUsuario}"  />
+                        <p:outputLabel value="#{bundle.idUsuariocrud}" for="idUsuariocrud" />
+                        <p:inputText id="idUsuariocrud" value="#{logMovimientoequipoController.selected.idUsuariocrud}"  />
+                        <p:outputLabel value="#{bundle.codigoLogmovimientoequipo}" for="codigoLogmovimientoequipo" />
+                        <p:inputText id="codigoLogmovimientoequipo" value="#{logMovimientoequipoController.selected.codigoLogmovimientoequipo}"  />
+                        <p:outputLabel value="#{bundle.descripcionLogmovimientoequipo}" for="descripcionLogmovimientoequipo" />
+                        <p:inputText id="descripcionLogmovimientoequipo" value="#{logMovimientoequipoController.selected.descripcionLogmovimientoequipo}"  />
+                        <p:outputLabel value="#{bundle.fechaMovimientoequipo}" for="fechaMovimientoequipo" />
+                        <p:calendar id="fechaMovimientoequipo" pattern="yyyy-MM-dd HH:mm:ss" timeZone="GMT-5" locale="es_EC" readonlyInput="true"   navigator="true" value="#{logMovimientoequipoController.selected.fechaMovimientoequipo}" showButtonPanel="true"   showOn="button"/>
+                        <p:outputLabel value="#{bundle.tipoLogmovimientoequipo}" for="tipoLogmovimientoequipo" />
+                        <p:inputText id="tipoLogmovimientoequipo" value="#{logMovimientoequipoController.selected.tipoLogmovimientoequipo}"  />
+                        <p:outputLabel value="#{bundle.sitioinicialLogmovimientoequipo}" for="sitioinicialLogmovimientoequipo" />
+                        <p:inputText id="sitioinicialLogmovimientoequipo" value="#{logMovimientoequipoController.selected.sitioinicialLogmovimientoequipo}"  />
+                        <p:outputLabel value="#{bundle.sitiofinalLogmovimientoequipo}" for="sitiofinalLogmovimientoequipo" />
+                        <p:inputText id="sitiofinalLogmovimientoequipo" value="#{logMovimientoequipoController.selected.sitiofinalLogmovimientoequipo}"  />
+                        <p:outputLabel value="#{bundle.descripcionresponsableLogmovimientoequipo}" for="descripcionresponsableLogmovimientoequipo" />
+                        <p:inputText id="descripcionresponsableLogmovimientoequipo" value="#{logMovimientoequipoController.selected.descripcionresponsableLogmovimientoequipo}"  />
+                        <p:outputLabel value="#{bundle.imagenLogmovimientoequipo}" for="imagenLogmovimientoequipo" />
+                        <p:inputTextarea rows="4" cols="30" id="imagenLogmovimientoequipo" value="#{logMovimientoequipoController.selected.imagenLogmovimientoequipo}"  />
+                        <p:outputLabel value="#{bundle.documentorespaldoLogmovimientoequipo}" for="documentorespaldoLogmovimientoequipo" />
+                        <p:inputTextarea rows="4" cols="30" id="documentorespaldoLogmovimientoequipo" value="#{logMovimientoequipoController.selected.documentorespaldoLogmovimientoequipo}"  />
+                    </p:panelGrid>
+
+                    <div style="text-align: center !important;">
+                        <p:commandButton actionListener="#{logMovimientoequipoController.actualizar}" value="#{bundle.Save}" update="display,:LogMovimientoequipoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'LogMovimientoequipoEditDialog');" icon="pi pi-check" styleClass="rounded-button ui-button-info"/>
+                        <p:commandButton type="button" value="#{bundle.Cancel}" onclick="PF('LogMovimientoequipoEditDialog').hide()" icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

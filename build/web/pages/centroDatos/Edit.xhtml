@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CentroDatosEditDlg" widgetVar="CentroDatosEditDialog" 
+                  header="#{bundle.Edit} #{bundle.CentroDatos}" width="95%"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="CentroDatosEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" rendered="#{centroDatosController.selected != null}"
+                                 columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                 layout="grid"
+                                 styleClass="ui-panelgrid-blank ui-fluid"
+                                 style="border:0px none; background-color:transparent;">
+<!--                        <p:outputLabel value="#{bundle.idCentrodatos}" for="idCentrodatos" />
+            <p:outputLabel id="idCentrodatos" value="#{bundle.SetAutomatically}"   />-->
+                        <p:outputLabel value="#{bundle.nombreCentrodatos}" for="nombreCentrodatos" />
+                        <p:inputText required="true" id="nombreCentrodatos" value="#{centroDatosController.selected.nombreCentrodatos}"  />
+                        <p:outputLabel value="#{bundle.codigoCentrodatos}" for="codigoCentrodatos" /> 
+                        <p:inputText placeholder="Ej: DCLC" id="codigoCentrodatos" value="#{centroDatosController.selected.codigoCentrodatos}"  />
+                        <p:outputLabel value="#{bundle.descripcionCentrodatos}" for="descripcionCentrodatos" />
+                        <p:inputText required="true" id="descripcionCentrodatos" value="#{centroDatosController.selected.descripcionCentrodatos}"  />
+                        <p:outputLabel value="#{bundle.imagenCentrodatos}" />
+                        <!--<p:inputTextarea rows="4" cols="30" id="imagenCentrodatos" value="#{centroDatosController.selected.imagenCentrodatos}"  />-->
+                        <p:commandButton id="btnEditarImg" icon="pi pi-plus" 
+                                         value="Cargar imagen" title="Cargar imagen"
+                                         process="@this" update=":EditarImagenForm"
+                                         oncomplete="PF('EditarImagenDialog').show()"
+                                         styleClass="ui-button-info" style="padding: 0px 5px 0px 5px"/>
+                    </p:panelGrid>
+                    <p:panel id="pnlImg" header="Imagen del Centro de Datos">
+                                 <!--rendered="#{centroDatosController.selected.imagenCentrodatos != null }" style="text-align: center;">-->
+                        <p:graphicImage id="grpImg" cache="false" title="#{centroDatosController.selected.imagenCentrodatos}"
+                                        height="#{centroDatosController.selected.imagenCentrodatos eq null ? 0 : 80}" 
+                                        value="#{centroDatosController.selected.imagenCentrodatos}" alt="Imagen_1"
+                                        style="margin-right: 2px;"/>
+
+                        <p:commandButton id="btnVerImg" icon="pi pi-search" title="Ver imagen" 
+                                         process="@this"  partialSubmit="#{true}" immediate="#{true}"
+                                         disabled="#{centroDatosController.selected.imagenCentrodatos eq null}"
+                                         action="#{imagenBean.visualizar(centroDatosController.selected.imagenCentrodatos)}" 
+                                         onclick="form.target = '_blank'" ajax="false"
+                                         styleClass="ui-button-success" style="padding: 0px 5px 0px 5px"/>
+
+                        <p:commandButton id="btnCropImg" icon="pi pi-pencil" title="Cortar imagen" 
+                                         process="@this" update=":EditarImagenForm"
+                                         disabled="#{centroDatosController.selected.imagenCentrodatos eq null}" 
+                                         oncomplete="PF('EditarImagenDialog').show()"
+                                         styleClass="ui-button-info" style="padding: 0px 5px 0px 5px"/>
+
+                        <p:commandButton id="btnQuitarImg" icon="pi pi-times" title="Quitar imagen"
+                                         disabled="#{centroDatosController.selected.imagenCentrodatos eq null}"
+                                         actionListener="#{centroDatosController.quitarImagen()}"
+                                         update=":growl pnlImg" process="@this"
+                                         styleClass="ui-button-danger" style="padding: 0px 5px 0px 5px"/>
+                    </p:panel>
+
+                    <div style="text-align: center !important;">
+                        <p:commandButton actionListener="#{centroDatosController.actualizar}" value="#{bundle.Save}" update="display,:CentroDatosListForm:datalist,:growl" oncomplete="handleSubmit(args, 'CentroDatosEditDialog');" icon="pi pi-check" styleClass="rounded-button ui-button-info"/>
+                        <p:commandButton type="button" value="#{bundle.Cancel}" onclick="PF('CentroDatosEditDialog').hide()" icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

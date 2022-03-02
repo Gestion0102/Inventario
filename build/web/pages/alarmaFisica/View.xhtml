@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AlarmaFisicaViewDlg" widgetVar="AlarmaFisicaViewDialog"
+                  header="#{bundle.View} #{bundle.AlarmaFisica}" width="85%"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="AlarmaFisicaViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" rendered="#{alarmaFisicaController.selected != null}"
+                                             columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                             layout="grid"
+                                             styleClass="ui-panelgrid-blank ui-fluid"
+                                             style="border:0px none; background-color:transparent;">
+<!--                        <h:outputText value="#{bundle.idAlarma}"/>
+                        <h:outputText value="#{alarmaFisicaController.selected.idAlarma}" />-->
+<!--                        <h:outputText value="#{bundle.codigoAlarma}"/>
+                        <h:outputText value="#{alarmaFisicaController.selected.codigoAlarma}" />-->
+                        <h:outputText value="#{bundle.descripcionAlarma}"/>
+                        <h:outputText value="#{alarmaFisicaController.selected.descripcionAlarma}" />
+                        <h:outputText value="#{bundle.fechainiciaAlarma}"/>
+                        <h:outputText value="#{alarmaFisicaController.selected.fechainiciaAlarma}">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" timeZone="GMT-5" locale="es_EC"/>
+                        </h:outputText>
+                        <h:outputText value="#{bundle.fechafinalizaAlarma}"/>
+                        <h:outputText value="#{alarmaFisicaController.selected.fechafinalizaAlarma}">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" timeZone="GMT-5" locale="es_EC"/>
+                        </h:outputText>
+                        <h:outputText value="#{bundle.fecharegistroAlarma}"/>
+                        <h:outputText value="#{alarmaFisicaController.selected.fecharegistroAlarma}">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" timeZone="GMT-5" locale="es_EC"/>
+                        </h:outputText>
+                        <h:outputText value="#{bundle.numerocasoAlarma}"/>
+                        <h:outputText value="#{alarmaFisicaController.selected.numerocasoAlarma}" />
+                        <h:outputText value="#{bundle.estaequipoalarmadoAlarma}"/>
+                        <p:selectBooleanCheckbox value="#{alarmaFisicaController.selected.estaequipoalarmadoAlarma}" disabled="true"/>
+                        <h:outputText value="#{bundle.tienecomponentealarmadoAlarma}"/>
+                        <p:selectBooleanCheckbox value="#{alarmaFisicaController.selected.tienecomponentealarmadoAlarma}" disabled="true"/>
+                        <h:outputText value="#{bundle.descripcioncomponentealarmadoAlarma}"/>
+                        <h:outputText value="#{alarmaFisicaController.selected.descripcioncomponentealarmadoAlarma}" />
+                        <h:outputText value="#{bundle.estadoactualAlarma}"/>
+                        <h:outputText value="#{alarmaFisicaController.selected.estadoactualAlarma}" />
+                        <h:outputText value="#{bundle.imagenunoAlarma}"/>
+                        <!--<h:outputText value="#{alarmaFisicaController.selected.imagenunoAlarma}" />-->
+                        <p:commandButton icon="pi pi-images" title="Ver imagen" value="#{alarmaFisicaController.selected.imagenunoAlarma eq null? bundle.NoImage:bundle.View}"
+                                         disabled="#{alarmaFisicaController.selected.imagenunoAlarma eq null}"
+                                         actionListener="#{imagenBean.visualizar(alarmaFisicaController.selected.imagenunoAlarma)}" 
+                                         onclick="form.target = '_blank'" ajax="false"/>
+                        
+                        <h:outputText value="#{bundle.imagendosAlarma}"/>
+                        <h:outputText value="#{alarmaFisicaController.selected.imagendosAlarma}" />
+                        <h:outputText value="#{bundle.mostrarmonitoreodiarioAlarma}"/>
+                        <p:selectBooleanCheckbox value="#{alarmaFisicaController.selected.mostrarmonitoreodiarioAlarma}" disabled="true"/>
+                        <h:outputText value="#{bundle.observacionAlarma}"/>
+                        <h:outputText value="#{alarmaFisicaController.selected.observacionAlarma}" />
+                        <h:outputText value="#{bundle.idEquipo}"/>
+                        <h:outputText value="#{alarmaFisicaController.selected.idEquipo.nombreEquipo}" />
+                        <h:outputText value="#{bundle.idProveedor}"/>
+                        <h:outputText value="#{alarmaFisicaController.selected.idProveedor.nombreProveedor}" />
+<!--                        <h:outputText value="#{bundle.idUsuarioCrud}"/>
+                        <h:outputText value="#{alarmaFisicaController.selected.usuIdUsuario}" />
+                        <h:outputText value="#{bundle.idUsuario}"/>
+                        <h:outputText value="#{alarmaFisicaController.selected.idUsuario}" />-->
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+
+            <f:facet name="footer">
+                <h:form style="text-align: center !important;">
+                    <p:commandButton type="button"  value="#{bundle.Close}" onclick="PF('AlarmaFisicaViewDialog').hide()"
+                                     icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                </h:form>
+            </f:facet>
+        </p:dialog>
+
+    </ui:composition>
+</html>

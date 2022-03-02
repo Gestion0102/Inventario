@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LogEquipoViewDlg" widgetVar="LogEquipoViewDialog"
+                  header="#{bundle.View} #{bundle.LogEquipo}"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="LogEquipoViewForm">
+                <h:panelGroup id="display2">
+                    <p:panelGrid columns="4" rendered="#{logEquipoController.selected != null}">
+                        <h:outputText value="#{bundle.idLogequipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.idLogequipo}" />
+                        <h:outputText value="#{bundle.tipocrudLogequipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.tipocrudLogequipo}" />
+                        <h:outputText value="#{bundle.fechaLog}"/>
+                        <h:outputText value="#{logEquipoController.selected.fechaLogequipo}">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" timeZone="GMT-5" locale="es_EC" readonlyInput="true" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.idEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.idEquipo.nombreEquipo}" />
+                        <h:outputText value="#{bundle.idTipoequipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.idTipoequipo.nombreTipoequipo}" />
+                        <h:outputText value="#{bundle.idRack}"/>
+                        <h:outputText value="#{logEquipoController.selected.idRack.nombreRack}" />
+                        <h:outputText value="#{bundle.idProveedor}"/>
+                        <h:outputText value="#{logEquipoController.selected.idProveedor.nombreProveedor}" />
+                        <h:outputText value="#{bundle.idUsuario}"/>
+                        <h:outputText value="#{logEquipoController.selected.idUsuario.nombreUsuario}" />
+                        <h:outputText value="#{bundle.codigoEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.codigoLogequipo}" />
+                        <h:outputText value="#{bundle.nombreEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.nombreLogequipo}" />
+                        <h:outputText value="#{bundle.posicionrackEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.posicionrackLogequipo}" />
+                        <h:outputText value="#{bundle.unidadrackEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.unidadrackLogequipo}" />
+                        <h:outputText value="#{bundle.marcaEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.marcaLogequipo}" />
+                        <h:outputText value="#{bundle.mtmEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.mtmLogequipo}" />
+                        <h:outputText value="#{bundle.serieEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.serieLogequipo}" />
+                        <h:outputText value="#{bundle.modeloEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.modeloLogequipo}" />
+                        <h:outputText value="#{bundle.piduidEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.piduidLogequipo}" />
+                        <h:outputText value="#{bundle.hostnameEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.hostnameLogequipo}" />
+                        <h:outputText value="#{bundle.ipadministracionEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.ipadministracionLogequipo}" />
+                        <h:outputText value="#{bundle.ipproduccionEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.ipproduccionLogequipo}" />
+                        <h:outputText value="#{bundle.ipvmotionEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.ipvmotionLogequipo}" />
+                        <h:outputText value="#{bundle.estadoEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.estadoLogequipo}" />
+                        <h:outputText value="#{bundle.cantidadprocesadoresEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.cantidadprocesadoresLogequipo}" />
+                        <h:outputText value="#{bundle.velocidadprocesadorEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.velocidadprocesadorLogequipo}" />
+                        <h:outputText value="#{bundle.versionprocesadorEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.versionprocesadorLogequipo}" />
+                        <h:outputText value="#{bundle.cantidadcoresEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.cantidadcoresLogequipo}" />
+                        <h:outputText value="#{bundle.cantidadthreadscoresEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.cantidadthreadscoresLogequipo}" />
+                        <h:outputText value="#{bundle.capacidadinstaladaramEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.capacidadinstaladaramLogequipo}" />
+                        <h:outputText value="#{bundle.velocidadramEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.velocidadramLogequipo}" />
+                        <h:outputText value="#{bundle.cantidadslotsramEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.cantidadslotsramLogequipo}" />
+                        <h:outputText value="#{bundle.cantidadslotsutilizadasramEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.cantidadslotsutilizadasramLogequipo}" />
+                        <h:outputText value="#{bundle.posicionesutilizadasslotsramEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.posicionesutilizadasslotsramLogequipo}" />
+                        <h:outputText value="#{bundle.cantidadtotaldiscosEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.cantidadtotaldiscosLogequipo}" />
+                        <h:outputText value="#{bundle.cantidaddiscosutilizadosEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.cantidaddiscosutilizadosLogequipo}" />
+                        <h:outputText value="#{bundle.cantidaddiscosvaciosEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.cantidaddiscosvaciosLogequipo}" />
+                        <h:outputText value="#{bundle.capacidadtotaldiscoEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.capacidadtotaldiscoLogequipo}" />
+                        <h:outputText value="#{bundle.frudiscoEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.frudiscoLogequipo}" />
+                        <h:outputText value="#{bundle.informaciondiscoEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.informaciondiscoLogequipo}" />
+                        <h:outputText value="#{bundle.raiddiscoEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.raiddiscoLogequipo}" />
+                        <h:outputText value="#{bundle.sistemaoperativoEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.sistemaoperativoLogequipo}" />
+                        <h:outputText value="#{bundle.sistemaoperativodistribucionEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.sistemaoperativodistribucionLogequipo}" />
+                        <h:outputText value="#{bundle.sistemaoperativoversionEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.sistemaoperativoversionLogequipo}" />
+                        <h:outputText value="#{bundle.sistemaoperativosubversionEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.sistemaoperativosubversionLogequipo}" />
+                        <h:outputText value="#{bundle.cantidadtotalinterfacesredEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.cantidadtotalinterfacesredLogequipo}" />
+                        <h:outputText value="#{bundle.tienemovimientovmotionEquipo}"/>
+                        <p:selectBooleanCheckbox value="#{logEquipoController.selected.tienemovimientovmotionLogequipo}" disabled="true"/>
+                        <h:outputText value="#{bundle.funcionalidadEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.funcionalidadLogequipo}" />
+                        <h:outputText value="#{bundle.proyectosistemaareaEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.proyectosistemaareaLogequipo}" />
+                        <h:outputText value="#{bundle.responsableapagadoEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.responsableapagadoLogequipo}" />
+                        <h:outputText value="#{bundle.etiquetaEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.etiquetaLogequipo}" />
+                        <h:outputText value="#{bundle.controlbienesEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.controlbienesLogequipo}" />
+                        <h:outputText value="#{bundle.fechaadquisicionEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.fechaadquisicionLogequipo}">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" timeZone="GMT-5" locale="es_EC" readonlyInput="true" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.faseadquisicionEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.faseadquisicionLogequipo}" />
+                        <h:outputText value="#{bundle.hitoadquisicionEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.hitoadquisicionLogequipo}" />
+                        <h:outputText value="#{bundle.observacionEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.observacionLogequipo}" />
+                        <h:outputText value="#{bundle.imagenEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.imagenLogequipo}" />
+                        <h:outputText value="#{bundle.servicioEquipo}"/>
+                        <h:outputText value="#{logEquipoController.selected.servicioLogequipo}" />
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+
+            <f:facet name="footer">
+                <h:form style="text-align: center !important;">
+                    <p:commandButton type="button"  value="#{bundle.Close}" onclick="PF('LogEquipoViewDialog').hide()"
+                                     icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                </h:form>
+            </f:facet>
+        </p:dialog>
+
+    </ui:composition>
+</html>

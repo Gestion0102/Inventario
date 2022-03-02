@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" >
+
+    <h:head>
+        <title><ui:insert name="title">Default Titulo</ui:insert></title>
+        <h:outputStylesheet name="css/estructura_html.css"/>
+        <h:outputStylesheet name="css/tipografia.css"/>
+        <h:outputStylesheet name="css/jsfcrud.css"/>
+
+        <h:outputScript library="js" name="jsfcrud.js"/>
+        <link rel="shortcut icon" href="#{request.contextPath}/resources/imagenes/CDN_iconoN.png"/>
+        <link rel="stylesheet" href="#{request.contextPath}/resources/font-awesome-4.7.0/css/font-awesome.min.css" type="text/css"/>
+        <!--Para verificar que el usuario se haya logeado en las paginas del sistema-->
+        <!--<f:event type="preRenderView" listener="#{controladorSesionUsuario.verificarSesionUsuarioIniciada()}"/>-->
+        <f:event type="preRenderView" listener="#{controladorSesionUsuario.verificarPermisoAccesoUsuarioLogeadoAOpcionSistema()}" id="verCalificar"/>
+        <!--<f:view beforePhase="#{faseBean.evaluarFase}"/>-->
+    </h:head>
+
+    <h:body>
+
+        <p:growl id="growl" life="3000" showSummary="false" showDetail="true" sticky="true" />
+        <!--<p:growl id="growl" life="3000" />-->
+        <ui:include src="resources/plantilla/header.xhtml"/>
+
+        <ui:insert name="body"/>
+
+        <ui:insert name="footer" />
+
+        <div class="footer">
+            <h5 align="center" > <p:outputLabel value="SICDN 2022" style="background-color:#2196F3; color:#fff; float: left;"/></h5>
+<!--            <p:avatar label="#{controladorSesionUsuario.usuarioLogeado.nombreUsuario}"
+                              style="background-color:#2196F3; color:#fff; float: right;" shape="circle"  />-->
+            <p:outputLabel value="#{controladorSesionUsuario.usuarioLogeado.nombreUsuario}"
+                           style="background-color:#2196F3; color:#fff; float: right;"/>
+        </div>
+
+
+
+    </h:body>
+
+    <!--<p:messages showDetail="true" showSummary="true"/>-->
+</html>

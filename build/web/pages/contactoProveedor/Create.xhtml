@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ContactoProveedorCreateDlg" widgetVar="ContactoProveedorCreateDialog" 
+                  header="#{bundle.Create} #{bundle.ContactoProveedor}"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="ContactoProveedorCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" rendered="#{contactoProveedorController.selected != null}">
+                        <p:outputLabel value="#{bundle.idContactoproveedor}" for="idContactoproveedor" />
+                        <p:outputLabel id="idContactoproveedor" value="#{bundle.SetAutomatically}"   />
+                        <p:outputLabel value="#{bundle.codigoContactoproveedor}" for="codigoContactoproveedor" />
+                        <p:inputText id="codigoContactoproveedor" value="#{contactoProveedorController.selected.codigoContactoproveedor}"  />
+                        <p:outputLabel value="#{bundle.nombreContactoproveedor}" for="nombreContactoproveedor" />
+                        <p:inputText id="nombreContactoproveedor" value="#{contactoProveedorController.selected.nombreContactoproveedor}"  />
+                        <p:outputLabel value="#{bundle.cargoContactoproveedor}" for="cargoContactoproveedor" />
+                        <p:inputText id="cargoContactoproveedor" value="#{contactoProveedorController.selected.cargoContactoproveedor}"  />
+                        <p:outputLabel value="#{bundle.celularContactoproveedor}" for="celularContactoproveedor" />
+                        <p:inputText id="celularContactoproveedor" value="#{contactoProveedorController.selected.celularContactoproveedor}"  />
+                        <p:outputLabel value="#{bundle.correoContactoproveedor}" for="correoContactoproveedor" />
+                        <p:inputText id="correoContactoproveedor" value="#{contactoProveedorController.selected.correoContactoproveedor}"  />
+                        <p:outputLabel value="#{bundle.estadoContactoproveedor}" for="estadoContactoproveedor" />
+                        <p:selectBooleanCheckbox id="estadoContactoproveedor" value="#{contactoProveedorController.selected.estadoContactoproveedor}" />
+                        <p:outputLabel value="#{bundle.idProveedor}" for="idProveedor" />
+                        <p:selectOneMenu filter="true" id="idProveedor" value="#{contactoProveedorController.selected.idProveedor}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{proveedorController.itemsAvailableSelectOne}"
+                                           var="idProveedorItem"
+                                           itemValue="#{idProveedorItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+
+                    <div style="text-align: center !important;">
+                        <p:commandButton actionListener="#{contactoProveedorController.crear}" value="#{bundle.Save}" update="display,:ContactoProveedorListForm:datalist,:growl" oncomplete="handleSubmit(args,'ContactoProveedorCreateDialog');" icon="pi pi-check" styleClass="rounded-button ui-button-info"/>
+                        <p:commandButton type="button" value="#{bundle.Cancel}" onclick="PF('ContactoProveedorCreateDialog').hide()" icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
+

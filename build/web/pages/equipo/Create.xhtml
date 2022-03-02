@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EquipoCreateDlg" widgetVar="EquipoCreateDialog" 
+                  header="#{bundle.Create} #{bundle.Equipo}" width="85%"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true"
+                  onHide="PF('wiz').loadStep('general', false)">
+
+            <h:form id="EquipoCreateForm">
+                <h:panelGroup id="display">
+
+                    <p:wizard id="wzd" widgetVar="wiz" flowListener="#{equipoController.onFlowProcess}"
+                              backLabel="Anterior" nextLabel="Siguiente">
+                        <p:tab id="general" title="General">
+                            <p:panel header="Información General">
+                                <p:messages id="msg"/>
+                                <p:panelGrid columns="4" rendered="#{equipoController.selected != null}"
+                                             columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                             layout="grid"
+                                             styleClass="ui-panelgrid-blank ui-fluid"
+                                             style="border:0px none; background-color:transparent;">
+                                    <!--                        <p:outputLabel value="#{bundle.idEquipo}" for="idEquipo" />
+                                                            <p:outputLabel id="idEquipo" value="#{bundle.SetAutomatically}"   />
+                                                            <p:outputLabel value="#{bundle.codigoEquipo}" for="codigoEquipo" />
+                                                            <p:inputText id="codigoEquipo" value="#{equipoController.selected.codigoEquipo}"  />-->
+
+                                    <p:outputLabel value="#{bundle.idTipoequipo}" for="idTipoequipo" />
+
+                                    <p:selectOneMenu required="true" filter="true" id="idTipoequipo" value="#{equipoController.selected.idTipoequipo}">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                                        <f:selectItems value="#{tipoEquipoController.itemsAvailableSelectOne}"
+                                                       var="idTipoequipoItem"
+                                                       itemLabel="#{idTipoequipoItem.nombreTipoequipo}"
+                                                       itemValue="#{idTipoequipoItem}"/>
+                                    </p:selectOneMenu>                        
+                                    <p:outputLabel value="#{bundle.nombreEquipo}" for="nombreEquipo" />
+                                    <p:inputText id="nombreEquipo" value="#{equipoController.selected.nombreEquipo}" required="true" />
+                                    <p:outputLabel value="#{bundle.marcaEquipo}" for="marcaEquipo" />
+                                    <p:inputText id="marcaEquipo" value="#{equipoController.selected.marcaEquipo}"  required="true" />
+                                    <p:outputLabel value="#{bundle.serieEquipo}" for="serieEquipo" />
+                                    <p:inputText id="serieEquipo" value="#{equipoController.selected.serieEquipo}"  required="true" />
+                                    <p:outputLabel value="#{bundle.modeloEquipo}" for="modeloEquipo" />
+                                    <p:inputText id="modeloEquipo" value="#{equipoController.selected.modeloEquipo}" required="true"  />
+                                    <p:outputLabel value="#{bundle.estadoEquipo}" for="estadoEquipo" />
+                                    <!--<p:inputText id="estadoEquipo" value="#{equipoController.selected.estadoEquipo}" />-->
+                                    <p:selectOneButton id="estadoEquipo" value="#{equipoController.selected.estadoEquipo}">
+                                        <f:selectItem itemValue="#{true}" itemLabel="On"/>
+                                        <f:selectItem itemValue="#{false}" itemLabel="Off"/>
+                                    </p:selectOneButton>
+                                    <p:outputLabel value="#{bundle.ipadministracionEquipo}" for="ipadministracionEquipo" />
+                                    <p:inputText id="ipadministracionEquipo" value="#{equipoController.selected.ipadministracionEquipo}" 
+                                                 validator="ipValidator" required="true"  />
+                                    <p:outputLabel value="#{bundle.mtmEquipo}" for="mtmEquipo" />
+                                    <p:inputText id="mtmEquipo" value="#{equipoController.selected.mtmEquipo}"  />
+                                    <p:outputLabel value="#{bundle.idProveedor}" for="idProveedor" />
+                                    <p:selectOneMenu filter="true" id="idProveedor" value="#{equipoController.selected.idProveedor}" >
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                                        <f:selectItems value="#{proveedorController.itemsAvailableSelectOne}"
+                                                       var="idProveedorItem"
+                                                       itemLabel="#{idProveedorItem.nombreProveedor}"
+                                                       itemValue="#{idProveedorItem}"/>
+                                    </p:selectOneMenu>
+
+                                </p:panelGrid>
+
+                                <!--                                <div style="text-align: right !important;">
+                                                                    <h:outputText value="Ir al final: "/>
+                                                                    <p:selectBooleanCheckbox value="#{equipoController.skip}"/>
+                                                                </div>-->
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab id="imagen" title="Imagen">
+                            <p:panel header="Gestión de la imagen">
+
+                                <p:outputLabel value="#{bundle.imagenEquipo}" />
+                                <!--El ejemplo de subir imagen directamente está aqui comentado:-->
+
+<!--                                    <p:fileUpload id="fileImg" listener="#{equipoController.handleFileUpload}"
+                                                  update=":growl @this pnlImg"
+                                                  mode="advanced" multiple="false" auto="true" global="true"
+                                                  sizeLimit="512000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                                  invalidSizeMessage="Tamaño máximo del archivo es 512 KB" 
+                                                  invalidFileMessage="only gif | jpg | jpeg | png is allowed">
+
+                                        <p:panel id="pnlImg" rendered="#{!(equipoController.selected.imagenEquipo eq null) }" style="text-align: center;">
+                                            <p:graphicImage id="grpImg" cache="false" title="#{equipoController.selected.imagenEquipo}"
+                                                            height="#{equipoController.selected.imagenEquipo eq null ? 0 : 80}" 
+                                                            value="#{equipoController.selected.imagenEquipo}" alt="Imagen_1"
+                                                            style="margin-right: 2px;"/>
+
+                                            <p:commandButton id="btnVerImg" icon="pi pi-search" title="Ver imagen" 
+                                                             process="btnVerImagen"  partialSubmit="#{true}" immediate="#{true}"
+                                                             disabled="#{equipoController.selected.imagenEquipo eq null}"
+                                                             action="#{imagenBean.visualizar(equipoController.selected.imagenEquipo)}" 
+                                                             onclick="form.target = '_blank'" ajax="false"
+                                                             styleClass="ui-button-success" style="padding: 0px 5px 0px 5px"/>
+
+                                            <p:commandButton id="btnQuitarImg" icon="pi pi-times" title="Quitar imagen"
+                                                             disabled="#{equipoController.selected.imagenEquipo eq null}"
+                                                             actionListener="#{equipoController.quitarImagen()}"
+                                                             update=":growl pnlImg fileImg" process="@this"
+                                                             styleClass="ui-button-danger" style="padding: 0px 5px 0px 5px"/>
+                                        </p:panel>
+                                    </p:fileUpload>-->
+
+                                <p:commandButton id="btnCargarImg" icon="pi pi-plus" 
+                                                 value="Cargar imagen" title="Cargar imagen"
+                                                 actionListener="#{equipoController.prepareCargarImagen()}"
+                                                 process="@this" update=":CargarImagenForm"
+                                                 rendered="#{equipoController.selected.imagenEquipo eq null}" 
+                                                 oncomplete="PF('CargarImagenDialog').show()"
+                                                 styleClass="ui-button-info" style="padding: 0px 5px 0px 5px"/>
+                                <p:panel id="pnlImg" header="Imagen del equipo">
+                                                 <!--rendered="#{equipoController.selected.imagenEquipo != null }" style="text-align: center;">-->
+                                    <p:graphicImage id="grpImg" cache="false" title="#{equipoController.selected.imagenEquipo}"
+                                                    height="#{equipoController.selected.imagenEquipo eq null ? 0 : 80}" 
+                                                    value="#{equipoController.selected.imagenEquipo}" alt="Imagen_1"
+                                                    style="margin-right: 2px;"/>
+
+                                    <p:commandButton id="btnVerImg" icon="pi pi-search" title="Ver imagen" 
+                                                     process="@this"  partialSubmit="#{true}" immediate="#{true}"
+                                                     disabled="#{equipoController.selected.imagenEquipo eq null}"
+                                                     action="#{imagenBean.visualizar(equipoController.selected.imagenEquipo)}" 
+                                                     onclick="form.target = '_blank'" ajax="false"
+                                                     styleClass="ui-button-success" style="padding: 0px 5px 0px 5px"/>
+
+                                    <p:commandButton id="btnCropImg" icon="pi pi-pencil" title="Cortar imagen" 
+                                                     process="@this" update=":CargarImagenForm"
+                                                     disabled="#{equipoController.selected.imagenEquipo eq null}" 
+                                                     oncomplete="PF('CargarImagenDialog').show()"
+                                                     styleClass="ui-button-info" style="padding: 0px 5px 0px 5px"/>
+
+                                    <p:commandButton id="btnQuitarImg" icon="pi pi-times" title="Quitar imagen"
+                                                     disabled="#{equipoController.selected.imagenEquipo eq null}"
+                                                     actionListener="#{equipoController.quitarImagen()}"
+                                                     update=":growl pnlImg" process="@this"
+                                                     styleClass="ui-button-danger" style="padding: 0px 5px 0px 5px"/>
+                                </p:panel>
+                            </p:panel>
+                            <div style="text-align: right !important;">
+                                <h:outputText value="Ir al final: "/>
+                                <p:selectBooleanCheckbox value="#{equipoController.skip}"/>
+                            </div>
+                        </p:tab>
+
+                        <p:tab id="adicional" title="Adicional">
+                            <p:panel header="Información Física">
+
+                                <p:panelGrid columns="4" rendered="#{equipoController.selected != null}"
+                                             columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                             layout="grid"
+                                             styleClass="ui-panelgrid-blank ui-fluid"
+                                             style="border:0px none; background-color:transparent;">
+                                    <p:outputLabel value="#{bundle.idRack}" for="idRack" />
+
+                                    <p:selectOneMenu filter="true" id="idRack" value="#{equipoController.selected.idRack}" >
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                                        <f:selectItems value="#{rackController.itemsAvailableSelectOne}"
+                                                       var="idRackItem"
+                                                       itemLabel="#{idRackItem.nombreRack}"
+                                                       itemValue="#{idRackItem}"/>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="#{bundle.posicionrackEquipo}" for="posicionrackEquipo" />
+                                    <p:inputText id="posicionrackEquipo" value="#{equipoController.selected.posicionrackEquipo}"  />
+                                    <p:outputLabel value="#{bundle.unidadrackEquipo}" for="unidadrackEquipo" />
+                                    <p:inputText id="unidadrackEquipo" value="#{equipoController.selected.unidadrackEquipo}"  />
+                                </p:panelGrid>
+
+                                <h:outputText value="Ir al final: "/>
+                                <p:selectBooleanCheckbox value="#{equipoController.skip}"/>
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab id="complementaria" title="Complementaria">
+                            <p:panel header="Información Complementaria">
+
+                                <p:panelGrid columns="4" rendered="#{equipoController.selected != null}"
+                                             columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                             layout="grid"
+                                             styleClass="ui-panelgrid-blank ui-fluid"
+                                             style="border:0px none; background-color:transparent;">
+
+
+                                    <p:outputLabel value="#{bundle.piduidEquipo}" for="piduidEquipo" />
+                                    <p:inputText id="piduidEquipo" value="#{equipoController.selected.piduidEquipo}"  />
+                                    <p:outputLabel value="#{bundle.hostnameEquipo}" for="hostnameEquipo" />
+                                    <p:inputText id="hostnameEquipo" value="#{equipoController.selected.hostnameEquipo}"  />
+                                    <p:outputLabel value="#{bundle.ipproduccionEquipo}" for="ipproduccionEquipo" />
+                                    <p:inputText id="ipproduccionEquipo" value="#{equipoController.selected.ipproduccionEquipo}"  
+                                                 required="false" validator="ipValidator"/>
+                                    <p:outputLabel value="#{bundle.ipvmotionEquipo}" for="ipvmotionEquipo" />
+                                    <p:inputText id="ipvmotionEquipo" value="#{equipoController.selected.ipvmotionEquipo}"
+                                                 required="false" validator="ipValidator"/>
+                                    <p:outputLabel value="#{bundle.cantidadprocesadoresEquipo}" for="cantidadprocesadoresEquipo" />
+                                    <p:inputText id="cantidadprocesadoresEquipo" value="#{equipoController.selected.cantidadprocesadoresEquipo}"  />
+                                    <p:outputLabel value="#{bundle.velocidadprocesadorEquipo}" for="velocidadprocesadorEquipo" />
+                                    <p:inputText id="velocidadprocesadorEquipo" value="#{equipoController.selected.velocidadprocesadorEquipo}"  />
+                                    <p:outputLabel value="#{bundle.versionprocesadorEquipo}" for="versionprocesadorEquipo" />
+                                    <p:inputText id="versionprocesadorEquipo" value="#{equipoController.selected.versionprocesadorEquipo}"  />
+                                    <p:outputLabel value="#{bundle.cantidadcoresEquipo}" for="cantidadcoresEquipo" />
+                                    <p:inputText id="cantidadcoresEquipo" value="#{equipoController.selected.cantidadcoresEquipo}"  />
+                                    <p:outputLabel value="#{bundle.cantidadthreadscoresEquipo}" for="cantidadthreadscoresEquipo" />
+                                    <p:inputText id="cantidadthreadscoresEquipo" value="#{equipoController.selected.cantidadthreadscoresEquipo}"  />
+                                    <p:outputLabel value="#{bundle.capacidadinstaladaramEquipo}" for="capacidadinstaladaramEquipo" />
+                                    <p:inputText id="capacidadinstaladaramEquipo" value="#{equipoController.selected.capacidadinstaladaramEquipo}"  />
+                                    <p:outputLabel value="#{bundle.velocidadramEquipo}" for="velocidadramEquipo" />
+                                    <p:inputText id="velocidadramEquipo" value="#{equipoController.selected.velocidadramEquipo}"  />
+                                    <p:outputLabel value="#{bundle.cantidadslotsramEquipo}" for="cantidadslotsramEquipo" />
+                                    <p:inputText id="cantidadslotsramEquipo" value="#{equipoController.selected.cantidadslotsramEquipo}"  />
+                                    <p:outputLabel value="#{bundle.cantidadslotsutilizadasramEquipo}" for="cantidadslotsutilizadasramEquipo" />
+                                    <p:inputText id="cantidadslotsutilizadasramEquipo" value="#{equipoController.selected.cantidadslotsutilizadasramEquipo}"  />
+                                    <p:outputLabel value="#{bundle.posicionesutilizadasslotsramEquipo}" for="posicionesutilizadasslotsramEquipo" />
+                                    <p:inputText id="posicionesutilizadasslotsramEquipo" value="#{equipoController.selected.posicionesutilizadasslotsramEquipo}"  />
+                                    <p:outputLabel value="#{bundle.cantidadtotaldiscosEquipo}" for="cantidadtotaldiscosEquipo" />
+                                    <p:inputText id="cantidadtotaldiscosEquipo" value="#{equipoController.selected.cantidadtotaldiscosEquipo}"  />
+                                    <p:outputLabel value="#{bundle.cantidaddiscosutilizadosEquipo}" for="cantidaddiscosutilizadosEquipo" />
+                                    <p:inputText id="cantidaddiscosutilizadosEquipo" value="#{equipoController.selected.cantidaddiscosutilizadosEquipo}"  />
+                                    <p:outputLabel value="#{bundle.cantidaddiscosvaciosEquipo}" for="cantidaddiscosvaciosEquipo" />
+                                    <p:inputText id="cantidaddiscosvaciosEquipo" value="#{equipoController.selected.cantidaddiscosvaciosEquipo}"  />
+                                    <p:outputLabel value="#{bundle.capacidadtotaldiscoEquipo}" for="capacidadtotaldiscoEquipo" />
+                                    <p:inputText id="capacidadtotaldiscoEquipo" value="#{equipoController.selected.capacidadtotaldiscoEquipo}"  />
+                                    <p:outputLabel value="#{bundle.frudiscoEquipo}" for="frudiscoEquipo" />
+                                    <p:inputText id="frudiscoEquipo" value="#{equipoController.selected.frudiscoEquipo}"  />
+                                    <p:outputLabel value="#{bundle.informaciondiscoEquipo}" for="informaciondiscoEquipo" />
+                                    <p:inputText id="informaciondiscoEquipo" value="#{equipoController.selected.informaciondiscoEquipo}"  />
+                                    <p:outputLabel value="#{bundle.raiddiscoEquipo}" for="raiddiscoEquipo" />
+                                    <p:inputText id="raiddiscoEquipo" value="#{equipoController.selected.raiddiscoEquipo}"  />
+                                    <p:outputLabel value="#{bundle.sistemaoperativoEquipo}" for="sistemaoperativoEquipo" />
+                                    <p:inputText id="sistemaoperativoEquipo" value="#{equipoController.selected.sistemaoperativoEquipo}"  />
+                                    <p:outputLabel value="#{bundle.sistemaoperativodistribucionEquipo}" for="sistemaoperativodistribucionEquipo" />
+                                    <p:inputText id="sistemaoperativodistribucionEquipo" value="#{equipoController.selected.sistemaoperativodistribucionEquipo}"  />
+                                    <p:outputLabel value="#{bundle.sistemaoperativoversionEquipo}" for="sistemaoperativoversionEquipo" />
+                                    <p:inputText id="sistemaoperativoversionEquipo" value="#{equipoController.selected.sistemaoperativoversionEquipo}"  />
+                                    <p:outputLabel value="#{bundle.sistemaoperativosubversionEquipo}" for="sistemaoperativosubversionEquipo" />
+                                    <p:inputText id="sistemaoperativosubversionEquipo" value="#{equipoController.selected.sistemaoperativosubversionEquipo}"  />
+                                    <p:outputLabel value="#{bundle.cantidadtotalinterfacesredEquipo}" for="cantidadtotalinterfacesredEquipo" />
+                                    <p:inputText id="cantidadtotalinterfacesredEquipo" value="#{equipoController.selected.cantidadtotalinterfacesredEquipo}"  />
+                                    <p:outputLabel value="#{bundle.tienemovimientovmotionEquipo}" for="tienemovimientovmotionEquipo" />
+                                    <p:selectBooleanCheckbox id="tienemovimientovmotionEquipo" value="#{equipoController.selected.tienemovimientovmotionEquipo}" />
+                                    <p:outputLabel value="#{bundle.funcionalidadEquipo}" for="funcionalidadEquipo" />
+                                    <p:inputText id="funcionalidadEquipo" value="#{equipoController.selected.funcionalidadEquipo}"  />
+                                    <p:outputLabel value="#{bundle.proyectosistemaareaEquipo}" for="proyectosistemaareaEquipo" />
+                                    <p:inputText id="proyectosistemaareaEquipo" value="#{equipoController.selected.proyectosistemaareaEquipo}"  />
+                                    <p:outputLabel value="#{bundle.responsableapagadoEquipo}" for="responsableapagadoEquipo" />
+                                    <p:inputText id="responsableapagadoEquipo" value="#{equipoController.selected.responsableapagadoEquipo}"  />
+                                    <p:outputLabel value="#{bundle.etiquetaEquipo}" for="etiquetaEquipo" />
+                                    <p:inputText id="etiquetaEquipo" value="#{equipoController.selected.etiquetaEquipo}"  />
+                                    <p:outputLabel value="#{bundle.controlbienesEquipo}" for="controlbienesEquipo" />
+                                    <p:inputText id="controlbienesEquipo" value="#{equipoController.selected.controlbienesEquipo}"  />
+                                    <p:outputLabel value="#{bundle.fechaadquisicionEquipo}" for="fechaadquisicionEquipo" />
+                                    <p:calendar id="fechaadquisicionEquipo" pattern="yyyy-MM-dd HH:mm:ss"   timeZone="GMT-5" locale="es_EC" readonlyInput="true" navigator="true" showButtonPanel="true"  value="#{equipoController.selected.fechaadquisicionEquipo}"   showOn="button"/>
+                                    <p:outputLabel value="#{bundle.faseadquisicionEquipo}" for="faseadquisicionEquipo" />
+                                    <p:inputText id="faseadquisicionEquipo" value="#{equipoController.selected.faseadquisicionEquipo}"  />
+                                    <p:outputLabel value="#{bundle.hitoadquisicionEquipo}" for="hitoadquisicionEquipo" />
+                                    <p:inputText id="hitoadquisicionEquipo" value="#{equipoController.selected.hitoadquisicionEquipo}"  />
+                                    <p:outputLabel value="#{bundle.observacionEquipo}" for="observacionEquipo" />
+                                    <p:inputText id="observacionEquipo" value="#{equipoController.selected.observacionEquipo}"  />
+                                    <p:outputLabel value="#{bundle.servicioEquipo}" for="servicioEquipo" />
+                                    <p:inputText id="servicioEquipo" value="#{equipoController.selected.servicioEquipo}"  />
+
+                                </p:panelGrid>
+                                <p:messages id="msg2"/>
+
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab id="confirm" title="Confirmation">
+                            <p:panel header="Confirmation">
+
+
+
+                                <div style="text-align: center !important;">
+                                    <p:commandButton actionListener="#{equipoController.crear}" value="#{bundle.Save}" update="display,:EquipoListForm:datalist, :EquipoListForm:glr1, :growl" oncomplete="handleSubmit(args,'EquipoCreateDialog');" icon="pi pi-check" styleClass="rounded-button ui-button-info"/>
+                                    <p:commandButton type="button" value="#{bundle.Cancel}" onclick="PF('EquipoCreateDialog').hide()" icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                                </div>
+                                <!--<p:commandButton value="Submit" action="#{equipoController.save}" update="growl" process="@this"/>-->
+                            </p:panel>
+                        </p:tab>
+                    </p:wizard>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
+

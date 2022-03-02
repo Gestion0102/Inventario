@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MovimientofisicoEquipoEditDlg" widgetVar="MovimientofisicoEquipoEditDialog" 
+                  header="#{bundle.Edit} #{bundle.MovimientofisicoEquipo}" width="85%"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="MovimientofisicoEquipoEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" rendered="#{movimientofisicoEquipoController.selected != null}"
+                                 columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                 layout="grid"
+                                 styleClass="ui-panelgrid-blank ui-fluid"
+                                 style="border:0px none; background-color:transparent;">
+<!--                        <p:outputLabel value="#{bundle.idMovimientoequipo}" for="idMovimientoequipo" />
+            <p:outputLabel id="idMovimientoequipo" value="#{bundle.SetAutomatically}"   />
+            <p:outputLabel value="#{bundle.codigoMovimientoequipo}" for="codigoMovimientoequipo" />
+            <p:inputText id="codigoMovimientoequipo" value="#{movimientofisicoEquipoController.selected.codigoMovimientoequipo}"  />-->
+                        <p:outputLabel value="#{bundle.idEquipo}" for="idEquipo"/>
+                        <p:selectOneMenu required="true"  id="idEquipo" value="#{movimientofisicoEquipoController.selected.idEquipo}"
+                                         filter="true" filterMatchMode="contains" filterPlaceholder="Buscar por nombre o serie">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{equipoController.itemsAvailableSelectOne}"
+                                           var="idEquipoItem"
+                                           itemLabel="#{idEquipoItem.nombreEquipo} (#{idEquipoItem.idRack.idCentrodatos.codigoCentrodatos}, #{idEquipoItem.serieEquipo})"
+                                           itemValue="#{idEquipoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.fechaMovimientoequipo}" for="fechaMovimientoequipo" />
+                        <p:calendar required="true" id="fechaMovimientoequipo" pattern="yyyy-MM-dd HH:mm:ss"   timeZone="GMT-5" locale="es_EC" readonlyInput="true" navigator="true" showButtonPanel="true"  value="#{movimientofisicoEquipoController.selected.fechaMovimientoequipo}"   showOn="button"/>
+                        <p:outputLabel value="#{bundle.descripcionMovimientoequipo}" for="descripcionMovimientoequipo" />
+                        <p:inputText required="true" id="descripcionMovimientoequipo" value="#{movimientofisicoEquipoController.selected.descripcionMovimientoequipo}"  />
+                        <p:outputLabel value="#{bundle.tipoMovimientoequipo}" for="tipoMovimientoequipo" />
+                        <!--<p:inputText id="tipoMovimientoequipo" value="#{movimientofisicoEquipoController.selected.tipoMovimientoequipo}"/>-->
+                        <p:selectOneMenu filter="true" id="tipoMovimientoequipo" value="#{movimientofisicoEquipoController.selected.tipoMovimientoequipo}" 
+                                         required="true" class="form-control" editable="true">
+
+                            <f:selectItems value="#{movimientofisicoEquipoController.tiposMovimientoEquipo}"
+                                           var="item" itemLabel="#{item}"
+                                           itemValue="#{item}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.sitioinicialMovimientoequipo}" for="sitioinicialMovimientoequipo" />
+                        <!--<p:inputText id="sitioinicialMovimientoequipo" value="#{movimientofisicoEquipoController.selected.sitioinicialMovimientoequipo}"  />-->
+                        <p:selectOneMenu filter="true" id="sitioinicialMovimientoequipo" value="#{movimientofisicoEquipoController.selected.sitioinicialMovimientoequipo}" 
+                                         required="true" class="form-control" editable="true">
+
+                            <f:selectItems value="#{movimientofisicoEquipoController.ubicaciones}"
+                                           var="item" itemLabel="#{item}"
+                                           itemValue="#{item}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.sitiofinalMovimientoequipo}" for="sitiofinalMovimientoequipo" />
+                        <!--<p:inputText id="sitiofinalMovimientoequipo" value="#{movimientofisicoEquipoController.selected.sitiofinalMovimientoequipo}"  />-->
+                        <p:selectOneMenu filter="true" id="sitiofinalMovimientoequipo" value="#{movimientofisicoEquipoController.selected.sitiofinalMovimientoequipo}" 
+                                         required="true" class="form-control" editable="true">
+
+                            <f:selectItems value="#{movimientofisicoEquipoController.ubicaciones}"
+                                           var="item" itemLabel="#{item}"
+                                           itemValue="#{item}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.descripcionresponsableMovimientoequipo}" for="descripcionresponsableMovimientoequipo" />
+                        <p:inputText required="true" placeholder="Al ser personal externo, indicar también la empresa" id="descripcionresponsableMovimientoequipo" value="#{movimientofisicoEquipoController.selected.descripcionresponsableMovimientoequipo}"  />
+<!--                        <p:outputLabel value="#{bundle.idUsuario}" for="idUsuario" />
+                        <p:selectOneMenu filter="true" id="idUsuario" value="#{movimientofisicoEquipoController.selected.idUsuario}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"
+                                           var="idUsuarioItem"
+                                           itemLabel="#{idUsuarioItem.nombreUsuario}"
+                                           itemValue="#{idUsuarioItem}"/>
+                        </p:selectOneMenu>-->
+
+
+                        <p:outputLabel value="#{bundle.documentorespaldoMovimientoequipo}" />
+                        <p:column style=" text-align: center; align-content: center;">
+                            <!--<p:inputTextarea rows="4" cols="30" id="docRespaldoMovimientoequipo" value="#{movimientofisicoEquipoController.selected.documentorespaldoMovimientoequipo}"  />-->
+                            <p:fileUpload id="docRespaldoMovimientoequipo" listener="#{movimientofisicoEquipoController.handleAdjuntoUpload}"
+                                          update=":growl @this :VerDocumentoForm txtNombreDocumento btnVerDoc btnQuitarDoc"
+                                          virusScan="true" chooseButtonTitle="Seleccionar archivo"
+                                          mode="advanced" multiple="false" auto="true" global="true"
+                                          sizeLimit="512000" allowTypes="/(\.|\/)(pdf)$/"
+                                          invalidSizeMessage="Tamaño máximo del archivo es 500 KB" 
+                                          invalidFileMessage="El formato del archivo no es correcto, se requiere pdf">
+
+                                <div style="padding: 5px;  text-align: center; ">
+                                    <p:avatar id="imgAvt" icon="pi pi-file-pdf" size="large" dynamicColor="true" style="color:red; background-color:transparent!important; padding: 0px; float: left"
+                                              rendered="#{movimientofisicoEquipoController.selected.documentorespaldoMovimientoequipo != null}"/>
+                                    <p:outputLabel id="txtNombreDocumento" value="#{movimientofisicoEquipoController.selected.documentorespaldoMovimientoequipo eq null? bundle.NoDocument : movimientofisicoEquipoController.filePDF.fileName}"
+                                                   style="padding: 10px;"/>
+                                </div>
+                            </p:fileUpload>
+
+                            <p:commandButton id="btnVerDoc" title="#{bundle.View}" ajax="true" update=":VerDocumentoForm imgAvt" 
+                                             disabled="#{movimientofisicoEquipoController.selected.documentorespaldoMovimientoequipo eq null}"
+                                             oncomplete="PF('VerDocumentoDialog').show()" 
+                                             icon="pi pi-search"
+                                             styleClass="ui-button-success" style="padding: 0px 5px 0px 5px">
+                            </p:commandButton>
+                            <p:commandButton id="btnQuitarDoc" title="Quitar" ajax="true" update=":growl docRespaldoMovimientoequipo imgAvt txtNombreDocumento btnVerDoc @this" 
+                                             disabled="#{movimientofisicoEquipoController.selected.documentorespaldoMovimientoequipo eq null}"
+                                             action="#{movimientofisicoEquipoController.quitarDocumento()}"
+                                             icon="pi pi-times"
+                                             styleClass="ui-button-danger" style="padding: 0px 5px 0px 5px">
+                            </p:commandButton>
+
+                        </p:column>
+                        
+                        <p:outputLabel value="#{bundle.imagenMovimientoequipo}" />
+                        <!--<p:inputTextarea rows="4" cols="30" id="imagenMovimientoequipo" value="#{movimientofisicoEquipoController.selected.imagenMovimientoequipo}"  />-->
+                         <p:commandButton id="btnEditarImg" icon="pi pi-plus" 
+                                                     value="Cargar imagen" title="Cargar imagen"
+                                                     process="@this" update=":EditarImagenForm"
+                                                     oncomplete="PF('EditarImagenDialog').show()"
+                                                     styleClass="ui-button-info" style="padding: 0px 5px 0px 5px"/>
+                                                     <!--rendered="#{movimientofisicoEquipoController.selected.imagenMovimientoequipo eq null}"--> 
+                                                     <!--actionListener="#{movimientofisicoEquipoController.prepareCargarImagen()}"-->
+                                </p:panelGrid>
+                                <p:panel id="pnlImg" header="Imagen del movimientofisicoEquipo">
+                                             <!--rendered="#{movimientofisicoEquipoController.selected.imagenMovimientoequipo != null }" style="text-align: center;">-->
+                                    <p:graphicImage id="grpImg" cache="false" title="#{movimientofisicoEquipoController.selected.imagenMovimientoequipo}"
+                                                    height="#{movimientofisicoEquipoController.selected.imagenMovimientoequipo eq null ? 0 : 80}" 
+                                                    value="#{movimientofisicoEquipoController.selected.imagenMovimientoequipo}" alt="Imagen_1"
+                                                    style="margin-right: 2px;"/>
+
+                                    <p:commandButton id="btnVerImg" icon="pi pi-search" title="Ver imagen" 
+                                                     process="@this"  partialSubmit="#{true}" immediate="#{true}"
+                                                     disabled="#{movimientofisicoEquipoController.selected.imagenMovimientoequipo eq null}"
+                                                     action="#{imagenBean.visualizar(movimientofisicoEquipoController.selected.imagenMovimientoequipo)}" 
+                                                     onclick="form.target = '_blank'" ajax="false"
+                                                     styleClass="ui-button-success" style="padding: 0px 5px 0px 5px"/>
+
+                                    <p:commandButton id="btnCropImg" icon="pi pi-pencil" title="Cortar imagen" 
+                                                     process="@this" update=":EditarImagenForm"
+                                                     disabled="#{movimientofisicoEquipoController.selected.imagenMovimientoequipo eq null}" 
+                                                     oncomplete="PF('EditarImagenDialog').show()"
+                                                     styleClass="ui-button-info" style="padding: 0px 5px 0px 5px"/>
+
+                                    <p:commandButton id="btnQuitarImg" icon="pi pi-times" title="Quitar imagen"
+                                                     disabled="#{movimientofisicoEquipoController.selected.imagenMovimientoequipo eq null}"
+                                                     actionListener="#{movimientofisicoEquipoController.quitarImagen()}"
+                                                     update=":growl pnlImg" process="@this"
+                                                     styleClass="ui-button-danger" style="padding: 0px 5px 0px 5px"/>
+                                </p:panel>
+
+                    <div style="text-align: center !important;">
+                        <p:commandButton actionListener="#{movimientofisicoEquipoController.actualizar}" value="#{bundle.Save}" update="display,:MovimientofisicoEquipoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'MovimientofisicoEquipoEditDialog');" icon="pi pi-check" styleClass="rounded-button ui-button-info"/>
+                        <p:commandButton type="button" value="#{bundle.Cancel}" onclick="PF('MovimientofisicoEquipoEditDialog').hide()" icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.List} #{bundle.CentroDatos}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+
+            <style type="text/css">
+                button.ui-button {
+                    margin-right: .1rem;
+                }
+            </style>
+
+            <h:form id="CentroDatosListForm">
+                <p:dataTable id="datalist" value="#{centroDatosController.items}" var="item"
+                             emptyMessage="#{bundle.NoRecordsFound}"
+                             rowKey="#{item.idCentrodatos}"  sortMode="multiple"
+                             paginator="true" rows="10"  rowsPerPageTemplate="5,10,15,20,30,40,50,70,100"
+                             currentPageReportTemplate="#{bundle.Total}:{totalRecords}   #{bundle.Page}:{currentPage}/{totalPages}"
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport}"
+                             paginatorPosition="bottom"  paginatorAlwaysVisible="true"
+                             widgetVar="CentroDatosTable" filterEvent="keyup"
+                             
+                             scrollable="false" reflow="true">
+
+                    <f:facet name="header">
+                        <div style="align-content: center; text-align: center;">
+                            
+                            <p:panelGrid columns="3" 
+                                         styleClass="ui-panelgrid-blank ui-fluid"
+                                         columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4"
+                                         layout="grid"
+                                         style="border:0px none; background-color:transparent!important;">
+                                
+                                <p:column>
+                                   
+                                </p:column>    
+                            <p:column>
+                                <i class="pi pi-building" style="font-size: 2rem; color:#004258;"> </i>
+                                <p:spacer width="10px"/>
+                            <p:outputLabel value="#{bundle.List} #{bundle.CentroDatos}" class="titulo_tabla"/>
+                            
+                            </p:column>
+                                
+                            <p:column>
+                                <p:outputLabel value="#{bundle.TipsLabel} #{bundle.LabelcentroDatos}" />
+                                
+                           </p:column>
+                           </p:panelGrid>
+                            
+                            <p:commandButton id="refreshButton" title="#{bundle.Refresh}" actionListener="#{centroDatosController.refreshRows}" 
+                                             update=":growl,datalist" icon="pi pi-refresh" styleClass="ui-button-info ui-button-outlined ui-button-raised"/>
+                            <p:commandButton id="createButton" title="#{bundle.Create}" value="#{bundle.Create}" actionListener="#{centroDatosController.prepareCreate}" 
+                                             update=":CentroDatosCreateForm" oncomplete="PF('CentroDatosCreateDialog').show()" icon="pi pi-plus" styleClass="ui-button-raised ui-button-info"/>
+                            <p:commandButton id="toggler" type="button" title="#{bundle.SelectColumns}"
+                                             icon="pi pi-list" styleClass="ui-button-outlined ui-button-raised"/>
+                            <p:columnToggler datasource="datalist" trigger="toggler" />
+
+                            <p:separator/>
+                        </div>
+
+                    </f:facet>
+
+                    <p:column visible="false"
+                              sortBy="#{item.idCentrodatos}"
+                              headerText="#{bundle.idCentrodatos}"
+                              filterBy="#{item.idCentrodatos}" filterMatchMode="contains">
+                        <h:outputText value="#{item.idCentrodatos}"/>
+                    </p:column>
+                    <p:column visible="false"
+                              sortBy="#{item.codigoCentrodatos}"
+                              headerText="#{bundle.codigoCentrodatos}"
+                              filterBy="#{item.codigoCentrodatos}" filterMatchMode="contains">
+                        <h:outputText value="#{item.codigoCentrodatos}"/>
+                    </p:column>
+                    <p:column
+                        sortBy="#{item.nombreCentrodatos}"
+                        headerText="#{bundle.nombreCentrodatos}"
+                        filterBy="#{item.nombreCentrodatos}" filterMatchMode="contains">
+                        <h:outputText value="#{item.nombreCentrodatos}"/>
+                    </p:column>
+                    <p:column
+                        sortBy="#{item.descripcionCentrodatos}"
+                        headerText="#{bundle.descripcionCentrodatos}"
+                        filterBy="#{item.descripcionCentrodatos}" filterMatchMode="contains">
+                        <h:outputText value="#{item.descripcionCentrodatos}"/>
+                    </p:column>
+                    <p:column
+                        sortBy="#{item.imagenCentrodatos}"
+                        headerText="#{bundle.imagenCentrodatos}"
+                        filterBy="#{item.imagenCentrodatos}" filterMatchMode="contains">
+                        <!--<h:outputText value="#{item.imagenCentrodatos}"/>-->
+                        <p:graphicImage value="#{item.imagenCentrodatos}" alt="image" cache="false" 
+                                        library="#{item.imagenCentrodatos}" 
+                                        stream="base64" rendered="#{item.imagenCentrodatos != null}"
+                                        style="width: 50%; display: block" />
+                    </p:column>
+
+                    <!--Botones de acciones-->
+                    <p:column headerText="#{bundle.Actions}">
+                        <p:commandButton title="#{bundle.View}" ajax="true" update=":CentroDatosViewForm" oncomplete="PF('CentroDatosViewDialog').show()" icon="pi pi-search" styleClass="rounded-button ui-button-success">
+                            <f:setPropertyActionListener value="#{item}" target="#{centroDatosController.selected}" />
+                        </p:commandButton>
+                        <p:commandButton title="#{bundle.Edit}" update=":CentroDatosEditForm" oncomplete="PF('CentroDatosEditDialog').show()" icon="pi pi-pencil" styleClass="rounded-button ui-button-info">
+                            <f:setPropertyActionListener value="#{item}" target="#{centroDatosController.selected}" />
+                        </p:commandButton>
+                        <p:commandButton title="#{bundle.Delete}" actionListener="#{centroDatosController.eliminar(item)}" update=":growl,datalist" icon="pi pi-trash" styleClass="rounded-button ui-button-danger" >
+                            <p:confirm header="#{bundle.ConfirmDeletion}" message="#{bundle.AreYouSureDelete}" icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:confirmDialog global="true">
+                            <p:commandButton value="#{bundle.Yes}" type="button" styleClass="ui-confirmdialog-yes rounded-button ui-button-success"
+                                             icon="pi pi-check" />
+                            <p:commandButton value="#{bundle.No}" type="button" styleClass="ui-confirmdialog-no rounded-button ui-button-danger"
+                                             icon="pi pi-times" />
+                        </p:confirmDialog>
+                    </p:column>
+
+                    <f:facet name="footer">                                
+
+                    </f:facet>
+                </p:dataTable>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+            <ui:include src="Cargar_Imagen.xhtml"/>
+            <ui:include src="Editar_Imagen.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

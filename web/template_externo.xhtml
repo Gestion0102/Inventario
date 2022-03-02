@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" >
+
+    <h:head>
+        <title><ui:insert name="title">Default Titulo</ui:insert></title>
+        <h:outputStylesheet name="css/estructura_html.css"/>
+        <h:outputStylesheet library="css" name="jsfcrud.css"/>
+        <h:outputStylesheet library="css" name="tipografia.css"/>
+
+        <h:outputScript library="js" name="jsfcrud.js"/>
+        <link rel="shortcut icon" href="#{request.contextPath}/resources/imagenes/CDN_iconoN.png"/>
+    </h:head>
+
+    <h:body>
+
+        <p:growl id="growl" life="3000" showDetail="true" />
+        <div class="titulo_login">
+            <img src="resources/imagenes/CDN.png" alt="logo_cdn" width="120px" style="float: left;"/>
+            <h2 > #{bundle.AppName}</h2>
+
+        </div>
+
+
+        <ui:insert name="body">
+        </ui:insert>
+
+        <!--        <ui:insert name="footer" >
+        
+                </ui:insert>
+        
+                <div class="footer">
+                    <h5 align="center"> SICDN 2022</h5>
+                </div>-->
+
+    </h:body>
+
+</html>

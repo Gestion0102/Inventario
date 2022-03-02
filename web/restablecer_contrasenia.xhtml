@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet name="css/jsfcrud.css"/>
+        <h:outputStylesheet name="css/tipografia.css"/>
+
+        <style type="text/css">
+            .animated .ui-progressbar-value { 
+                background-image: url("#{resource['demo/images/pbar-ani.gif']}"); 
+            }
+
+            .Bimage{
+                background-image:url(#{request.contextPath}/resources/images/imag.jpg);
+            }
+        </style>
+
+        <script type="text/javascript">
+            //<![CDATA[
+            function start() {
+                PF('startButton1').disable();
+
+                window['progress'] = setInterval(function () {
+                    var pbClient = PF('pbClient'),
+                            oldValue = pbClient.getValue(),
+                            newValue = oldValue + 10;
+
+                    pbClient.setValue(pbClient.getValue() + 10);
+
+                    if (newValue === 100) {
+                        clearInterval(window['progress']);
+                    }
+
+
+                }, 1000);
+            }
+
+            function cancel() {
+                clearInterval(window['progress']);
+                PF('pbClient').setValue(0);
+                PF('startButton1').enable();
+            }
+            //]]>
+        </script>
+
+        <script type="text/javascript">
+            function handleLoginRequest(xhr, status, args) {
+                if (args.validationFailed || !args.loggedIn) {
+                    jQuery('#formRestablecer').effect('shake', {times: 3}, 350);
+                } else {
+                    location.href = args.ruta;
+                }
+            }
+        </script>
+
+    </h:head>
+    <h:body>
+        <h:form id="formRestablecer" style="align-content: center">
+            <p:growl id="growlLogin" showDetail="true"/>
+
+
+            <p:outputLabel value="Restablecer contraseña" class="titulo"/>
+            <p:outputLabel value="Ingrese los siguientes datos para recuperar su contraseña:" class="campo_informativo" />
+
+            <h:panelGrid columns="2" class="alinear_contenedor_centro">
+                <p:outputLabel value="Rol del usuario" for="txtRolUsuario"/>
+<!--                <p:inputText id="txtRolUsuario" value="#{controladorLogin.usuarioTemp.rolUsuario}" required="true"
+                             />-->
+                <p:inputMask id="txtRolUsuario" value="#{controladorLogin.usuarioTemp.rolUsuario}" 
+                                     style="display: block!important;width: 100%!important; padding: 5px; margin: 5px; margin-top:"
+                                     mask="[a|9]9999" validateMask="true" required="true" placeholder="Ingrese su rol" />
+                
+                <p:outputLabel value="Correo del usuario" for="txtCorreoUsuario"/>
+                <p:inputText id="txtCorreoUsuario" value="#{controladorLogin.usuarioTemp.correoUsuario}" 
+                             required="true" validator="correoValidator"
+                             style="display: block!important;width: 100%!important; padding: 5px; margin: 5px; margin-top:"/>
+
+                <p:button value="Cancelar" outcome="index.xhtml" 
+                          style="display: block!important;width: 100%!important;border: none!important;" 
+                          styleClass="ui-button-danger "/>
+                <p:commandButton value="Enviar correo" actionListener="#{controladorLogin.enviarCorreoRestablecerContrasenia()}" update="@all" 
+                                 style="display: block!important;width: 100%!important;border: none!important;" 
+                                 oncomplete="handleLoginRequest(xhr, status, args)" 
+                                 onclick="PF('dlg2').show(); start()" 
+                                 widgetVar="startButton1"/>
+            </h:panelGrid>
+
+            <p:outputLabel value="La contraseña se enviará al correo del usuario registrado en el sistema" class="subtitulo"/>
+
+            <img class="alinear_img_center" src="resources/imagenes/EEQ_completo.png" alt="eeq" height="100px;"/>
+
+            <p:dialog header="Generando contraseña y enviando correo..." widgetVar="dlg2" minHeight="40" resizable="false" >
+                <i class="pi pi-spin pi-sync" style="font-size: 2rem; float: left;"></i>
+                <p:progressBar id="progressBarClient" widgetVar="pbClient" style="width:300px; float:right;"/>
+            </p:dialog>
+
+        </h:form>
+    </h:body>
+
+
+
+
+
+
+</html>
+

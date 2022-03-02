@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LogEquipoEditDlg" widgetVar="LogEquipoEditDialog" 
+                  header="#{bundle.Edit} #{bundle.LogEquipo}"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="LogEquipoEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" rendered="#{logEquipoController.selected != null}">
+                        <p:outputLabel value="#{bundle.idLogequipo}" for="idLogequipo" />
+                        <p:inputText id="idLogequipo" disabled="true" value="#{logEquipoController.selected.idLogequipo}"   />
+                        <p:outputLabel value="#{bundle.tipocrudLogequipo}" for="tipocrudLogequipo" />
+                        <p:inputText id="tipocrudLogequipo" value="#{logEquipoController.selected.tipocrudLogequipo}"  />
+                        <p:outputLabel value="#{bundle.fechaLogequipo}" for="fechaLogequipo" />
+                        <p:calendar id="fechaLogequipo" pattern="yyyy-MM-dd HH:mm:ss" timeZone="GMT-5" locale="es_EC" readonlyInput="true"   navigator="true" value="#{logEquipoController.selected.fechaLogequipo}" showButtonPanel="true"   showOn="button"/>
+                        <p:outputLabel value="#{bundle.idEquipo}" for="idEquipo" />
+                        <p:inputText id="idEquipo" value="#{logEquipoController.selected.idEquipo}"  />
+                        <p:outputLabel value="#{bundle.idTipoequipo}" for="idTipoequipo" />
+                        <p:inputText id="idTipoequipo" value="#{logEquipoController.selected.idTipoequipo}"  />
+                        <p:outputLabel value="#{bundle.idRack}" for="idRack" />
+                        <p:inputText id="idRack" value="#{logEquipoController.selected.idRack}"  />
+                        <p:outputLabel value="#{bundle.idProveedor}" for="idProveedor" />
+                        <p:inputText id="idProveedor" value="#{logEquipoController.selected.idProveedor}"  />
+                        <p:outputLabel value="#{bundle.idUsuariocrud}" for="idUsuariocrud" />
+                        <p:inputText id="idUsuariocrud" value="#{logEquipoController.selected.idUsuariocrud}"  />
+                        <p:outputLabel value="#{bundle.codigoLogequipo}" for="codigoLogequipo" />
+                        <p:inputText id="codigoLogequipo" value="#{logEquipoController.selected.codigoLogequipo}"  />
+                        <p:outputLabel value="#{bundle.nombreLogequipo}" for="nombreLogequipo" />
+                        <p:inputText id="nombreLogequipo" value="#{logEquipoController.selected.nombreLogequipo}"  />
+                        <p:outputLabel value="#{bundle.posicionrackLogequipo}" for="posicionrackLogequipo" />
+                        <p:inputText id="posicionrackLogequipo" value="#{logEquipoController.selected.posicionrackLogequipo}"  />
+                        <p:outputLabel value="#{bundle.unidadrackLogequipo}" for="unidadrackLogequipo" />
+                        <p:inputText id="unidadrackLogequipo" value="#{logEquipoController.selected.unidadrackLogequipo}"  />
+                        <p:outputLabel value="#{bundle.marcaLogequipo}" for="marcaLogequipo" />
+                        <p:inputText id="marcaLogequipo" value="#{logEquipoController.selected.marcaLogequipo}"  />
+                        <p:outputLabel value="#{bundle.mtmLogequipo}" for="mtmLogequipo" />
+                        <p:inputText id="mtmLogequipo" value="#{logEquipoController.selected.mtmLogequipo}"  />
+                        <p:outputLabel value="#{bundle.serieLogequipo}" for="serieLogequipo" />
+                        <p:inputText id="serieLogequipo" value="#{logEquipoController.selected.serieLogequipo}"  />
+                        <p:outputLabel value="#{bundle.modeloLogequipo}" for="modeloLogequipo" />
+                        <p:inputText id="modeloLogequipo" value="#{logEquipoController.selected.modeloLogequipo}"  />
+                        <p:outputLabel value="#{bundle.piduidLogequipo}" for="piduidLogequipo" />
+                        <p:inputText id="piduidLogequipo" value="#{logEquipoController.selected.piduidLogequipo}"  />
+                        <p:outputLabel value="#{bundle.hostnameLogequipo}" for="hostnameLogequipo" />
+                        <p:inputText id="hostnameLogequipo" value="#{logEquipoController.selected.hostnameLogequipo}"  />
+                        <p:outputLabel value="#{bundle.ipadministracionLogequipo}" for="ipadministracionLogequipo" />
+                        <p:inputText id="ipadministracionLogequipo" value="#{logEquipoController.selected.ipadministracionLogequipo}"  />
+                        <p:outputLabel value="#{bundle.ipproduccionLogequipo}" for="ipproduccionLogequipo" />
+                        <p:inputText id="ipproduccionLogequipo" value="#{logEquipoController.selected.ipproduccionLogequipo}"  />
+                        <p:outputLabel value="#{bundle.ipvmotionLogequipo}" for="ipvmotionLogequipo" />
+                        <p:inputText id="ipvmotionLogequipo" value="#{logEquipoController.selected.ipvmotionLogequipo}"  />
+                        <p:outputLabel value="#{bundle.estadoLogequipo}" for="estadoLogequipo" />
+                        <p:inputText id="estadoLogequipo" value="#{logEquipoController.selected.estadoLogequipo}"  />
+                        <p:outputLabel value="#{bundle.cantidadprocesadoresLogequipo}" for="cantidadprocesadoresLogequipo" />
+                        <p:inputText id="cantidadprocesadoresLogequipo" value="#{logEquipoController.selected.cantidadprocesadoresLogequipo}"  />
+                        <p:outputLabel value="#{bundle.velocidadprocesadorLogequipo}" for="velocidadprocesadorLogequipo" />
+                        <p:inputText id="velocidadprocesadorLogequipo" value="#{logEquipoController.selected.velocidadprocesadorLogequipo}"  />
+                        <p:outputLabel value="#{bundle.versionprocesadorLogequipo}" for="versionprocesadorLogequipo" />
+                        <p:inputText id="versionprocesadorLogequipo" value="#{logEquipoController.selected.versionprocesadorLogequipo}"  />
+                        <p:outputLabel value="#{bundle.cantidadcoresLogequipo}" for="cantidadcoresLogequipo" />
+                        <p:inputText id="cantidadcoresLogequipo" value="#{logEquipoController.selected.cantidadcoresLogequipo}"  />
+                        <p:outputLabel value="#{bundle.cantidadthreadscoresLogequipo}" for="cantidadthreadscoresLogequipo" />
+                        <p:inputText id="cantidadthreadscoresLogequipo" value="#{logEquipoController.selected.cantidadthreadscoresLogequipo}"  />
+                        <p:outputLabel value="#{bundle.capacidadinstaladaramLogequipo}" for="capacidadinstaladaramLogequipo" />
+                        <p:inputText id="capacidadinstaladaramLogequipo" value="#{logEquipoController.selected.capacidadinstaladaramLogequipo}"  />
+                        <p:outputLabel value="#{bundle.velocidadramLogequipo}" for="velocidadramLogequipo" />
+                        <p:inputText id="velocidadramLogequipo" value="#{logEquipoController.selected.velocidadramLogequipo}"  />
+                        <p:outputLabel value="#{bundle.cantidadslotsramLogequipo}" for="cantidadslotsramLogequipo" />
+                        <p:inputText id="cantidadslotsramLogequipo" value="#{logEquipoController.selected.cantidadslotsramLogequipo}"  />
+                        <p:outputLabel value="#{bundle.cantidadslotsutilizadasramLogequipo}" for="cantidadslotsutilizadasramLogequipo" />
+                        <p:inputText id="cantidadslotsutilizadasramLogequipo" value="#{logEquipoController.selected.cantidadslotsutilizadasramLogequipo}"  />
+                        <p:outputLabel value="#{bundle.posicionesutilizadasslotsramLogequipo}" for="posicionesutilizadasslotsramLogequipo" />
+                        <p:inputText id="posicionesutilizadasslotsramLogequipo" value="#{logEquipoController.selected.posicionesutilizadasslotsramLogequipo}"  />
+                        <p:outputLabel value="#{bundle.cantidadtotaldiscosLogequipo}" for="cantidadtotaldiscosLogequipo" />
+                        <p:inputText id="cantidadtotaldiscosLogequipo" value="#{logEquipoController.selected.cantidadtotaldiscosLogequipo}"  />
+                        <p:outputLabel value="#{bundle.cantidaddiscosutilizadosLogequipo}" for="cantidaddiscosutilizadosLogequipo" />
+                        <p:inputText id="cantidaddiscosutilizadosLogequipo" value="#{logEquipoController.selected.cantidaddiscosutilizadosLogequipo}"  />
+                        <p:outputLabel value="#{bundle.cantidaddiscosvaciosLogequipo}" for="cantidaddiscosvaciosLogequipo" />
+                        <p:inputText id="cantidaddiscosvaciosLogequipo" value="#{logEquipoController.selected.cantidaddiscosvaciosLogequipo}"  />
+                        <p:outputLabel value="#{bundle.capacidadtotaldiscoLogequipo}" for="capacidadtotaldiscoLogequipo" />
+                        <p:inputText id="capacidadtotaldiscoLogequipo" value="#{logEquipoController.selected.capacidadtotaldiscoLogequipo}"  />
+                        <p:outputLabel value="#{bundle.frudiscoLogequipo}" for="frudiscoLogequipo" />
+                        <p:inputText id="frudiscoLogequipo" value="#{logEquipoController.selected.frudiscoLogequipo}"  />
+                        <p:outputLabel value="#{bundle.informaciondiscoLogequipo}" for="informaciondiscoLogequipo" />
+                        <p:inputText id="informaciondiscoLogequipo" value="#{logEquipoController.selected.informaciondiscoLogequipo}"  />
+                        <p:outputLabel value="#{bundle.raiddiscoLogequipo}" for="raiddiscoLogequipo" />
+                        <p:inputText id="raiddiscoLogequipo" value="#{logEquipoController.selected.raiddiscoLogequipo}"  />
+                        <p:outputLabel value="#{bundle.sistemaoperativoLogequipo}" for="sistemaoperativoLogequipo" />
+                        <p:inputText id="sistemaoperativoLogequipo" value="#{logEquipoController.selected.sistemaoperativoLogequipo}"  />
+                        <p:outputLabel value="#{bundle.sistemaoperativodistribucionLogequipo}" for="sistemaoperativodistribucionLogequipo" />
+                        <p:inputText id="sistemaoperativodistribucionLogequipo" value="#{logEquipoController.selected.sistemaoperativodistribucionLogequipo}"  />
+                        <p:outputLabel value="#{bundle.sistemaoperativoversionLogequipo}" for="sistemaoperativoversionLogequipo" />
+                        <p:inputText id="sistemaoperativoversionLogequipo" value="#{logEquipoController.selected.sistemaoperativoversionLogequipo}"  />
+                        <p:outputLabel value="#{bundle.sistemaoperativosubversionLogequipo}" for="sistemaoperativosubversionLogequipo" />
+                        <p:inputText id="sistemaoperativosubversionLogequipo" value="#{logEquipoController.selected.sistemaoperativosubversionLogequipo}"  />
+                        <p:outputLabel value="#{bundle.cantidadtotalinterfacesredLogequipo}" for="cantidadtotalinterfacesredLogequipo" />
+                        <p:inputText id="cantidadtotalinterfacesredLogequipo" value="#{logEquipoController.selected.cantidadtotalinterfacesredLogequipo}"  />
+                        <p:outputLabel value="#{bundle.tienemovimientovmotionLogequipo}" for="tienemovimientovmotionLogequipo" />
+                        <p:selectBooleanCheckbox id="tienemovimientovmotionLogequipo" value="#{logEquipoController.selected.tienemovimientovmotionLogequipo}" />
+                        <p:outputLabel value="#{bundle.funcionalidadLogequipo}" for="funcionalidadLogequipo" />
+                        <p:inputText id="funcionalidadLogequipo" value="#{logEquipoController.selected.funcionalidadLogequipo}"  />
+                        <p:outputLabel value="#{bundle.proyectosistemaareaLogequipo}" for="proyectosistemaareaLogequipo" />
+                        <p:inputText id="proyectosistemaareaLogequipo" value="#{logEquipoController.selected.proyectosistemaareaLogequipo}"  />
+                        <p:outputLabel value="#{bundle.responsableapagadoLogequipo}" for="responsableapagadoLogequipo" />
+                        <p:inputText id="responsableapagadoLogequipo" value="#{logEquipoController.selected.responsableapagadoLogequipo}"  />
+                        <p:outputLabel value="#{bundle.etiquetaLogequipo}" for="etiquetaLogequipo" />
+                        <p:inputText id="etiquetaLogequipo" value="#{logEquipoController.selected.etiquetaLogequipo}"  />
+                        <p:outputLabel value="#{bundle.controlbienesLogequipo}" for="controlbienesLogequipo" />
+                        <p:inputText id="controlbienesLogequipo" value="#{logEquipoController.selected.controlbienesLogequipo}"  />
+                        <p:outputLabel value="#{bundle.fechaadquisicionLogequipo}" for="fechaadquisicionLogequipo" />
+                        <p:calendar id="fechaadquisicionLogequipo" pattern="yyyy-MM-dd HH:mm:ss" timeZone="GMT-5" locale="es_EC" readonlyInput="true"   navigator="true" value="#{logEquipoController.selected.fechaadquisicionLogequipo}" showButtonPanel="true"   showOn="button"/>
+                        <p:outputLabel value="#{bundle.faseadquisicionLogequipo}" for="faseadquisicionLogequipo" />
+                        <p:inputText id="faseadquisicionLogequipo" value="#{logEquipoController.selected.faseadquisicionLogequipo}"  />
+                        <p:outputLabel value="#{bundle.hitoadquisicionLogequipo}" for="hitoadquisicionLogequipo" />
+                        <p:inputText id="hitoadquisicionLogequipo" value="#{logEquipoController.selected.hitoadquisicionLogequipo}"  />
+                        <p:outputLabel value="#{bundle.observacionLogequipo}" for="observacionLogequipo" />
+                        <p:inputText id="observacionLogequipo" value="#{logEquipoController.selected.observacionLogequipo}"  />
+                        <p:outputLabel value="#{bundle.imagenLogequipo}" for="imagenLogequipo" />
+                        <p:inputTextarea rows="4" cols="30" id="imagenLogequipo" value="#{logEquipoController.selected.imagenLogequipo}"  />
+                        <p:outputLabel value="#{bundle.servicioLogequipo}" for="servicioLogequipo" />
+                        <p:inputText id="servicioLogequipo" value="#{logEquipoController.selected.servicioLogequipo}"  />
+                    </p:panelGrid>
+
+                    <div style="text-align: center !important;">
+                        <p:commandButton actionListener="#{logEquipoController.actualizar}" value="#{bundle.Save}" update="display,:LogEquipoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'LogEquipoEditDialog');" icon="pi pi-check" styleClass="rounded-button ui-button-info"/>
+                        <p:commandButton type="button" value="#{bundle.Cancel}" onclick="PF('LogEquipoEditDialog').hide()" icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

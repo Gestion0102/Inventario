@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RackCreateDlg" widgetVar="RackCreateDialog" 
+                  header="#{bundle.Create} #{bundle.Rack}" width="95%"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="RackCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" rendered="#{rackController.selected != null}"
+                                             columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                             layout="grid"
+                                             styleClass="ui-panelgrid-blank ui-fluid"
+                                             style="border:0px none; background-color:transparent;">
+<!--                        <p:outputLabel value="#{bundle.idRack}" for="idRack" />
+                        <p:outputLabel id="idRack" value="#{bundle.SetAutomatically}"   />-->
+<!--                        <p:outputLabel value="#{bundle.codigoRack}" for="codigoRack" />
+                        <p:inputText id="codigoRack" value="#{rackController.selected.codigoRack}"  />-->
+                        <p:outputLabel value="#{bundle.nombreRack}" for="nombreRack" />
+                        <p:inputText required="true" id="nombreRack" value="#{rackController.selected.nombreRack}"  />
+                        <p:outputLabel value="#{bundle.descripcionRack}" for="descripcionRack" />
+                        <p:inputText required="true" id="descripcionRack" value="#{rackController.selected.descripcionRack}"  />
+                        <p:outputLabel value="#{bundle.marcaRack}" for="marcaRack" />
+                        <p:inputText required="true" id="marcaRack" value="#{rackController.selected.marcaRack}"  />
+                        <p:outputLabel value="#{bundle.modeloRack}" for="modeloRack" />
+                        <p:inputText id="modeloRack" value="#{rackController.selected.modeloRack}"  />
+                        <p:outputLabel value="#{bundle.serieRack}" for="serieRack" />
+                        <p:inputText id="serieRack" value="#{rackController.selected.serieRack}"  />
+<!--                        <p:outputLabel value="#{bundle.tipoRack}" for="tipoRack" />
+                        <p:inputText id="tipoRack" value="#{rackController.selected.tipoRack}"  />-->
+<!--                        <p:outputLabel value="#{bundle.ubicaciongeograficaRack}" for="ubicaciongeograficaRack" />
+                        <p:inputText id="ubicaciongeograficaRack" value="#{rackController.selected.ubicaciongeograficaRack}"  />-->
+
+                        <p:outputLabel value="#{bundle.idCentrodatos}" for="idCentrodatos" />
+                        <p:selectOneMenu filter="true" id="idCentrodatos" value="#{rackController.selected.idCentrodatos}" required="true" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{centroDatosController.itemsAvailableSelectOne}"
+                                           var="idCentrodatosItem"
+                                           itemLabel="#{idCentrodatosItem.nombreCentrodatos}"
+                                           itemValue="#{idCentrodatosItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.imagenRack}"/>
+                        <!--<p:inputTextarea rows="4" cols="30" id="imagenRack" value="#{rackController.selected.imagenRack}"  />-->
+                    <p:commandButton id="btnCargarImg" icon="pi pi-plus" 
+                                                     value="Cargar imagen" title="Cargar imagen"
+                                                     actionListener="#{rackController.prepareCargarImagen()}"
+                                                     process="@this" update=":CargarImagenForm"
+                                                     rendered="#{rackController.selected.imagenRack eq null}" 
+                                                     oncomplete="PF('CargarImagenDialog').show()"
+                                                     styleClass="ui-button-info" style="padding: 0px 5px 0px 5px"/>
+                                </p:panelGrid>
+                                <p:panel id="pnlImg" header="Imagen del rack">
+                                                                  <!--rendered="#{rackController.selected.imagenRack != null }" style="text-align: center;">-->
+                                    <p:graphicImage id="grpImg" cache="false" title="#{rackController.selected.imagenRack}"
+                                                    height="#{rackController.selected.imagenRack eq null ? 0 : 80}" 
+                                                    value="#{rackController.selected.imagenRack}" alt="Imagen_1"
+                                                    style="margin-right: 2px;"/>
+
+                                    <p:commandButton id="btnVerImg" icon="pi pi-search" title="Ver imagen" 
+                                                     process="@this"  partialSubmit="#{true}" immediate="#{true}"
+                                                     disabled="#{rackController.selected.imagenRack eq null}"
+                                                     action="#{imagenBean.visualizar(rackController.selected.imagenRack)}" 
+                                                     onclick="form.target = '_blank'" ajax="false"
+                                                     styleClass="ui-button-success" style="padding: 0px 5px 0px 5px"/>
+
+                                    <p:commandButton id="btnCropImg" icon="pi pi-pencil" title="Cortar imagen" 
+                                                     process="@this" update=":CargarImagenForm"
+                                                     disabled="#{rackController.selected.imagenRack eq null}" 
+                                                     oncomplete="PF('CargarImagenDialog').show()"
+                                                     styleClass="ui-button-info" style="padding: 0px 5px 0px 5px"/>
+
+                                    <p:commandButton id="btnQuitarImg" icon="pi pi-times" title="Quitar imagen"
+                                                     disabled="#{rackController.selected.imagenRack eq null}"
+                                                     actionListener="#{rackController.quitarImagen()}"
+                                                     update=":growl pnlImg" process="@this"
+                                                     styleClass="ui-button-danger" style="padding: 0px 5px 0px 5px"/>
+                                </p:panel>
+
+                    <div style="text-align: center !important;">
+                        <p:commandButton actionListener="#{rackController.crear}" value="#{bundle.Save}" update="display,:RackListForm:datalist,:growl" oncomplete="handleSubmit(args,'RackCreateDialog');" icon="pi pi-check" styleClass="rounded-button ui-button-info"/>
+                        <p:commandButton type="button" value="#{bundle.Cancel}" onclick="PF('RackCreateDialog').hide()" icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
+

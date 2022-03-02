@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition >
+        <h:form id="LogMovimientoequipoListForm">
+            <p:dataTable id="datalist" value="#{logMovimientoequipoController.items}" var="item"
+                         emptyMessage="#{bundle.NoRecordsFound}"
+                         rowKey="#{item.idLogmovimientoequipo}"  sortMode="multiple"
+                         paginator="true" rows="10"  rowsPerPageTemplate="5,10,15,20,30,40,50,70,100"
+                         currentPageReportTemplate="#{bundle.Total}:{totalRecords}   #{bundle.Page}:{currentPage}/{totalPages}"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport}"
+                         paginatorPosition="bottom"  paginatorAlwaysVisible="true"
+                         widgetVar="LogMovimientoequipoTable" filterEvent="enter"
+                         draggableRows="true" draggableColumns="true"
+                         scrollable="false" reflow="true">
+
+                <f:facet name="header">
+                    <div style="align-content: center; text-align: center;">
+                        <p:outputLabel value="#{bundle.List} #{bundle.LogMovimientoequipo}" />
+                        <p:outputLabel value="#{bundle.TipsLabel}" style="margin:0px;padding:0px;float:left"
+                                       title="#{bundle.TableTips}" />
+                        <br/>
+                        <p:commandButton id="refreshButton" title="#{bundle.Refresh}" actionListener="#{logMovimientoequipoController.refreshRows}" 
+                                         update=":growl,datalist" icon="pi pi-refresh" styleClass="ui-button-info ui-button-outlined ui-button-raised"/>
+<!--                            <p:commandButton id="createButton" title="#{bundle.Create}" value="#{bundle.Create}" actionListener="#{logMovimientoequipoController.prepareCreate}" 
+                                         update=":LogMovimientoequipoCreateForm" oncomplete="PF('LogMovimientoequipoCreateDialog').show()" icon="pi pi-plus" styleClass="ui-button-raised ui-button-info"/>-->
+                        <p:commandButton id="toggler" type="button" title="#{bundle.SelectColumns}"
+                                         icon="pi pi-list" styleClass="ui-button-outlined ui-button-raised"/>
+                        <p:columnToggler datasource="datalist" trigger="toggler" />
+
+                        <p:separator/>
+                    </div>
+
+                </f:facet>
+
+                <p:column
+                    sortBy="#{item.idLogmovimientoequipo}"
+                    headerText="#{bundle.idLogmovimientoequipo}"
+                    filterBy="#{item.idLogmovimientoequipo}" filterMatchMode="contains">
+                    <h:outputText value="#{item.idLogmovimientoequipo}"/>
+                </p:column>
+                <p:column
+                    sortBy="#{item.tipocrudLogmovimientoequipo}"
+                    headerText="#{bundle.tipocrudLogmovimientoequipo}"
+                    filterBy="#{item.tipocrudLogmovimientoequipo}" filterMatchMode="contains">
+                    <h:outputText value="#{item.tipocrudLogmovimientoequipo}"/>
+                </p:column>
+                <p:column
+                    sortBy="#{item.fechaLogmovimientoequipo}"
+                    headerText="#{bundle.fechaLog}"
+                    filterBy="#{item.fechaLogmovimientoequipo}" filterMatchMode="contains">
+                    <h:outputText value="#{item.fechaLogmovimientoequipo}">
+                        <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"  timeZone="GMT-5" locale="es_ES" />
+                    </h:outputText>
+                </p:column>
+                <p:column
+                    sortBy="#{item.usuIdUsuario.nombreUsuario}"
+                    headerText="#{bundle.idUsuarioCrud}"
+                    filterBy="#{item.usuIdUsuario.nombreUsuario}" filterMatchMode="contains">
+                    <h:outputText value="#{item.usuIdUsuario.nombreUsuario} (id=#{item.usuIdUsuario.idUsuario})"/>
+                </p:column>
+                <p:column
+                    sortBy="#{item.idMovimientoequipo.tipoMovimientoequipo}"
+                    headerText="#{bundle.idMovimientoequipo}"
+                    filterBy="#{item.idMovimientoequipo.tipoMovimientoequipo}" filterMatchMode="contains">
+                    <h:outputText value="#{item.idMovimientoequipo.tipoMovimientoequipo} (id=#{item.idMovimientoequipo.idMovimientoequipo})"/>
+                </p:column>
+                <p:column
+                    sortBy="#{item.idEquipo.nombreEquipo}"
+                    headerText="#{bundle.idEquipo}"
+                    filterBy="#{item.idEquipo.nombreEquipo}" filterMatchMode="contains">
+                    <h:outputText value="#{item.idEquipo.nombreEquipo} (id=#{item.idEquipo.idEquipo})"/>
+                </p:column>
+                <p:column
+                    sortBy="#{item.idUsuario.nombreUsuario}"
+                    headerText="#{bundle.idUsuario}"
+                    filterBy="#{item.idUsuario.nombreUsuario}" filterMatchMode="contains">
+                    <h:outputText value="#{item.idUsuario.nombreUsuario} (id=#{item.idUsuario.idUsuario})"/>
+                </p:column>
+                <p:column visible="false"
+                    sortBy="#{item.codigoLogmovimientoequipo}"
+                    headerText="#{bundle.codigoLogmovimientoequipo}"
+                    filterBy="#{item.codigoLogmovimientoequipo}" filterMatchMode="contains">
+                    <h:outputText value="#{item.codigoLogmovimientoequipo}"/>
+                </p:column>
+                <p:column
+                    sortBy="#{item.descripcionLogmovimientoequipo}"
+                    headerText="#{bundle.descripcionLogmovimientoequipo}"
+                    filterBy="#{item.descripcionLogmovimientoequipo}" filterMatchMode="contains">
+                    <h:outputText value="#{item.descripcionLogmovimientoequipo}"/>
+                </p:column>
+                <p:column
+                    sortBy="#{item.fechaMovimientoequipo}"
+                    headerText="#{bundle.fechaMovimientoequipo}"
+                    filterBy="#{item.fechaMovimientoequipo}" filterMatchMode="contains">
+                    <h:outputText value="#{item.fechaMovimientoequipo}">
+                        <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"  timeZone="GMT-5" locale="es_ES" />
+                    </h:outputText>
+                </p:column>
+                <p:column
+                    sortBy="#{item.tipoLogmovimientoequipo}"
+                    headerText="#{bundle.tipoLogmovimientoequipo}"
+                    filterBy="#{item.tipoLogmovimientoequipo}" filterMatchMode="contains">
+                    <h:outputText value="#{item.tipoLogmovimientoequipo}"/>
+                </p:column>
+                <p:column
+                    sortBy="#{item.sitioinicialLogmovimientoequipo}"
+                    headerText="#{bundle.sitioinicialLogmovimientoequipo}"
+                    filterBy="#{item.sitioinicialLogmovimientoequipo}" filterMatchMode="contains">
+                    <h:outputText value="#{item.sitioinicialLogmovimientoequipo}"/>
+                </p:column>
+                <p:column
+                    sortBy="#{item.sitiofinalLogmovimientoequipo}"
+                    headerText="#{bundle.sitiofinalLogmovimientoequipo}"
+                    filterBy="#{item.sitiofinalLogmovimientoequipo}" filterMatchMode="contains">
+                    <h:outputText value="#{item.sitiofinalLogmovimientoequipo}"/>
+                </p:column>
+                <p:column visible="false"
+                    sortBy="#{item.descripcionresponsableLogmovimientoequipo}"
+                    headerText="#{bundle.descripcionresponsableLogmovimientoequipo}"
+                    filterBy="#{item.descripcionresponsableLogmovimientoequipo}" filterMatchMode="contains">
+                    <h:outputText value="#{item.descripcionresponsableLogmovimientoequipo}"/>
+                </p:column>
+                <p:column visible="false"
+                    sortBy="#{item.imagenLogmovimientoequipo}"
+                    headerText="#{bundle.imagenLogmovimientoequipo}"
+                    filterBy="#{item.imagenLogmovimientoequipo}" filterMatchMode="contains">
+                    <h:outputText value="#{bundle.NoImage}" rendered="#{empty item.imagenLogmovimientoequipo}"/>
+                    <p:graphicImage value="#{item.imagenLogmovimientoequipo}" alt="image" cache="false" 
+                                    library="#{item.imagenLogmovimientoequipo}" 
+                                    stream="base64" rendered="#{item.imagenLogmovimientoequipo != null}"
+                                    style="width: 50%; display: block" title="Abra en una nueva pestaña"/>                                    
+                </p:column>
+                <p:column visible="false"
+                    sortBy="#{item.documentorespaldoLogmovimientoequipo}"
+                    headerText="#{bundle.documentorespaldoLogmovimientoequipo}"
+                    filterBy="#{item.documentorespaldoLogmovimientoequipo}" filterMatchMode="contains">
+
+                    <h:outputText value="#{bundle.NoDocument}" rendered="#{empty item.documentorespaldoLogmovimientoequipo}"/>
+                    <p:avatar icon="pi pi-file-pdf" size="xlarge" styleClass="p-mr-4" style="background-color:#fff; color:red"
+                              rendered="#{not empty item.documentorespaldoLogmovimientoequipo}"/>
+                </p:column>
+
+                <!--Botones de acciones-->
+                <p:column headerText="#{bundle.Actions}">
+                    <p:commandButton title="#{bundle.View}" ajax="true" update="@(.ui-dialog)" oncomplete="PF('LogMovimientoequipoViewDialog').show()" icon="pi pi-search" styleClass="rounded-button ui-button-success">
+                        <f:setPropertyActionListener value="#{item}" target="#{logMovimientoequipoController.selected}" />
+                    </p:commandButton>
+<!--                        <p:commandButton title="#{bundle.Edit}" update=":LogMovimientoequipoEditForm" oncomplete="PF('LogMovimientoequipoEditDialog').show()" icon="pi pi-pencil" styleClass="rounded-button ui-button-info">
+                        <f:setPropertyActionListener value="#{item}" target="#{logMovimientoequipoController.selected}" />
+                    </p:commandButton>
+                    <p:commandButton title="#{bundle.Delete}" actionListener="#{logMovimientoequipoController.eliminar(item)}" update=":growl,datalist" icon="pi pi-trash" styleClass="rounded-button ui-button-danger" >
+                        <p:confirm header="#{bundle.ConfirmDeletion}" message="#{bundle.AreYouSureDelete}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:confirmDialog global="true">
+                        <p:commandButton value="#{bundle.Yes}" type="button" styleClass="ui-confirmdialog-yes rounded-button ui-button-success"
+                                         icon="pi pi-check" />
+                        <p:commandButton value="#{bundle.No}" type="button" styleClass="ui-confirmdialog-no rounded-button ui-button-danger"
+                                         icon="pi pi-times" />
+                    </p:confirmDialog>-->
+                </p:column>
+
+                <f:facet name="footer">                                
+
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+
+        <!--<ui:include src="Create.xhtml"/>-->
+        <!--<ui:include src="Edit.xhtml"/>-->
+        <ui:include src="View.xhtml"/>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LogTipoequipoEditDlg" widgetVar="LogTipoequipoEditDialog" 
+                  header="#{bundle.Edit} #{bundle.LogTipoequipo}"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="LogTipoequipoEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" rendered="#{logTipoequipoController.selected != null}">
+                        <p:outputLabel value="#{bundle.idLogtipoequipo}" for="idLogtipoequipo" />
+                        <p:inputText id="idLogtipoequipo" disabled="true" value="#{logTipoequipoController.selected.idLogtipoequipo}"   />
+                        <p:outputLabel value="#{bundle.tipocrudLogtipoequipo}" for="tipocrudLogtipoequipo" />
+                        <p:inputText id="tipocrudLogtipoequipo" value="#{logTipoequipoController.selected.tipocrudLogtipoequipo}"  />
+                        <p:outputLabel value="#{bundle.fechaLogtipoequipo}" for="fechaLogtipoequipo" />
+                        <p:calendar id="fechaLogtipoequipo" pattern="yyyy-MM-dd HH:mm:ss" timeZone="GMT-5" locale="es_EC" readonlyInput="true"   navigator="true" value="#{logTipoequipoController.selected.fechaLogtipoequipo}" showButtonPanel="true"   showOn="button"/>
+                        <p:outputLabel value="#{bundle.idTipoequipo}" for="idTipoequipo" />
+                        <p:inputText id="idTipoequipo" value="#{logTipoequipoController.selected.idTipoequipo}"  />
+                        <p:outputLabel value="#{bundle.idUsuariocrud}" for="idUsuariocrud" />
+                        <p:inputText id="idUsuariocrud" value="#{logTipoequipoController.selected.idUsuariocrud}"  />
+                        <p:outputLabel value="#{bundle.codigoLogtipoequipo}" for="codigoLogtipoequipo" />
+                        <p:inputText id="codigoLogtipoequipo" value="#{logTipoequipoController.selected.codigoLogtipoequipo}"  />
+                        <p:outputLabel value="#{bundle.nombreLogtipoequipo}" for="nombreLogtipoequipo" />
+                        <p:inputText id="nombreLogtipoequipo" value="#{logTipoequipoController.selected.nombreLogtipoequipo}"  />
+                        <p:outputLabel value="#{bundle.descripcionLogtipoequipo}" for="descripcionLogtipoequipo" />
+                        <p:inputText id="descripcionLogtipoequipo" value="#{logTipoequipoController.selected.descripcionLogtipoequipo}"  />
+                    </p:panelGrid>
+
+                    <div style="text-align: center !important;">
+                        <p:commandButton actionListener="#{logTipoequipoController.actualizar}" value="#{bundle.Save}" update="display,:LogTipoequipoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'LogTipoequipoEditDialog');" icon="pi pi-check" styleClass="rounded-button ui-button-info"/>
+                        <p:commandButton type="button" value="#{bundle.Cancel}" onclick="PF('LogTipoequipoEditDialog').hide()" icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

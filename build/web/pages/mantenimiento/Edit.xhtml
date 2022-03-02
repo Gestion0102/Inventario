@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MantenimientoEditDlg" widgetVar="MantenimientoEditDialog" 
+                  header="#{bundle.Edit} #{bundle.Mantenimiento}" width="75%"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true"
+                  onHide="PF('wiz').loadStep('general', false)">
+
+            <h:form id="MantenimientoEditForm">
+                <h:panelGroup id="display">
+
+                    <p:wizard id="wzd" widgetVar="wiz" flowListener="#{mantenimientoController.onFlowProcessWizard}"
+                              backLabel="Anterior" nextLabel="Siguiente">
+                        <p:tab id="general" title="Información general">
+
+                            <p:panel header="Información general de la movimiento">
+                                <p:messages id="msg"/>
+
+                                <p:panelGrid columns="4" rendered="#{mantenimientoController.selected != null}"                                                                  
+                                             columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                             layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                                             style="border:0px none; background-color:transparent;">
+                                    <p:outputLabel value="#{bundle.codigoMantenimiento}" for="codigoMantenimiento" />
+                                    <p:inputMask required="true" id="codigoMantenimiento" value="#{mantenimientoController.selected.codigoMantenimiento}"
+                                                 validatorMessage="Se requiere al menos 3 letras o 3 números">
+                                        <f:validateRegex pattern="([a-z]|[A-Z]|ñ|Ñ|[0-9]){3,}"/>
+                                    </p:inputMask>
+                                    <p:outputLabel value="#{bundle.idProveedor}" for="idProveedor" />
+                                    <p:selectOneMenu filter="true" id="idProveedor" value="#{mantenimientoController.selected.idProveedor}" required="true">
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                                        <f:selectItems value="#{proveedorController.itemsAvailableSelectOne}"
+                                                       var="idProveedorItem"
+                                                       itemLabel="#{idProveedorItem.nombreProveedor}"
+                                                       itemValue="#{idProveedorItem}"/>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="#{bundle.nombreMantenimiento}" for="nombreMantenimiento" />
+                                    <p:inputText id="nombreMantenimiento" value="#{mantenimientoController.selected.nombreMantenimiento}" required="true" />
+                                    <p:outputLabel value="#{bundle.descripcioncontratoMantenimiento}" for="descripcioncontratoMantenimiento" />
+                                    <p:inputText id="descripcioncontratoMantenimiento" value="#{mantenimientoController.selected.descripcioncontratoMantenimiento}" required="true" />
+
+                                    <p:outputLabel value="#{bundle.fechainiciacoberturaMantenimiento}" for="fechainiciacoberturaMantenimiento" />
+                                    <p:calendar  required="true" id="fechainiciacoberturaMantenimiento" pattern="yyyy-MM-dd"   timeZone="GMT-5" locale="es_EC" readonlyInput="true" navigator="true" showButtonPanel="true"  value="#{mantenimientoController.selected.fechainiciacoberturaMantenimiento}"   showOn="button"
+                                                 maxdate="#{mantenimientoController.selected.fechafinalizacoberturaMantenimiento}">
+                                        <p:ajax event="dateSelect" update="fechafinalizacoberturaMantenimiento :growl" listener="#{mantenimientoController.validarFechas}"/>
+                                    </p:calendar>
+
+                                    <p:outputLabel value="#{bundle.fechafinalizacoberturaMantenimiento}" for="fechafinalizacoberturaMantenimiento" />
+                                    <p:calendar  required="true" id="fechafinalizacoberturaMantenimiento" pattern="yyyy-MM-dd"   timeZone="GMT-5" locale="es_EC" readonlyInput="true" navigator="true" showButtonPanel="true"  value="#{mantenimientoController.selected.fechafinalizacoberturaMantenimiento}"   showOn="button"
+                                                 mindate="#{mantenimientoController.selected.fechainiciacoberturaMantenimiento}">
+                                        <p:ajax event="dateSelect" update="fechainiciacoberturaMantenimiento :growl" listener="#{mantenimientoController.validarFechas}"/>
+                                    </p:calendar>
+
+                                    <p:outputLabel value="#{bundle.documentoMantenimiento}"/>
+                        <!--<p:inputTextarea rows="4" cols="30" id="documentoMantenimiento" value="#{mantenimientoController.selected.documentoMantenimiento}"  />-->
+                                    <p:column style=" text-align: center; align-content: center;">
+                                        <!--<p:inputTextarea rows="4" cols="30" id="docRespaldoMovimientoequipo" value="#{mantenimientoController.selected.documentoMantenimiento}"  />-->
+                                        <p:fileUpload id="docRespaldoMovimientoequipo" listener="#{mantenimientoController.handleAdjuntoUpload}"
+                                                      update=":growl @this :VerDocumentoForm txtNombreDocumento btnVerDoc btnQuitarDoc"
+                                                      virusScan="true" chooseButtonTitle="Seleccionar archivo"
+                                                      mode="advanced" multiple="false" auto="true" global="true"
+                                                      sizeLimit="512000" allowTypes="/(\.|\/)(pdf)$/"
+                                                      invalidSizeMessage="Tamaño máximo del archivo es 500 KB" 
+                                                      invalidFileMessage="El formato del archivo no es correcto, se requiere pdf">
+
+                                            <div style="padding: 5px;  text-align: center; ">
+                                                <p:avatar id="imgAvt" icon="pi pi-file-pdf" size="large" dynamicColor="true" style="color:red; background-color:transparent!important; padding: 0px; float: left"
+                                                          rendered="#{mantenimientoController.selected.documentoMantenimiento != null}"/>
+                                                <p:outputLabel id="txtNombreDocumento" value="#{mantenimientoController.selected.documentoMantenimiento eq null? bundle.NoDocument : mantenimientoController.filePDF.fileName}"
+                                                               style="padding: 10px;"/>
+                                            </div>
+                                        </p:fileUpload>
+
+                                        <p:commandButton id="btnVerDoc" title="#{bundle.View}" ajax="true" update=":VerDocumentoForm imgAvt" 
+                                                         disabled="#{mantenimientoController.selected.documentoMantenimiento eq null}"
+                                                         oncomplete="PF('VerDocumentoDialog').show()" 
+                                                         icon="pi pi-search"
+                                                         styleClass="ui-button-success" style="padding: 0px 5px 0px 5px">
+                                        </p:commandButton>
+                                        <p:commandButton id="btnQuitarDoc" title="Quitar" ajax="true" update=":growl docRespaldoMovimientoequipo imgAvt txtNombreDocumento btnVerDoc @this" 
+                                                         disabled="#{mantenimientoController.selected.documentoMantenimiento eq null}"
+                                                         action="#{mantenimientoController.quitarDocumento()}"
+                                                         icon="pi pi-times" process="@this"
+                                                         styleClass="ui-button-danger" style="padding: 0px 5px 0px 5px">
+                                        </p:commandButton>
+
+                                    </p:column>
+
+                                </p:panelGrid>                                
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab id="equipos" title="Equipos del contrato">
+                            <p:panel header="Equipos seleccionados">
+
+                                <p:dataTable id="datalist" value="#{mantenimientoController.listDetalleEquiposMantSelected}" var="item"
+                                             emptyMessage="#{bundle.NoRecordsFound}"
+                                             rowKey="#{item.idDetalleequipomantenimiento}"  sortMode="multiple"
+                                             paginator="true" rows="5"  rowsPerPageTemplate="5,10,15,20,30,40,50,70,100"
+                                             currentPageReportTemplate="#{bundle.Total}:{totalRecords}   #{bundle.Page}:{currentPage}/{totalPages}"
+                                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport}"
+                                             paginatorPosition="bottom"  paginatorAlwaysVisible="true"
+                                             widgetVar="DetalleEquiposMantenimientoTable" filterEvent="keyup"
+                                             scrollable="false" reflow="true">
+
+                                    <f:facet name="header">
+                                        <div style="align-content: center; text-align: center;">
+
+                                            <p:panelGrid columns="3" 
+                                                         styleClass="ui-panelgrid-blank ui-fluid"
+                                                         columnClasses="ui-grid-col-3,ui-grid-col-9"
+                                                         layout="grid"
+                                                         style="border:0px none; background-color:transparent!important;">
+
+                                                <p:column>
+                                                    <p:commandButton id="refreshButton" title="#{bundle.Refresh}" actionListener="#{detalleEquiposMantenimientoController.refreshRows}" 
+                                                                     update=":growl,datalist" icon="pi pi-refresh" styleClass="ui-button-info ui-button-outlined ui-button-raised"/>
+                                                    <p:commandButton id="toggler" type="button" title="#{bundle.SelectColumns}"
+                                                                     icon="pi pi-list" styleClass="ui-button-outlined ui-button-raised"/>
+                                                    <p:columnToggler datasource="datalist" trigger="toggler" />
+                                                </p:column>
+
+                                                <p:column>
+
+                                                    <p:outputLabel value="Serie buscada" for="@next"/>
+
+                                                    <p:autoComplete id="txtSerieEquipoBuscado" multiple="false" value="#{mantenimientoController.equipoBuscado}"
+                                                                    completeMethod="#{equipoController.completeText}"
+                                                                    var="country" itemLabel="#{country.serieEquipo}" itemValue="#{country}"
+                                                                    forceSelection="true" emptyMessage="#{bundle.NoRecordsFound}"
+                                                                    converter="#{equipoConverter}" dropdown="false"
+                                                                    placeholder="Escriba la serie del equipo" 
+                                                                    scrollHeight="250" class="pi pi-search">
+
+                                                        <p:ajax event="itemSelect" listener="#{mantenimientoController.onItemSelectAutocompleteEquipo}" update=":growl datalist txtSerieEquipoBuscado" />
+                                                        <p:column>
+                                                            <!--<span class="flag flag-#{'es,EC'}" style="width: 30px; height: 20px" />-->
+                                                            <p:outputLabel style="vertical-align: middle; margin-left: .5rem" value="Serie: "/>
+                                                            <p:outputLabel style="vertical-align: middle; margin-left: .5rem" value="#{country.serieEquipo}"/>
+                                                            <p:outputLabel style="vertical-align: middle; margin-left: .5rem" value="Nombre: "/>
+                                                            <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{country.nombreEquipo}"/>
+                                                            <p:outputLabel style="vertical-align: middle; margin-left: .5rem" value="DC: "/>
+                                                            <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{country.idRack.idCentrodatos.nombreCentrodatos}"/>
+                                                            <p:outputLabel style="vertical-align: middle; margin-left: .5rem" value="Rack:"/>
+                                                            <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{country.idRack.nombreRack}"/>
+                                                        </p:column>
+                                                        <f:facet name="footer">
+                                                            <div class="ui-fluid" style="padding:0.5rem 1rem 1rem 1rem">
+                                                                <p:commandButton id="addButton" title="#{bundle.List} #{bundle.Equipo}" value="#{bundle.List} #{bundle.Equipo}" update=":DetalleEquiposMantenimientoListForm" oncomplete="PF('DetalleEquiposMantenimientoListDialog').show()" icon="pi pi-table" styleClass="ui-button-raised ui-button-info"/>
+                                                            </div>
+                                                        </f:facet>
+                                                    </p:autoComplete>
+                                                    <p:commandButton id="addButton2" title="#{bundle.List} #{bundle.Equipo}" update=":DetalleEquiposMantenimientoListForm" oncomplete="PF('DetalleEquiposMantenimientoListDialog').show()" icon="pi pi-table" styleClass="ui-button-raised ui-button-info"/>
+
+                                                </p:column>
+                                            </p:panelGrid>
+
+                                            <p:separator/>
+                                        </div>
+                                    </f:facet>
+
+                                    <p:column visible="false"
+                                              sortBy="#{item.idDetalleequipomantenimiento}"
+                                              headerText="#{bundle.idDetalleequipomantenimiento}"
+                                              filterBy="#{item.idDetalleequipomantenimiento}" filterMatchMode="contains">
+                                        <h:outputText value="#{item.idDetalleequipomantenimiento}"/>
+                                    </p:column>
+                                    <p:column visible="false"
+                                              sortBy="#{item.codigoDetalleequipomantenimiento}"
+                                              headerText="#{bundle.codigoDetalleequipomantenimiento}"
+                                              filterBy="#{item.codigoDetalleequipomantenimiento}" filterMatchMode="contains">
+                                        <h:outputText value="#{item.codigoDetalleequipomantenimiento}"/>
+                                    </p:column>
+
+                                    <p:column visible="false"
+                                              sortBy="#{item.idMantenimiento.nombreMantenimiento}"
+                                              headerText="#{bundle.idMantenimiento}"
+                                              filterBy="#{item.idMantenimiento.nombreMantenimiento}" filterMatchMode="contains">
+                                        <h:outputText value="#{item.idMantenimiento.nombreMantenimiento}"/>
+                                    </p:column>
+
+
+                                    <p:column
+                                        sortBy="#{item.coberturaDetalleequipomantenimiento}"
+                                        headerText="#{bundle.coberturaDetalleequipomantenimiento}"
+                                        filterBy="#{item.coberturaDetalleequipomantenimiento}" filterMatchMode="contains">
+                                        <h:outputText value="#{item.coberturaDetalleequipomantenimiento}"/>
+                                    </p:column>
+                                    <p:column
+                                        sortBy="#{item.idEquipo.nombreEquipo}"
+                                        headerText="#{bundle.nombreEquipo}"
+                                        filterBy="#{item.idEquipo.nombreEquipo}" filterMatchMode="contains">
+                                        <h:outputText value="#{item.idEquipo.nombreEquipo}"/>
+                                    </p:column>
+                                    <p:column
+                                        sortBy="#{item.idEquipo.serieEquipo}"
+                                        headerText="#{bundle.serieEquipo}"
+                                        filterBy="#{item.idEquipo.serieEquipo}" filterMatchMode="contains">
+                                        <h:outputText value="#{item.idEquipo.serieEquipo}"/>
+                                    </p:column>
+                                    <p:column
+                                        sortBy="#{item.idEquipo.idRack.idCentrodatos.nombreCentrodatos}"
+                                        headerText="#{bundle.LabelcentroDatos}"
+                                        filterBy="#{item.idEquipo.idRack.idCentrodatos.nombreCentrodatos}" filterMatchMode="contains">
+                                        <h:outputText value="#{item.idEquipo.idRack.idCentrodatos.nombreCentrodatos}"/>
+                                    </p:column>
+
+                                    <!--Botones de acciones-->
+                                    <p:column headerText="#{bundle.Actions}">
+                                        <p:commandButton title="#{bundle.View}" ajax="true" update=":DetalleEquiposMantenimientoViewForm" oncomplete="PF('DetalleEquiposMantenimientoViewDialog').show()" icon="pi pi-search" styleClass="rounded-button ui-button-success">
+                                            <f:setPropertyActionListener value="#{item}" target="#{detalleEquiposMantenimientoController.selected}" />
+                                        </p:commandButton>
+                                        <p:commandButton title="#{bundle.Edit}" update=":DetalleEquiposMantenimientoEditForm" oncomplete="PF('DetalleEquiposMantenimientoEditDialog').show()" icon="pi pi-pencil" styleClass="rounded-button ui-button-info">
+                                            <f:setPropertyActionListener value="#{item}" target="#{detalleEquiposMantenimientoController.selected}" />
+                                        </p:commandButton>
+                                        <p:commandButton title="#{bundle.Delete}" actionListener="#{mantenimientoController.quitarDetalleMantDeList(item)}" update=":growl,datalist" icon="pi pi-trash" styleClass="rounded-button ui-button-danger" >
+                                            <p:confirm header="#{bundle.ConfirmDeletion}" message="#{bundle.AreYouSureDelete}" icon="ui-icon-alert"/>
+                                        </p:commandButton>
+                                        <p:confirmDialog global="true">
+                                            <p:commandButton value="#{bundle.Yes}" type="button" styleClass="ui-confirmdialog-yes rounded-button ui-button-success"
+                                                             icon="pi pi-check" />
+                                            <p:commandButton value="#{bundle.No}" type="button" styleClass="ui-confirmdialog-no rounded-button ui-button-danger"
+                                                             icon="pi pi-times" />
+                                        </p:confirmDialog>
+                                    </p:column>
+
+                                    <f:facet name="footer">                                
+
+                                    </f:facet>
+                                </p:dataTable>
+
+                            </p:panel>
+
+                        </p:tab>
+                        <p:tab id="confirm" title="Confirmación">
+
+                            <p:panel header="Confirmación">
+                                <div style="text-align: center !important;">
+                                    <p:commandButton disabled="#{(mantenimientoController.listDetalleEquiposMantSelected.size() le 0)? true:false}" value="#{(mantenimientoController.listDetalleEquiposMantSelected.size() le 0)? 'No hay equipos para guardar' : bundle.Save}"
+                                                     actionListener="#{mantenimientoController.actualizar}" update="display, :MantenimientoListForm:datalist, :growl" oncomplete="handleSubmit(args, 'MantenimientoEditDialog');" icon="pi pi-check" styleClass="rounded-button ui-button-info"/>
+                                    <p:commandButton type="button" value="#{bundle.Cancel}" onclick="PF('MantenimientoEditDialog').hide();PF('wiz').loadStep('general', false)" icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                                </div>
+                            </p:panel>
+                        </p:tab>
+                    </p:wizard>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

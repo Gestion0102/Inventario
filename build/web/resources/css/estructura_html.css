@@ -1,0 +1,40 @@
+/*Permite definir los estilos para la estructura html del sistema*/
+
+html {
+    width: 100%;
+    min-height: 90%;
+    position: relative;
+}
+
+header {
+    color: white;
+    background-color: red;
+}
+
+body {
+    margin: 20px;
+    margin-bottom: 100px;
+}
+
+.footer {
+    color: white;
+    background-color: #0499d9;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    /*margin: 20px;*/
+    /*height: 81px;*/
+    /*vertical-align: central;*/
+    padding: 0px 20px 0px 20px
+}
+
+.container {
+    padding:12px;
+}
+
+#wrapper{
+    padding-bottom: 81px;
+    min-height: calc(100% - 81px);
+    position: relative;
+}

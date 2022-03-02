@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VerDocumentoDlg" widgetVar="VerDocumentoDialog" 
+                  header="VerDocumentoForm" width="75%" height="85%"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="VerDocumentoForm">
+                <h:panelGroup id="display">
+
+
+                    <p:panel id="plnInstructivo" rendered="#{!(movimientofisicoEquipoController.filePDF eq null)}">
+
+                        <p:media id="visorArchivo" player="pdf" value="#{movimientofisicoEquipoController.verArchivoAdjunto()}" 
+                                 cache="false" height="400px" width="100%"/>
+                    </p:panel>
+                    <p:panel id="plnInstructivo2" rendered="#{!(movimientofisicoEquipoController.fileViewPDF eq null)}">
+
+                        <p:media id="visorArchivo2" player="pdf" value="#{movimientofisicoEquipoController.fileViewPDF}" 
+                                 cache="false" height="400px" width="100%"/>
+                    </p:panel>
+
+                    <div style="text-align: center !important;">
+                        <p:commandButton type="button" value="#{bundle.Cancel}" onclick="PF('VerDocumentoDialog').hide()" icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
+

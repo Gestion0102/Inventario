@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoUsuarioViewDlg" widgetVar="TipoUsuarioViewDialog"
+                  header="#{bundle.View} #{bundle.TipoUsuario}" width="85%" 
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="TipoUsuarioViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" rendered="#{tipoUsuarioController.selected != null}" class="alinear_contenedor_centro">
+<!--                        <h:outputText value="#{bundle.idTipousuario}"/>
+                        <h:outputText value="#{tipoUsuarioController.selected.idTipousuario}" />-->
+<!--                        <h:outputText value="#{bundle.codigoTipousuario}"/>
+                        <h:outputText value="#{tipoUsuarioController.selected.codigoTipousuario}" />-->
+                        <h:outputText value="#{bundle.nombreTipousuario}" style="font-weight: bolder;"/>
+                        <h:outputText value="#{tipoUsuarioController.selected.nombreTipousuario}" />
+                        <h:outputText value="#{bundle.descripcionTipousuario}" style="font-weight: bolder;" />
+                        <h:outputText value="#{tipoUsuarioController.selected.descripcionTipousuario}" />
+                    </p:panelGrid>
+
+                    <h1><h:outputText value="Permisos de #{tipoUsuarioController.selected.nombreTipousuario}"/></h1>
+                    <p:dataTable value="#{permisoAccesoController.listarTodosPermisosPorTipoUsuario(tipoUsuarioController.selected)}" var="item"
+                                 rendered="#{tipoUsuarioController.selected != null}">
+
+                        <f:facet name="header">
+                            <p:outputLabel value="Cantidad de permisos: #{tipoUsuarioController.selected.permisoAccesoList.size()}" />
+                        </f:facet>
+                        <!--                        <p:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="IdPermisoacceso"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{item.idPermisoacceso}"/>
+                                                </p:column>-->
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Opcion Sistema"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idOpcionsistema.nombreOpcionsistema}"/>
+                        </p:column>
+                        <!--                        <p:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="Nombre Asignado"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{item.nombrePermisoacceso}"/>
+                                                </p:column>-->
+                        <!--                        <p:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="Codigo"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{item.codigoPermisoacceso}"/>
+                                                </p:column>-->
+                        <p:column visible="false">
+                            <f:facet name="header">
+                                <h:outputText value="Descripción"/>
+                            </f:facet>
+                            <h:outputText value="#{item.descripcionPermisoacceso}"  />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Estado"/>
+                            </f:facet>
+                            <!--<h:outputText value="#{item.estadoPermisoacceso}"/>-->
+                            <p:tag styleClass="p-mr-2" icon="#{item.estadoPermisoacceso eq true ? 'pi pi-lock-open': 'pi pi-lock'}" severity="#{item.estadoPermisoacceso eq true ? 'info': 'warning'}" 
+                                   value="#{item.estadoPermisoacceso eq true ? 'Activo': 'Inactivo'}" rounded="false"></p:tag>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Solo Ver"/>
+                            </f:facet>
+                            <!--<h:outputText value="#{item.soloverPermisoacceso}"/>-->
+                            <p:tag styleClass="p-mr-2" icon="#{item.soloverPermisoacceso eq true ? 'pi pi-eye': 'pi pi-pencil'}" severity="#{item.soloverPermisoacceso eq true ? 'warning': 'success'}" 
+                                   value="#{item.soloverPermisoacceso eq true ? 'Solo visualizar': 'Crear, Actualizar, Eliminar y Ver'}" rounded="false"></p:tag>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Tipo Usuario"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idTipousuario.nombreTipousuario}"/>
+                        </p:column>
+                    </p:dataTable>
+
+                </h:panelGroup>
+
+
+            </h:form>
+
+            <f:facet name="footer">
+                <h:form style="text-align: center !important;">
+                    <p:commandButton type="button"  value="#{bundle.Close}" onclick="PF('TipoUsuarioViewDialog').hide()"
+                                     icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                </h:form>
+            </f:facet>
+        </p:dialog>
+
+    </ui:composition>
+</html>

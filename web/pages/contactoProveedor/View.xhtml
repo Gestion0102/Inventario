@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ContactoProveedorViewDlg" widgetVar="ContactoProveedorViewDialog"
+                  header="#{bundle.View} #{bundle.ContactoProveedor}"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="ContactoProveedorViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" rendered="#{contactoProveedorController.selected != null}">
+                        <h:outputText value="#{bundle.idContactoproveedor}"/>
+                        <h:outputText value="#{contactoProveedorController.selected.idContactoproveedor}" />
+                        <h:outputText value="#{bundle.codigoContactoproveedor}"/>
+                        <h:outputText value="#{contactoProveedorController.selected.codigoContactoproveedor}" />
+                        <h:outputText value="#{bundle.nombreContactoproveedor}"/>
+                        <h:outputText value="#{contactoProveedorController.selected.nombreContactoproveedor}" />
+                        <h:outputText value="#{bundle.cargoContactoproveedor}"/>
+                        <h:outputText value="#{contactoProveedorController.selected.cargoContactoproveedor}" />
+                        <h:outputText value="#{bundle.celularContactoproveedor}"/>
+                        <h:outputText value="#{contactoProveedorController.selected.celularContactoproveedor}" />
+                        <h:outputText value="#{bundle.correoContactoproveedor}"/>
+                        <h:outputText value="#{contactoProveedorController.selected.correoContactoproveedor}" />
+                        <h:outputText value="#{bundle.estadoContactoproveedor}"/>
+                        <p:selectBooleanCheckbox value="#{contactoProveedorController.selected.estadoContactoproveedor}" disabled="true"/>
+                        <h:outputText value="#{bundle.idProveedor}"/>
+                        <h:outputText value="#{contactoProveedorController.selected.idProveedor}" />
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+
+            <f:facet name="footer">
+                <h:form style="text-align: center !important;">
+                    <p:commandButton type="button"  value="#{bundle.Close}" onclick="PF('ContactoProveedorViewDialog').hide()"
+                                     icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                </h:form>
+            </f:facet>
+        </p:dialog>
+
+    </ui:composition>
+</html>

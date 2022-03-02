@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.List} #{bundle.DetalleEquiposMantenimiento}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+
+            <style type="text/css">
+                button.ui-button {
+                    margin-right: .1rem;
+                }
+            </style>
+
+            <h:form id="DetalleEquiposMantenimientoListForm">
+                <p:dataTable id="datalist" value="#{detalleEquiposMantenimientoController.items}" var="item"
+                             emptyMessage="#{bundle.NoRecordsFound}"
+                             rowKey="#{item.idDetalleequipomantenimiento}"  sortMode="multiple"
+                             paginator="true" rows="10"  rowsPerPageTemplate="5,10,15,20,30,40,50,70,100"
+                             currentPageReportTemplate="#{bundle.Total}:{totalRecords}   #{bundle.Page}:{currentPage}/{totalPages}"
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport}"
+                             paginatorPosition="bottom"  paginatorAlwaysVisible="true"
+                             widgetVar="DetalleEquiposMantenimientoTable" filterEvent="keyup"
+                             
+                             scrollable="false" reflow="true">
+
+                    <f:facet name="header">
+                        <div style="align-content: center; text-align: center;">
+                            <p:outputLabel value="#{bundle.List} #{bundle.DetalleEquiposMantenimiento}" style="font-weight: bolder;" />
+                            <p:outputLabel value="#{bundle.TipsLabel}" style="margin:0px;padding:0px;float:left"
+                                           title="#{bundle.TableTips}" />
+                            <br/>
+                            <p:commandButton id="refreshButton" title="#{bundle.Refresh}" actionListener="#{detalleEquiposMantenimientoController.refreshRows}" 
+                                             update=":growl,datalist" icon="pi pi-refresh" styleClass="ui-button-info ui-button-outlined ui-button-raised"/>
+                            <p:commandButton id="createButton" title="#{bundle.Create}" value="#{bundle.Create}" actionListener="#{detalleEquiposMantenimientoController.prepareCreate}" 
+                                             update=":DetalleEquiposMantenimientoCreateForm" oncomplete="PF('DetalleEquiposMantenimientoCreateDialog').show()" icon="pi pi-plus" styleClass="ui-button-raised ui-button-info"/>
+                            <p:commandButton id="toggler" type="button" title="#{bundle.SelectColumns}"
+                                             icon="pi pi-list" styleClass="ui-button-outlined ui-button-raised"/>
+                            <p:columnToggler datasource="datalist" trigger="toggler" />
+
+                            <p:separator/>
+                        </div>
+
+                    </f:facet>
+
+                    <p:column
+                        sortBy="#{item.idDetalleequipomantenimiento}"
+                        headerText="#{bundle.idDetalleequipomantenimiento}"
+                        filterBy="#{item.idDetalleequipomantenimiento}" filterMatchMode="contains">
+                        <h:outputText value="#{item.idDetalleequipomantenimiento}"/>
+                    </p:column>
+                    <p:column
+                        sortBy="#{item.codigoDetalleequipomantenimiento}"
+                        headerText="#{bundle.codigoDetalleequipomantenimiento}"
+                        filterBy="#{item.codigoDetalleequipomantenimiento}" filterMatchMode="contains">
+                        <h:outputText value="#{item.codigoDetalleequipomantenimiento}"/>
+                    </p:column>
+                    <p:column
+                        sortBy="#{item.coberturaDetalleequipomantenimiento}"
+                        headerText="#{bundle.coberturaDetalleequipomantenimiento}"
+                        filterBy="#{item.coberturaDetalleequipomantenimiento}" filterMatchMode="contains">
+                        <h:outputText value="#{item.coberturaDetalleequipomantenimiento}"/>
+                    </p:column>
+                    <p:column
+                        sortBy="#{item.idEquipo}"
+                        headerText="#{bundle.idEquipo}"
+                        filterBy="#{item.idEquipo}" filterMatchMode="contains">
+                        <h:outputText value="#{item.idEquipo}"/>
+                    </p:column>
+                    <p:column
+                        sortBy="#{item.idMantenimiento}"
+                        headerText="#{bundle.idMantenimiento}"
+                        filterBy="#{item.idMantenimiento}" filterMatchMode="contains">
+                        <h:outputText value="#{item.idMantenimiento}"/>
+                    </p:column>
+
+                    <!--Botones de acciones-->
+                    <p:column headerText="#{bundle.Actions}">
+                        <p:commandButton title="#{bundle.View}" ajax="true" update=":DetalleEquiposMantenimientoViewForm" oncomplete="PF('DetalleEquiposMantenimientoViewDialog').show()" icon="pi pi-search" styleClass="rounded-button ui-button-success">
+                            <f:setPropertyActionListener value="#{item}" target="#{detalleEquiposMantenimientoController.selected}" />
+                        </p:commandButton>
+                        <p:commandButton title="#{bundle.Edit}" update=":DetalleEquiposMantenimientoEditForm" oncomplete="PF('DetalleEquiposMantenimientoEditDialog').show()" icon="pi pi-pencil" styleClass="rounded-button ui-button-info">
+                            <f:setPropertyActionListener value="#{item}" target="#{detalleEquiposMantenimientoController.selected}" />
+                        </p:commandButton>
+                        <p:commandButton title="#{bundle.Delete}" actionListener="#{detalleEquiposMantenimientoController.eliminar(item)}" update=":growl,datalist" icon="pi pi-trash" styleClass="rounded-button ui-button-danger" >
+                            <p:confirm header="#{bundle.ConfirmDeletion}" message="#{bundle.AreYouSureDelete}" icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:confirmDialog global="true">
+                            <p:commandButton value="#{bundle.Yes}" type="button" styleClass="ui-confirmdialog-yes rounded-button ui-button-success"
+                                             icon="pi pi-check" />
+                            <p:commandButton value="#{bundle.No}" type="button" styleClass="ui-confirmdialog-no rounded-button ui-button-danger"
+                                             icon="pi pi-times" />
+                        </p:confirmDialog>
+                    </p:column>
+
+                    <f:facet name="footer">                                
+
+                    </f:facet>
+                </p:dataTable>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MiUsuarioChangeDlg" widgetVar="MiUsuarioChangeDialog" 
+                  header="Cambiar contraseña #{bundle.Usuario}" width="85%"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="MiUsuarioChangeForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" rendered="#{usuarioController.selected != null}"
+                                 columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                 layout="grid"
+                                 styleClass="ui-panelgrid-blank ui-fluid"
+                                 style="border:0px none; background-color:transparent;">
+                        <p:outputLabel value="#{bundle.idUsuario}" for="idUsuario" />
+                        <p:outputLabel id="idUsuario" value="#{usuarioController.selected.idUsuario}"   />
+                        <p:outputLabel value="#{bundle.rolUsuario}" for="rolUsuario" />
+                        <p:outputLabel id="rolUsuario" value="#{usuarioController.selected.rolUsuario}"  />
+
+                        <p:outputLabel for="pwd1" styleClass="p-col-fixed" style="width:100px" value="Password 1"/>
+                        <p:password id="pwd1" value="#{usuarioController.selected.contraseniaUsuario}" match="pwd2" label="Password 1" required="true"
+                                    feedback="true" promptLabel="Ingresa tu contraseña" weakLabel="Débil" goodLabel="Buena" strongLabel="Fuerte"
+                                    style="width: 100%" toggleMask="true" />
+
+                        <p:outputLabel for="pwd2" styleClass="p-col-fixed" style="width:100px" value="Password 2"/>
+                        <p:password id="pwd2" value="#{usuarioController.selected.contraseniaUsuario}" label="Password 2" required="true"
+                                    feedback="true" promptLabel="Ingresa tu contraseña" weakLabel="Débil" goodLabel="Buena" strongLabel="Fuerte"
+                                    style="width: 100%" toggleMask="true" />
+                    </p:panelGrid>
+
+                    <div style="text-align: center !important;">
+                        <p:commandButton actionListener="#{usuarioController.cambiarContrasenia}" value="#{bundle.Save}" update="display,:growl" oncomplete="handleSubmit(args,'MiUsuarioChangeDialog');" icon="pi pi-check" styleClass="rounded-button ui-button-info"/>
+                        <p:commandButton type="button" value="#{bundle.Cancel}" onclick="PF('MiUsuarioChangeDialog').hide()" icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                    </div>
+                </h:panelGroup>
+
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

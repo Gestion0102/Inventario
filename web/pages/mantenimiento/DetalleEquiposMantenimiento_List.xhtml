@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DetalleEquiposMantenimientoListDlg" widgetVar="DetalleEquiposMantenimientoListDialog" 
+                  header="Selección de equipos desde el listado"
+                  modal="true" resizable="true" appendTo="@(body)" width="85%"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+            <h:form id="DetalleEquiposMantenimientoListForm">
+                <h:panelGroup id="display">
+
+                    <p:dataTable id="datalist" value="#{equipoController.items}" var="item"
+                                 emptyMessage="#{bundle.NoRecordsFound}"
+                                 rowKey="#{item.idEquipo}"  sortMode="multiple"
+                                 paginator="true" rows="10"  rowsPerPageTemplate="5,10,15,20,30,40,50,70,100"
+                                 currentPageReportTemplate="#{bundle.Total}:{totalRecords}   #{bundle.Page}:{currentPage}/{totalPages}"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport}"
+                                 paginatorPosition="bottom"  paginatorAlwaysVisible="true"
+                                 widgetVar="EquipoTable" filterEvent="keyup"
+                                 scrollable="false" reflow="true"
+                                 globalFilterOnly="true"
+                                 selection="#{mantenimientoController.equipoBuscado}"
+                                 selectionPageOnly="false" 
+                                 rowStyleClass="#{mantenimientoController.selectedEquipos.contains(item)? 'cheap' : null}">
+
+                        <p:ajax event="rowSelect" listener="#{mantenimientoController.onRowSelectTableEquipos}" update=":growl :MantenimientoCreateForm:datalist :MantenimientoEditForm:datalist" oncomplete="PF('DetalleEquiposMantenimientoListDialog').hide()"/>
+                        <p:ajax event="rowUnselect" listener="#{mantenimientoController.onRowUnselectTableEquipos}" update=":growl :MantenimientoCreateForm:datalist :MantenimientoEditForm:datalist"/>
+
+                        <p:ajax event="rowSelectRadio" listener="#{mantenimientoController.onRowSelectTableEquipos}" update=":growl :MantenimientoCreateForm:datalist :MantenimientoEditForm:datalist" oncomplete="PF('DetalleEquiposMantenimientoListDialog').hide()"/>
+                        <p:column selectionMode="single" style="width:16px;text-align:center"/>
+
+                        <f:facet name="header">
+                            <div style="align-content: center; text-align: center;">
+
+                                <p:panelGrid columns="2" 
+                                             styleClass="ui-panelgrid-blank ui-fluid"
+                                             columnClasses="ui-grid-col-4,ui-grid-col-8"
+                                             layout="grid"
+                                             style="border:0px none; background-color:transparent!important;">
+                                    
+                                    <p:column>
+                                        <i class="pi pi-server" style="font-size: 2rem; color:#004258;"></i> 
+                                        <p:spacer width="10px"/>
+                                        <p:outputLabel value="#{bundle.List} #{bundle.Equipo}" class="titulo_tabla"/>
+                                    </p:column>
+                                    <p:column>
+                                        <div style="text-align: right!important;">
+                                            <p:outputLabel value="#{bundle.Find} #{bundle.Equipo}"/>
+                                            <p:inputText id="globalFilter" onkeyup="PF('EquipoTable').filter()" style="width:15rem; margin: 5px;" placeholder="Serie, Nombre, etc" class="pi pi-search"/>
+                                        </div>
+                                    </p:column>
+                                </p:panelGrid>
+
+                                <p:commandButton id="refreshButton" title="#{bundle.Refresh}" actionListener="#{equipoController.refreshRows}" 
+                                                 update=":growl,datalist" icon="pi pi-refresh" styleClass="ui-button-info ui-button-outlined ui-button-raised"/>
+    <!--                            <p:commandButton id="createButton" title="#{bundle.Create}" value="#{bundle.Create}" actionListener="#{equipoController.prepareCreate}" 
+                                                 update=":EquipoCreateForm" oncomplete="PF('EquipoCreateDialog').show()" icon="pi pi-plus" styleClass="ui-button-raised ui-button-info"/>-->
+                                <p:commandButton id="toggler" type="button" title="#{bundle.SelectColumns}"
+                                                 icon="pi pi-list" styleClass="ui-button-outlined ui-button-raised"/>
+                                <p:columnToggler datasource="datalist" trigger="toggler" />
+
+                                <p:separator/>
+                            </div>
+
+
+
+                        </f:facet>
+
+
+                        <p:column visible="false"
+                                  sortBy="#{item.idEquipo}"
+                                  headerText="#{bundle.idEquipo}"
+                                  filterBy="#{item.idEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.idEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.codigoEquipo}"
+                                  headerText="#{bundle.codigoEquipo}"
+                                  filterBy="#{item.codigoEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.codigoEquipo}"/>
+                        </p:column>
+                        <p:column
+                            sortBy="#{item.serieEquipo}"
+                            headerText="#{bundle.serieEquipo}"
+                            filterBy="#{item.serieEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.serieEquipo}"/>
+                        </p:column>
+                        <p:column
+                            sortBy="#{item.nombreEquipo}"
+                            headerText="#{bundle.nombreEquipo}"
+                            filterBy="#{item.nombreEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.nombreEquipo}"/>
+                        </p:column>
+
+                        <p:column
+                            sortBy="#{item.idTipoequipo}"
+                            headerText="#{bundle.idTipoequipo}"
+                            filterBy="#{item.idTipoequipo.nombreTipoequipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.idTipoequipo.nombreTipoequipo}"/>
+                        </p:column>
+
+                        <p:column visible="false"
+                                  sortBy="#{item.unidadrackEquipo}"
+                                  headerText="#{bundle.unidadrackEquipo}"
+                                  filterBy="#{item.unidadrackEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.unidadrackEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.posicionrackEquipo}"
+                                  headerText="#{bundle.posicionrackEquipo}"
+                                  filterBy="#{item.posicionrackEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.posicionrackEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.ipadministracionEquipo}"
+                                  headerText="#{bundle.ipadministracionEquipo}"
+                                  filterBy="#{item.ipadministracionEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.ipadministracionEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.estadoEquipo}"
+                                  headerText="#{bundle.estadoEquipo}"
+                                  filterBy="#{item.estadoEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.estadoEquipo}"/>
+                        </p:column>
+
+                        <p:column visible="false"
+                                  sortBy="#{item.modeloEquipo}"
+                                  headerText="#{bundle.modeloEquipo}"
+                                  filterBy="#{item.modeloEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.modeloEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.mtmEquipo}"
+                                  headerText="#{bundle.mtmEquipo}"
+                                  filterBy="#{item.mtmEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.mtmEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.marcaEquipo}"
+                                  headerText="#{bundle.marcaEquipo}"
+                                  filterBy="#{item.marcaEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.marcaEquipo}"/>
+                        </p:column>
+
+                        <p:column visible="false"
+                                  sortBy="#{item.piduidEquipo}"
+                                  headerText="#{bundle.piduidEquipo}"
+                                  filterBy="#{item.piduidEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.piduidEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.hostnameEquipo}"
+                                  headerText="#{bundle.hostnameEquipo}"
+                                  filterBy="#{item.hostnameEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.hostnameEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.ipproduccionEquipo}"
+                                  headerText="#{bundle.ipproduccionEquipo}"
+                                  filterBy="#{item.ipproduccionEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.ipproduccionEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.ipvmotionEquipo}"
+                                  headerText="#{bundle.ipvmotionEquipo}"
+                                  filterBy="#{item.ipvmotionEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.ipvmotionEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.cantidadprocesadoresEquipo}"
+                                  headerText="#{bundle.cantidadprocesadoresEquipo}"
+                                  filterBy="#{item.cantidadprocesadoresEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.cantidadprocesadoresEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.velocidadprocesadorEquipo}"
+                                  headerText="#{bundle.velocidadprocesadorEquipo}"
+                                  filterBy="#{item.velocidadprocesadorEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.velocidadprocesadorEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.versionprocesadorEquipo}"
+                                  headerText="#{bundle.versionprocesadorEquipo}"
+                                  filterBy="#{item.versionprocesadorEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.versionprocesadorEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.cantidadcoresEquipo}"
+                                  headerText="#{bundle.cantidadcoresEquipo}"
+                                  filterBy="#{item.cantidadcoresEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.cantidadcoresEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.cantidadthreadscoresEquipo}"
+                                  headerText="#{bundle.cantidadthreadscoresEquipo}"
+                                  filterBy="#{item.cantidadthreadscoresEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.cantidadthreadscoresEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.capacidadinstaladaramEquipo}"
+                                  headerText="#{bundle.capacidadinstaladaramEquipo}"
+                                  filterBy="#{item.capacidadinstaladaramEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.capacidadinstaladaramEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.velocidadramEquipo}"
+                                  headerText="#{bundle.velocidadramEquipo}"
+                                  filterBy="#{item.velocidadramEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.velocidadramEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.cantidadslotsramEquipo}"
+                                  headerText="#{bundle.cantidadslotsramEquipo}"
+                                  filterBy="#{item.cantidadslotsramEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.cantidadslotsramEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.cantidadslotsutilizadasramEquipo}"
+                                  headerText="#{bundle.cantidadslotsutilizadasramEquipo}"
+                                  filterBy="#{item.cantidadslotsutilizadasramEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.cantidadslotsutilizadasramEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.posicionesutilizadasslotsramEquipo}"
+                                  headerText="#{bundle.posicionesutilizadasslotsramEquipo}"
+                                  filterBy="#{item.posicionesutilizadasslotsramEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.posicionesutilizadasslotsramEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.cantidadtotaldiscosEquipo}"
+                                  headerText="#{bundle.cantidadtotaldiscosEquipo}"
+                                  filterBy="#{item.cantidadtotaldiscosEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.cantidadtotaldiscosEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.cantidaddiscosutilizadosEquipo}"
+                                  headerText="#{bundle.cantidaddiscosutilizadosEquipo}"
+                                  filterBy="#{item.cantidaddiscosutilizadosEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.cantidaddiscosutilizadosEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.cantidaddiscosvaciosEquipo}"
+                                  headerText="#{bundle.cantidaddiscosvaciosEquipo}"
+                                  filterBy="#{item.cantidaddiscosvaciosEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.cantidaddiscosvaciosEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.capacidadtotaldiscoEquipo}"
+                                  headerText="#{bundle.capacidadtotaldiscoEquipo}"
+                                  filterBy="#{item.capacidadtotaldiscoEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.capacidadtotaldiscoEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.frudiscoEquipo}"
+                                  headerText="#{bundle.frudiscoEquipo}"
+                                  filterBy="#{item.frudiscoEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.frudiscoEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.informaciondiscoEquipo}"
+                                  headerText="#{bundle.informaciondiscoEquipo}"
+                                  filterBy="#{item.informaciondiscoEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.informaciondiscoEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.raiddiscoEquipo}"
+                                  headerText="#{bundle.raiddiscoEquipo}"
+                                  filterBy="#{item.raiddiscoEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.raiddiscoEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.sistemaoperativoEquipo}"
+                                  headerText="#{bundle.sistemaoperativoEquipo}"
+                                  filterBy="#{item.sistemaoperativoEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.sistemaoperativoEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.sistemaoperativodistribucionEquipo}"
+                                  headerText="#{bundle.sistemaoperativodistribucionEquipo}"
+                                  filterBy="#{item.sistemaoperativodistribucionEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.sistemaoperativodistribucionEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.sistemaoperativoversionEquipo}"
+                                  headerText="#{bundle.sistemaoperativoversionEquipo}"
+                                  filterBy="#{item.sistemaoperativoversionEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.sistemaoperativoversionEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.sistemaoperativosubversionEquipo}"
+                                  headerText="#{bundle.sistemaoperativosubversionEquipo}"
+                                  filterBy="#{item.sistemaoperativosubversionEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.sistemaoperativosubversionEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.cantidadtotalinterfacesredEquipo}"
+                                  headerText="#{bundle.cantidadtotalinterfacesredEquipo}"
+                                  filterBy="#{item.cantidadtotalinterfacesredEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.cantidadtotalinterfacesredEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.tienemovimientovmotionEquipo}"
+                                  headerText="#{bundle.tienemovimientovmotionEquipo}"
+                                  filterBy="#{item.tienemovimientovmotionEquipo}" filterMatchMode="contains">
+                            <p:selectBooleanCheckbox value="#{item.tienemovimientovmotionEquipo}" disabled="true"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.funcionalidadEquipo}"
+                                  headerText="#{bundle.funcionalidadEquipo}"
+                                  filterBy="#{item.funcionalidadEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.funcionalidadEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.proyectosistemaareaEquipo}"
+                                  headerText="#{bundle.proyectosistemaareaEquipo}"
+                                  filterBy="#{item.proyectosistemaareaEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.proyectosistemaareaEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.responsableapagadoEquipo}"
+                                  headerText="#{bundle.responsableapagadoEquipo}"
+                                  filterBy="#{item.responsableapagadoEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.responsableapagadoEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.etiquetaEquipo}"
+                                  headerText="#{bundle.etiquetaEquipo}"
+                                  filterBy="#{item.etiquetaEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.etiquetaEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.controlbienesEquipo}"
+                                  headerText="#{bundle.controlbienesEquipo}"
+                                  filterBy="#{item.controlbienesEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.controlbienesEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.fechaadquisicionEquipo}"
+                                  headerText="#{bundle.fechaadquisicionEquipo}"
+                                  filterBy="#{item.fechaadquisicionEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.fechaadquisicionEquipo}">
+                                <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"  timeZone="GMT-5" locale="es_ES" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.faseadquisicionEquipo}"
+                                  headerText="#{bundle.faseadquisicionEquipo}"
+                                  filterBy="#{item.faseadquisicionEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.faseadquisicionEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.hitoadquisicionEquipo}"
+                                  headerText="#{bundle.hitoadquisicionEquipo}"
+                                  filterBy="#{item.hitoadquisicionEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.hitoadquisicionEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.observacionEquipo}"
+                                  headerText="#{bundle.observacionEquipo}"
+                                  filterBy="#{item.observacionEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.observacionEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.imagenEquipo}"
+                                  headerText="#{bundle.imagenEquipo}"
+                                  filterBy="#{item.imagenEquipo}" filterMatchMode="contains">
+                            <!--<h:outputText value="#{item.imagenEquipo}"/>-->
+                            <p:graphicImage value="#{item.imagenEquipo}" alt="image" cache="false" 
+                                            library="#{item.imagenEquipo}" 
+                                            stream="base64" rendered="#{item.imagenEquipo != null}"
+                                            style="width: 50%; display: block" />
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.servicioEquipo}"
+                                  headerText="#{bundle.servicioEquipo}"
+                                  filterBy="#{item.servicioEquipo}" filterMatchMode="contains">
+                            <h:outputText value="#{item.servicioEquipo}"/>
+                        </p:column>
+                        <p:column visible="false"
+                                  sortBy="#{item.idProveedor}"
+                                  headerText="#{bundle.idProveedor}"
+                                  filterBy="#{item.idProveedor}" filterMatchMode="contains">
+                            <h:outputText value="#{item.idProveedor.nombreProveedor}"/>
+                        </p:column>
+                        <p:column
+                            sortBy="#{item.idRack}"
+                            headerText="#{bundle.idRack}"
+                            filterBy="#{item.idRack.nombreRack}" filterMatchMode="contains">
+                            <h:outputText value="#{item.idRack.nombreRack}"/>
+                        </p:column>
+                        <p:column
+                            sortBy="#{item.idRack.idCentrodatos}"
+                            headerText="#{bundle.idCentrodatos}"
+                            filterBy="#{item.idRack.idCentrodatos.nombreCentrodatos}" filterMatchMode="contains">
+                            <h:outputText value="#{item.idRack.idCentrodatos.nombreCentrodatos}"/>
+                        </p:column>
+
+                        <f:facet name="footer">                                
+
+                        </f:facet>
+                    </p:dataTable>
+                </h:panelGroup>
+            </h:form>
+
+            <f:facet name="footer">
+                <h:form style="text-align: center !important;">
+                    <p:commandButton type="button" value="#{bundle.Exit}" onclick="PF('DetalleEquiposMantenimientoListDialog').hide()" icon="pi pi-times" styleClass="rounded-button ui-button-danger"
+                                     update=":growl :MantenimientoCreateForm:datalist"/>
+                </h:form>
+            </f:facet>
+
+        </p:dialog>
+
+    </ui:composition>
+</html>
+

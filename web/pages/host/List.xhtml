@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.List} #{bundle.Host}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+
+            <style type="text/css">
+                button.ui-button {
+                    margin-right: .1rem;
+                }
+            </style>
+
+            <h:form id="HostListForm">
+                <p:dataTable id="datalist" value="#{hostController.items}" var="item"
+                             emptyMessage="#{bundle.NoRecordsFound}"
+                             rowKey="#{item.idHost}"  sortMode="multiple"
+                             paginator="true" rows="10"  rowsPerPageTemplate="5,10,15,20,30,40,50,70,100"
+                             currentPageReportTemplate="#{bundle.Total}:{totalRecords}   #{bundle.Page}:{currentPage}/{totalPages}"
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport}"
+                             paginatorPosition="bottom"  paginatorAlwaysVisible="true"
+                             widgetVar="HostTable" filterEvent="keyup"
+                             
+                             scrollable="false" reflow="true">
+
+                    <f:facet name="header">
+                        <div style="align-content: center; text-align: center;">
+                                
+                             <p:panelGrid columns="3" 
+                                         styleClass="ui-panelgrid-blank ui-fluid"
+                                         columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4"
+                                         layout="grid"
+                                         style="border:0px none; background-color:transparent!important;">
+                                <p:column>
+
+                                </p:column>
+                                <p:column>
+                                    <i class="pi pi-file" style="font-size: 2rem; color:#004258;"></i> 
+                                    <p:spacer width="10px"/>
+                                    <p:outputLabel value="#{bundle.List} #{bundle.Host}" class="titulo_tabla"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="#{bundle.Tipshost}" title="#{bundle.TableTips}" />
+                                </p:column>
+                            </p:panelGrid>
+
+                            
+                            <p:commandButton id="refreshButton" title="#{bundle.Refresh}" actionListener="#{hostController.refreshRows}" 
+                                             update=":growl,datalist" icon="pi pi-refresh" styleClass="ui-button-info ui-button-outlined ui-button-raised"/>
+                            <p:commandButton id="createButton" title="#{bundle.Create}" value="#{bundle.Create}" actionListener="#{hostController.prepareCreate}" 
+                                             update=":HostCreateForm" oncomplete="PF('HostCreateDialog').show()" icon="pi pi-plus" styleClass="ui-button-raised ui-button-info"/>
+                            <p:commandButton id="toggler" type="button" title="#{bundle.SelectColumns}"
+                                             icon="pi pi-list" styleClass="ui-button-outlined ui-button-raised"/>
+                            <p:columnToggler datasource="datalist" trigger="toggler" />
+
+                            <p:separator/>
+                        </div>
+
+                    </f:facet>
+
+                    <p:column visible="false"
+                              sortBy="#{item.idHost}"
+                              headerText="#{bundle.idHost}"
+                              filterBy="#{item.idHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.idHost}"/>
+                    </p:column>
+                    <p:column visible="false"
+                              sortBy="#{item.codigoHost}"
+                              headerText="#{bundle.codigoHost}"
+                              filterBy="#{item.codigoHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.codigoHost}"/>
+                    </p:column>
+                    <p:column 
+                        sortBy="#{item.hostnameHost}"
+                        headerText="#{bundle.hostnameHost}"
+                        filterBy="#{item.hostnameHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.hostnameHost}"/>
+                    </p:column>
+                    <p:column
+                        sortBy="#{item.descripcionHost}"
+                        headerText="#{bundle.descripcionHost}"
+                        filterBy="#{item.descripcionHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.descripcionHost}"/>
+                    </p:column>
+                    <p:column
+                        sortBy="#{item.ipadministracionHost}"
+                        headerText="#{bundle.ipadministracionHost}"
+                        filterBy="#{item.ipadministracionHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.ipadministracionHost}"/>
+                    </p:column>
+                    <p:column visible="false"
+                              sortBy="#{item.ipproduccionHost}"
+                              headerText="#{bundle.ipproduccionHost}"
+                              filterBy="#{item.ipproduccionHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.ipproduccionHost}"/>
+                    </p:column>
+                    <p:column visible="false"
+                              sortBy="#{item.ipvmotionHost}"
+                              headerText="#{bundle.ipvmotionHost}"
+                              filterBy="#{item.ipvmotionHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.ipvmotionHost}"/>
+                    </p:column>
+                    <p:column
+                        sortBy="#{item.estadoHost}"
+                        headerText="#{bundle.estadoHost}"
+                        filterBy="#{item.estadoHost}" filterMatchMode="contains">
+                        <!--<p:selectBooleanCheckbox value="#{item.estadoHost}" disabled="true"/>-->
+                        <p:tag styleClass="p-mr-2" icon="#{item.estadoHost eq true ? 'pi pi-sun': 'pi pi-moon'}" severity="#{item.estadoHost eq true ? 'info': 'warning'}" 
+                               value="#{item.estadoHost eq true ? 'Encendido': 'Apagado'}" rounded="false"></p:tag>
+                    </p:column>
+
+                    <p:column
+                        sortBy="#{item.idEquipo.nombreEquipo}"
+                        headerText="#{bundle.idEquipoVirtualizador}"
+                        filterBy="#{item.idEquipo.nombreEquipo}" filterMatchMode="contains">
+                        <h:outputText value="#{item.idEquipo.nombreEquipo} (Ip: #{item.idEquipo.ipadministracionEquipo})"/>
+                    </p:column>
+                    <p:column visible="false"
+                              sortBy="#{item.cantidadprocesadoresHost}"
+                              headerText="#{bundle.cantidadprocesadoresHost}"
+                              filterBy="#{item.cantidadprocesadoresHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.cantidadprocesadoresHost}"/>
+                    </p:column>
+                    <p:column visible="false"
+                              sortBy="#{item.versionprocesadorHost}"
+                              headerText="#{bundle.versionprocesadorHost}"
+                              filterBy="#{item.versionprocesadorHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.versionprocesadorHost}"/>
+                    </p:column>
+                    <p:column visible="false"
+                              sortBy="#{item.cantidadcoresHost}"
+                              headerText="#{bundle.cantidadcoresHost}"
+                              filterBy="#{item.cantidadcoresHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.cantidadcoresHost}"/>
+                    </p:column>
+                    <p:column visible="false"
+                              sortBy="#{item.cantidadthreadscoresHost}"
+                              headerText="#{bundle.cantidadthreadscoresHost}"
+                              filterBy="#{item.cantidadthreadscoresHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.cantidadthreadscoresHost}"/>
+                    </p:column>
+                    <p:column visible="false"
+                              sortBy="#{item.capacidadinstaladaramHost}"
+                              headerText="#{bundle.capacidadinstaladaramHost}"
+                              filterBy="#{item.capacidadinstaladaramHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.capacidadinstaladaramHost}"/>
+                    </p:column>
+                    <p:column visible="false"
+                              sortBy="#{item.cantidadtotaldiscosHost}"
+                              headerText="#{bundle.cantidadtotaldiscosHost}"
+                              filterBy="#{item.cantidadtotaldiscosHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.cantidadtotaldiscosHost}"/>
+                    </p:column>
+                    <p:column visible="false"
+                              sortBy="#{item.capacidadtotaldiscoHost}"
+                              headerText="#{bundle.capacidadtotaldiscoHost}"
+                              filterBy="#{item.capacidadtotaldiscoHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.capacidadtotaldiscoHost}"/>
+                    </p:column>
+                    <p:column visible="false"
+                              sortBy="#{item.sistemaoperativoHost}"
+                              headerText="#{bundle.sistemaoperativoHost}"
+                              filterBy="#{item.sistemaoperativoHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.sistemaoperativoHost}"/>
+                    </p:column>
+                    <p:column visible="false"
+                              sortBy="#{item.sistemaoperativodistribucionHost}"
+                              headerText="#{bundle.sistemaoperativodistribucionHost}"
+                              filterBy="#{item.sistemaoperativodistribucionHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.sistemaoperativodistribucionHost}"/>
+                    </p:column>
+                    <p:column visible="false"
+                              sortBy="#{item.sistemaoperativoversionHost}"
+                              headerText="#{bundle.sistemaoperativoversionHost}"
+                              filterBy="#{item.sistemaoperativoversionHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.sistemaoperativoversionHost}"/>
+                    </p:column>
+                    <p:column visible="false"
+                              sortBy="#{item.sistemaoperativosubversionHost}"
+                              headerText="#{bundle.sistemaoperativosubversionHost}"
+                              filterBy="#{item.sistemaoperativosubversionHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.sistemaoperativosubversionHost}"/>
+                    </p:column>
+                    <p:column visible="false"
+                              sortBy="#{item.cantidadtotalinterfacesredHost}"
+                              headerText="#{bundle.cantidadtotalinterfacesredHost}"
+                              filterBy="#{item.cantidadtotalinterfacesredHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.cantidadtotalinterfacesredHost}"/>
+                    </p:column>
+                    <p:column visible="false"
+                              sortBy="#{item.tienemovimientovmotionHost}"
+                              headerText="#{bundle.tienemovimientovmotionHost}"
+                              filterBy="#{item.tienemovimientovmotionHost}" filterMatchMode="contains">
+                        <p:selectBooleanCheckbox value="#{item.tienemovimientovmotionHost}" disabled="true"/>
+                    </p:column>
+                    <p:column visible="false"
+                              sortBy="#{item.funcionalidadHost}"
+                              headerText="#{bundle.funcionalidadHost}"
+                              filterBy="#{item.funcionalidadHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.funcionalidadHost}"/>
+                    </p:column>
+                    <p:column visible="false"
+                              sortBy="#{item.proyectosistemaareaHost}"
+                              headerText="#{bundle.proyectosistemaareaHost}"
+                              filterBy="#{item.proyectosistemaareaHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.proyectosistemaareaHost}"/>
+                    </p:column>
+                    <p:column visible="false"
+                              sortBy="#{item.responsableapagadoHost}"
+                              headerText="#{bundle.responsableapagadoHost}"
+                              filterBy="#{item.responsableapagadoHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.responsableapagadoHost}"/>
+                    </p:column>
+                    <p:column visible="false"
+                              sortBy="#{item.observacionHost}"
+                              headerText="#{bundle.observacionHost}"
+                              filterBy="#{item.observacionHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.observacionHost}"/>
+                    </p:column>
+                    <p:column visible="false"
+                              sortBy="#{item.servicioHost}"
+                              headerText="#{bundle.servicioHost}"
+                              filterBy="#{item.servicioHost}" filterMatchMode="contains">
+                        <h:outputText value="#{item.servicioHost}"/>
+                    </p:column>
+
+                    <!--Botones de acciones-->
+                    <p:column headerText="#{bundle.Actions}">
+                        <p:commandButton title="#{bundle.View}" ajax="true" update=":HostViewForm" oncomplete="PF('HostViewDialog').show()" icon="pi pi-search" styleClass="rounded-button ui-button-success">
+                            <f:setPropertyActionListener value="#{item}" target="#{hostController.selected}" />
+                        </p:commandButton>
+                        <p:commandButton title="#{bundle.Edit}" update=":HostEditForm" oncomplete="PF('HostEditDialog').show()" icon="pi pi-pencil" styleClass="rounded-button ui-button-info">
+                            <f:setPropertyActionListener value="#{item}" target="#{hostController.selected}" />
+                        </p:commandButton>
+                        <p:commandButton title="#{bundle.Delete}" actionListener="#{hostController.eliminar(item)}" update=":growl,datalist" icon="pi pi-trash" styleClass="rounded-button ui-button-danger" >
+                            <p:confirm header="#{bundle.ConfirmDeletion}" message="#{bundle.AreYouSureDelete}" icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:confirmDialog global="true">
+                            <p:commandButton value="#{bundle.Yes}" type="button" styleClass="ui-confirmdialog-yes rounded-button ui-button-success"
+                                             icon="pi pi-check" />
+                            <p:commandButton value="#{bundle.No}" type="button" styleClass="ui-confirmdialog-no rounded-button ui-button-danger"
+                                             icon="pi pi-times" />
+                        </p:confirmDialog>
+                    </p:column>
+
+                    <f:facet name="footer">                                
+
+                    </f:facet>
+                </p:dataTable>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

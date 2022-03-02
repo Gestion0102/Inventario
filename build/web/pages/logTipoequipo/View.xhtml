@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LogTipoequipoViewDlg" widgetVar="LogTipoequipoViewDialog"
+                  header="#{bundle.View} #{bundle.LogTipoequipo}"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="LogTipoequipoViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" rendered="#{logTipoequipoController.selected != null}">
+                        <h:outputText value="#{bundle.idLogtipoequipo}"/>
+                        <h:outputText value="#{logTipoequipoController.selected.idLogtipoequipo}" />
+                        <h:outputText value="#{bundle.tipocrudLogtipoequipo}"/>
+                        <h:outputText value="#{logTipoequipoController.selected.tipocrudLogtipoequipo}" />
+                        <h:outputText value="#{bundle.fechaLog}"/>
+                        <h:outputText value="#{logTipoequipoController.selected.fechaLogtipoequipo}">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" timeZone="GMT-5" locale="es_EC" readonlyInput="true" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.idTipoequipo}"/>
+                        <h:outputText value="#{logTipoequipoController.selected.idTipoequipo.nombreTipoequipo}" />
+                        <h:outputText value="#{bundle.idUsuarioCrud}"/>
+                        <h:outputText value="#{logTipoequipoController.selected.idUsuario.nombreUsuario}" />
+                        <h:outputText value="#{bundle.codigoLogtipoequipo}"/>
+                        <h:outputText value="#{logTipoequipoController.selected.codigoLogtipoequipo}" />
+                        <h:outputText value="#{bundle.nombreLogtipoequipo}"/>
+                        <h:outputText value="#{logTipoequipoController.selected.nombreLogtipoequipo}" />
+                        <h:outputText value="#{bundle.descripcionLogtipoequipo}"/>
+                        <h:outputText value="#{logTipoequipoController.selected.descripcionLogtipoequipo}" />
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+
+            <f:facet name="footer">
+                <h:form style="text-align: center !important;">
+                    <p:commandButton type="button"  value="#{bundle.Close}" onclick="PF('LogTipoequipoViewDialog').hide()"
+                                     icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                </h:form>
+            </f:facet>
+        </p:dialog>
+
+    </ui:composition>
+</html>

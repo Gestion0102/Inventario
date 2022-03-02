@@ -1,0 +1,109 @@
+/*Permite definir los estilos para los componentes visuales del sistema*/
+
+/*.ui-widget {
+    font-size: 11px;
+}*/
+
+.ui-layout-north {
+    z-index: 20 !important;
+    overflow: visible !important;;
+}
+.ui-layout-north .ui-layout-unit-content {
+    overflow: visible !important;
+}
+.ui-widget-header {
+    text-align: center;
+    text-transform: uppercase;
+}
+.ui-button {
+    margin-top: 10px !important;
+}
+
+img.alinear_img_center {
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.alinear_contenedor_centro{
+    background-color: #fafafa;
+    margin: 1rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    padding: 1.5rem;
+    border: 2px solid #ccc;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.alinear_contenedor_derecha{
+    background-color: #fafafa;
+    margin: 1rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    padding: 1.5rem;
+    border: 2px solid #ccc;
+    /*text-align: center;*/
+    float: right;
+}
+
+
+.block {
+    display: block;
+    width: 100%;
+    border: none;
+    background-color: #04AA6D;
+    color: white;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+}
+
+btn.bloque{
+    display: block!important;
+    width: 100%!important;
+    border: none!important;
+}
+
+/*//////////////////////////////////////
+Estilo para objeto autocompletar
+//////////////////////////////////////*/
+.ui-autocomplete{
+    display: inline!important;
+    /*width: 100%!important;*/
+    margin: 5px 0px 5px 10px;
+}
+
+.ui-autocomplete-input.ui-inputfield.ui-widget.ui-state-default.ui-corner-all{
+    display: inline!important;
+    font-size: 16px!important;
+    /*display: block!important;*/
+    width: 60%!important;
+    padding: 5px;
+}
+
+/*//////////////////////////////////////
+Estilo para row seleccionado en tabla de equipo para mantenimiento
+//////////////////////////////////////*/
+.cheap {
+    background-color: #54a90a !important;
+    background-image: none !important;
+    color: #ffffff !important;
+}
+
+/*//////////////////////////////////////
+Estilo para encabezados de las tablas
+//////////////////////////////////////*/
+th {
+    /*color: white !important;*/
+    background-color: #00BCD4 !important;
+    text-align: center!important;
+    align-content: center;
+}
+
+.ui-password.ui-password-masked.ui-inputwrapper.ui-input-icon-right{
+display: grid !important;
+width: 100% !important;
+}

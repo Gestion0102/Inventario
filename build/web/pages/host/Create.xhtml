@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="HostCreateDlg" widgetVar="HostCreateDialog" 
+                  header="#{bundle.Create} #{bundle.Host}" width="85%"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true"
+                  onHide="PF('wiz').loadStep('principal', false)">
+
+            <h:form id="HostCreateForm">
+                <h:panelGroup id="display">
+
+                    <p:wizard id="wzd" widgetVar="wiz" flowListener="#{hostController.onFlowProcess}"
+                              backLabel="Anterior" nextLabel="Siguiente">
+                        <p:tab id="principal" title="Información principal">
+                            
+                            <p:panel header="Información principal del host">
+                                <p:messages id="msg"/>
+                                <p:panelGrid columns="4" rendered="#{hostController.selected != null}"
+                                             columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                             layout="grid"
+                                             styleClass="ui-panelgrid-blank ui-fluid"
+                                             style="border:0px none; background-color:transparent;">
+                                    <!--                            <p:outputLabel value="#{bundle.idHost}" for="idHost" />
+                            <p:outputLabel id="idHost" value="#{bundle.SetAutomatically}"   />
+                            <p:outputLabel value="#{bundle.codigoHost}" for="codigoHost" />
+                            <p:inputText id="codigoHost" value="#{hostController.selected.codigoHost}"  />-->
+                                    <p:outputLabel value="#{bundle.idEquipoVirtualizador}" for="idEquipo" />
+                                    <p:selectOneMenu filter="true" id="idEquipo" value="#{hostController.selected.idEquipo}" required="true" >
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                                        <f:selectItems value="#{equipoController.itemsAvailableSelectOne}"
+                                                       var="idEquipoItem"
+                                                       itemLabel="#{idEquipoItem.nombreEquipo} (Ip: #{idEquipoItem.ipadministracionEquipo})"
+                                                       itemValue="#{idEquipoItem}"/>
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="#{bundle.estadoHost}" for="estadoHost" />
+                                    <!--<p:selectBooleanCheckbox id="estadoHost" value="#{hostController.selected.estadoHost}" />-->
+                                    <p:selectOneButton id="estadoHost" value="#{hostController.selected.estadoHost}"
+                                                       required="true" >
+                                        <f:selectItem itemValue="#{true}" itemLabel="Encendido" />
+                                        <f:selectItem itemValue="#{false}" itemLabel="Apagado"/>
+                                    </p:selectOneButton>
+
+                                    <p:outputLabel value="#{bundle.hostnameHost}" for="hostnameHost" />
+                                    <p:inputText id="hostnameHost" value="#{hostController.selected.hostnameHost}" required="true"  />
+                                    <p:outputLabel value="#{bundle.descripcionHost}" for="descripcionHost" />
+                                    <p:inputText id="descripcionHost" value="#{hostController.selected.descripcionHost}" required="true"  />
+                                    <p:outputLabel value="#{bundle.ipadministracionHost}" for="ipadministracionHost" />
+                                    <p:inputText id="ipadministracionHost" value="#{hostController.selected.ipadministracionHost}" 
+                                                 validator="ipValidator" required="true"  />
+
+                                </p:panelGrid>
+<!--                                <div style="text-align: right;">
+                                    <p:outputLabel value="Ir al final: "/>
+                                    <p:selectBooleanCheckbox value="#{equipoController.skip}"/>
+                                </div>-->
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab id="adicional" title="Información adicional">
+                            <p:panel header="Información Adicional">
+                                <p:messages />
+                                <p:panelGrid columns="4" rendered="#{hostController.selected != null}"
+                                             columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                             layout="grid"
+                                             styleClass="ui-panelgrid-blank ui-fluid"
+                                             style="border:0px none; background-color:transparent;">
+                                    <p:outputLabel value="#{bundle.ipproduccionHost}" for="ipproduccionHost" />
+                                    <p:inputText id="ipproduccionHost" value="#{hostController.selected.ipproduccionHost}" validator="ipValidator" />
+                                    <p:outputLabel value="#{bundle.ipvmotionHost}" for="ipvmotionHost" />
+                                    <p:inputText id="ipvmotionHost" value="#{hostController.selected.ipvmotionHost}" validator="ipValidator"  />
+                                    <p:outputLabel value="#{bundle.cantidadprocesadoresHost}" for="cantidadprocesadoresHost" />
+                                    <p:inputText id="cantidadprocesadoresHost" value="#{hostController.selected.cantidadprocesadoresHost}"  />
+                                    <p:outputLabel value="#{bundle.versionprocesadorHost}" for="versionprocesadorHost" />
+                                    <p:inputText id="versionprocesadorHost" value="#{hostController.selected.versionprocesadorHost}"  />
+                                    <p:outputLabel value="#{bundle.cantidadcoresHost}" for="cantidadcoresHost" />
+                                    <p:inputText id="cantidadcoresHost" value="#{hostController.selected.cantidadcoresHost}"  />
+                                    <p:outputLabel value="#{bundle.cantidadthreadscoresHost}" for="cantidadthreadscoresHost" />
+                                    <p:inputText id="cantidadthreadscoresHost" value="#{hostController.selected.cantidadthreadscoresHost}"  />
+                                    <p:outputLabel value="#{bundle.capacidadinstaladaramHost}" for="capacidadinstaladaramHost" />
+                                    <p:inputText id="capacidadinstaladaramHost" value="#{hostController.selected.capacidadinstaladaramHost}"  />
+                                    <p:outputLabel value="#{bundle.cantidadtotaldiscosHost}" for="cantidadtotaldiscosHost" />
+                                    <p:inputText id="cantidadtotaldiscosHost" value="#{hostController.selected.cantidadtotaldiscosHost}"  />
+                                    <p:outputLabel value="#{bundle.capacidadtotaldiscoHost}" for="capacidadtotaldiscoHost" />
+                                    <p:inputText id="capacidadtotaldiscoHost" value="#{hostController.selected.capacidadtotaldiscoHost}"  />
+                                    <p:outputLabel value="#{bundle.sistemaoperativoHost}" for="sistemaoperativoHost" />
+                                    <p:inputText id="sistemaoperativoHost" value="#{hostController.selected.sistemaoperativoHost}"  />
+                                    <p:outputLabel value="#{bundle.sistemaoperativodistribucionHost}" for="sistemaoperativodistribucionHost" />
+                                    <p:inputText id="sistemaoperativodistribucionHost" value="#{hostController.selected.sistemaoperativodistribucionHost}"  />
+                                    <p:outputLabel value="#{bundle.sistemaoperativoversionHost}" for="sistemaoperativoversionHost" />
+                                    <p:inputText id="sistemaoperativoversionHost" value="#{hostController.selected.sistemaoperativoversionHost}"  />
+                                    <p:outputLabel value="#{bundle.sistemaoperativosubversionHost}" for="sistemaoperativosubversionHost" />
+                                    <p:inputText id="sistemaoperativosubversionHost" value="#{hostController.selected.sistemaoperativosubversionHost}"  />
+                                    <p:outputLabel value="#{bundle.cantidadtotalinterfacesredHost}" for="cantidadtotalinterfacesredHost" />
+                                    <p:inputText id="cantidadtotalinterfacesredHost" value="#{hostController.selected.cantidadtotalinterfacesredHost}"  />
+                                    <p:outputLabel value="#{bundle.tienemovimientovmotionHost}" for="tienemovimientovmotionHost" />
+                                    <p:selectBooleanCheckbox id="tienemovimientovmotionHost" value="#{hostController.selected.tienemovimientovmotionHost}" />
+                                    <p:outputLabel value="#{bundle.funcionalidadHost}" for="funcionalidadHost" />
+                                    <p:inputText id="funcionalidadHost" value="#{hostController.selected.funcionalidadHost}"  />
+                                    <p:outputLabel value="#{bundle.proyectosistemaareaHost}" for="proyectosistemaareaHost" />
+                                    <p:inputText id="proyectosistemaareaHost" value="#{hostController.selected.proyectosistemaareaHost}"  />
+                                    <p:outputLabel value="#{bundle.responsableapagadoHost}" for="responsableapagadoHost" />
+                                    <p:inputText id="responsableapagadoHost" value="#{hostController.selected.responsableapagadoHost}"  />
+                                    <p:outputLabel value="#{bundle.observacionHost}" for="observacionHost" />
+                                    <p:inputText id="observacionHost" value="#{hostController.selected.observacionHost}"  />
+                                    <p:outputLabel value="#{bundle.servicioHost}" for="servicioHost" />
+                                    <p:inputText id="servicioHost" value="#{hostController.selected.servicioHost}"  />
+                                </p:panelGrid>
+                            </p:panel>
+                            <div style="text-align: center !important;">
+                                <p:commandButton actionListener="#{hostController.crear}" value="#{bundle.Save}" update="display,:HostListForm:datalist,:growl" oncomplete="handleSubmit(args,'HostCreateDialog');" icon="pi pi-check" styleClass="rounded-button ui-button-info"/>
+                                <p:commandButton type="button" value="#{bundle.Cancel}" onclick="PF('HostCreateDialog').hide();PF('wiz').loadStep('principal', false)" icon="pi pi-times" styleClass="rounded-button ui-button-danger" update="HostCreateForm"/>
+                            </div>
+                        </p:tab>
+
+                    </p:wizard>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
+

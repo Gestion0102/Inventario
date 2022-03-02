@@ -1,0 +1,23 @@
+login.css
+
+#body{
+    font-size: 14px;
+    color: #000000;
+    margin: 10px;
+    color: red!important;
+    background-color: #93c3cd!important;
+    background-image:url(#{request.contextPath}/resources/imagenes/CDN_blanco.png);
+    background-size: cover;
+    background-repeat: no-repeat; 
+    background-attachment:fixed;
+}
+
+.login{
+    width: 425px;
+    margin-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+

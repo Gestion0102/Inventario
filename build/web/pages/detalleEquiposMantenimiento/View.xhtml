@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DetalleEquiposMantenimientoViewDlg" widgetVar="DetalleEquiposMantenimientoViewDialog"
+                  header="#{bundle.View} #{bundle.DetalleEquiposMantenimiento}"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="DetalleEquiposMantenimientoViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" rendered="#{detalleEquiposMantenimientoController.selected != null}">
+<!--                        <h:outputText value="#{bundle.idDetalleequipomantenimiento}"/>
+                        <h:outputText value="#{detalleEquiposMantenimientoController.selected.idDetalleequipomantenimiento}" />
+                        <h:outputText value="#{bundle.codigoDetalleequipomantenimiento}"/>
+                        <h:outputText value="#{detalleEquiposMantenimientoController.selected.codigoDetalleequipomantenimiento}" />-->
+                        <h:outputText value="#{bundle.coberturaDetalleequipomantenimiento}"/>
+                        <h:outputText value="#{detalleEquiposMantenimientoController.selected.coberturaDetalleequipomantenimiento}" />
+                        <h:outputText value="#{bundle.idEquipo}"/>
+                        <p:column>
+                            <h:outputText value="#{detalleEquiposMantenimientoController.selected.idEquipo.serieEquipo}" />
+                            <p:commandButton title="#{bundle.View}" ajax="true" update=":EquipoViewForm" oncomplete="PF('EquipoViewDialog').show()" icon="pi pi-search" styleClass="rounded-button ui-button-success">
+                                <f:setPropertyActionListener value="#{detalleEquiposMantenimientoController.selected.idEquipo}" target="#{equipoController.selected}" />
+                            </p:commandButton>
+                        </p:column>
+                        <h:outputText value="#{bundle.idMantenimiento}"/>
+                        <h:outputText value="#{detalleEquiposMantenimientoController.selected.idMantenimiento.nombreMantenimiento}" />
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+
+<!--            <ui:include src="..\equipo\View.xhtml"/>-->
+
+
+            <f:facet name="footer">
+                <h:form style="text-align: center !important;">
+                    <p:commandButton type="button"  value="#{bundle.Close}" onclick="PF('DetalleEquiposMantenimientoViewDialog').hide()"
+                                     icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                </h:form>
+            </f:facet>
+        </p:dialog>
+
+    </ui:composition>
+</html>

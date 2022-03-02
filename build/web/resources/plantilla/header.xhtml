@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core" >
+
+    <h2 class="titulo"> #{bundle.AppName}</h2>
+
+
+    <h:form id="menuForm">
+
+        <p:menubar model="#{menuView.model}">
+            <f:facet name="options">
+                <p:menuButton title="Opciones del usuario" buttonStyleClass="ui-button-outlined" buttonStyle="box-shadow: 0 0 10px" icon="pi pi-user">
+                    <!--<p:menuitem value="Mi información" action="#{menuView.delete}" update=":growl" icon="pi pi-user-edit"/>-->
+                    <p:menuitem value="Cambiar mi información" update=":MiUsuarioEditForm" oncomplete="PF('MiUsuarioEditDialog').show()"
+                                icon="pi pi-user-edit">
+                        <f:setPropertyActionListener value="#{controladorSesionUsuario.usuarioLogeado}" target="#{usuarioController.selected}" />
+                    </p:menuitem>
+                    <p:menuitem value="Cambiar mi contraseña" update=":MiUsuarioChangeForm" oncomplete="PF('MiUsuarioChangeDialog').show()"
+                                icon="pi pi-key">
+                        <f:setPropertyActionListener value="#{controladorSesionUsuario.usuarioLogeado}" target="#{usuarioController.selected}" />
+                    </p:menuitem>
+
+                    <p:divider/>
+                    <p:menuitem value="Cerrar sesión" action="#{controladorLogin.cerrarSesionUsuario()}" update=":growl" icon="pi pi-fw pi-sign-out" />
+                </p:menuButton>
+
+            </f:facet>
+        </p:menubar>
+
+        <!--        <p:menubar style="font-style: normal" >
+                    <p:menuitem value="#{bundle.Home}" outcome="/bienvenida" icon= "pi pi-home"/>
+        
+                    <p:submenu label="Gestión de Accesos" icon= "pi pi-bars">
+                        <p:menuitem value="Opción del Sistema" outcome="/pages/opcionSistema/List.xhtml" icon="pi pi-microsoft"/>
+                        <p:menuitem value="Tipo Usuario" outcome="/pages/tipoUsuario/List.xhtml" icon="pi pi-users"/>
+                        <p:menuitem value="Usuario" outcome="/pages/usuario/List.xhtml" icon="pi pi-user" />
+                        <p:menuitem value="PermisoAcceso" outcome="/pages/permisoAcceso/List.xhtml" />
+                    </p:submenu>
+                    <p:divider layout="vertical"/>
+                    <p:submenu label="Gestión de información" icon= "pi pi-bars">
+                        <p:menuitem outcome="welcomePrimefaces" value="Primefaces welcome page" />
+        
+        
+                        <p:menuitem value="Centro Datos" outcome="/pages/centroDatos/List.xhtml"  icon="pi pi-building"/>
+                        <p:menuitem value="Rack" outcome="/pages/rack/List.xhtml" icon="pi pi-tablet"/>
+                                        <p:divider layout="vertical"/>
+                        <p:menuitem value="Tipo Equipo" outcome="/pages/tipoEquipo/List.xhtml" icon="pi pi-sitemap" />
+                        <p:menuitem value="Equipo" outcome="/pages/equipo/List.xhtml" icon="pi pi-server" />
+                        <p:menuitem value="Host" outcome="/pages/host/List.xhtml" icon="pi pi-file"/>
+                                        <p:divider layout="vertical"/>
+                        <p:menuitem value="Movimiento Fisico de Equipos" outcome="/pages/movimientofisicoEquipo/List.xhtml" icon="pi pi-ticket"/>
+                        <p:menuitem value="Alarma Fisica" outcome="/pages/alarmaFisica/List.xhtml" icon="pi pi-exclamation-triangle"/>
+                                        <p:divider layout="vertical"/>
+                        <p:menuitem value="Proveedor" outcome="/pages/proveedor/List.xhtml" icon="pi pi-user" />   
+                        <p:menuitem value="Mantenimiento" outcome="/pages/mantenimiento/List.xhtml" icon="pi pi-cog"/>
+                        <p:menuitem value="Log" outcome="/pages/log/List.xhtml" icon="pi pi-book" /> 
+        
+                        <p:menuitem value="ContactoProveedor" outcome="/pages/contactoProveedor/List.xhtml"  icon="pi pi-user-edit"/>
+                        <p:menuitem value="DetalleAlarma" outcome="/pages/detalleAlarma/List.xhtml" />
+                        <p:menuitem value="DetalleEquiposMantenimiento" outcome="/pages/detalleEquiposMantenimiento/List.xhtml" />
+                        <p:menuitem value="PermisoAcceso" outcome="/pages/permisoAcceso/List.xhtml" />
+        
+        
+                    </p:submenu>
+        
+                    <f:facet name="options">
+                        <p:menuButton title="Opciones del usuario" buttonStyleClass="ui-button-outlined" buttonStyle="box-shadow: 0 0 10px" icon="pi pi-user">
+                            <p:menuitem value="Mi información" action="#{menuView.delete}" update=":growl" icon="pi pi-user-edit"/>
+                            <p:menuitem value="Cambiar mi información" update=":MiUsuarioEditForm" oncomplete="PF('MiUsuarioEditDialog').show()"
+                                        icon="pi pi-user-edit">
+                                <f:setPropertyActionListener value="#{controladorSesionUsuario.usuarioLogeado}" target="#{usuarioController.selected}" />
+                            </p:menuitem>
+                            <p:menuitem value="Cambiar mi contraseña" update=":MiUsuarioChangeForm" oncomplete="PF('MiUsuarioChangeDialog').show()"
+                                        icon="pi pi-key">
+                                <f:setPropertyActionListener value="#{controladorSesionUsuario.usuarioLogeado}" target="#{usuarioController.selected}" />
+                            </p:menuitem>
+        
+                            <p:divider/>
+                            <p:menuitem value="Cerrar sesión" action="#{controladorLogin.cerrarSesionUsuario()}" update=":growl" icon="pi pi-fw pi-sign-out" />
+                        </p:menuButton>
+        
+                            <p:commandButton value="Cerrar sesión" actionListener="#{controladorLogin.cerrarSesionUsuario()}"
+                                             title="Cerrar sesión del usuario"
+                                             icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" />
+                    </f:facet>
+                </p:menubar>-->
+
+
+    </h:form>
+    <ui:include src="/pages/usuario/Cambiar_Mi_Informacion.xhtml"/>
+    <ui:include src="/pages/usuario/Cambiar_Mi_Contrasenia.xhtml"/>
+</ui:composition>

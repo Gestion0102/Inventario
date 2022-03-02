@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProveedorCreateDlg" widgetVar="ProveedorCreateDialog" 
+                  header="#{bundle.Create} #{bundle.Proveedor}" width="95%"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="ProveedorCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" rendered="#{proveedorController.selected != null}"
+                                 columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                 layout="grid"
+                                 styleClass="ui-panelgrid-blank ui-fluid"
+                                 style="border:0px none; background-color:transparent;">
+<!--                        <p:outputLabel value="#{bundle.idProveedor}" for="idProveedor" />
+            <p:outputLabel id="idProveedor" value="#{bundle.SetAutomatically}"   />-->
+<!--                        <p:outputLabel value="#{bundle.codigoProveedor}" for="codigoProveedor" />
+            <p:inputText id="codigoProveedor" value="#{proveedorController.selected.codigoProveedor}"  />-->
+                        <p:outputLabel value="#{bundle.nombreProveedor}" for="nombreProveedor" />
+                        <p:inputText required="true" id="nombreProveedor" value="#{proveedorController.selected.nombreProveedor}"  />
+                        <p:outputLabel value="#{bundle.estadoProveedor}" for="estadoProveedor" />
+<!--                        <p:selectBooleanCheckbox id="estadoProveedor" value="#{proveedorController.selected.estadoProveedor}" />-->
+                        <p:selectOneButton required="true" id="estadoProveedor" value="#{proveedorController.selected.estadoProveedor}">
+                            <f:selectItem itemLabel="Servicios contratados" itemValue="True"/>
+                            <f:selectItem itemLabel="No contratado" itemValue="False"/>
+                        </p:selectOneButton>
+                        <p:outputLabel value="#{bundle.descripcionProveedor}" for="descripcionProveedor" />
+                        <p:inputText id="descripcionProveedor" value="#{proveedorController.selected.descripcionProveedor}"  />
+                        <p:outputLabel value="#{bundle.direccionProveedor}" for="direccionProveedor" />
+                        <p:inputText id="direccionProveedor" value="#{proveedorController.selected.direccionProveedor}"  />
+                        <p:outputLabel value="#{bundle.telefonoProveedor}" for="telefonoProveedor" />
+                        <p:inputText id="telefonoProveedor" value="#{proveedorController.selected.telefonoProveedor}"  />
+<!--                        <p:outputLabel value="#{bundle.tipoProveedor}" for="tipoProveedor" />
+                        <p:inputText id="tipoProveedor" value="#{proveedorController.selected.tipoProveedor}"  />-->
+
+                    </p:panelGrid>
+
+                    <div style="text-align: center !important;">
+                        <p:commandButton actionListener="#{proveedorController.crear}" value="#{bundle.Save}" update="display,:ProveedorListForm:datalist,:growl" oncomplete="handleSubmit(args,'ProveedorCreateDialog');" icon="pi pi-check" styleClass="rounded-button ui-button-info"/>
+                        <p:commandButton type="button" value="#{bundle.Cancel}" onclick="PF('ProveedorCreateDialog').hide()" icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
+

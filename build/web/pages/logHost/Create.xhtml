@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LogHostCreateDlg" widgetVar="LogHostCreateDialog" 
+                  header="#{bundle.Create} #{bundle.LogHost}"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="LogHostCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" rendered="#{logHostController.selected != null}">
+                        <p:outputLabel value="#{bundle.idLoghost}" for="idLoghost" />
+                        <p:outputLabel id="idLoghost" value="#{bundle.SetAutomatically}"   />
+                        <p:outputLabel value="#{bundle.tipocrudLoghost}" for="tipocrudLoghost" />
+                        <p:inputText id="tipocrudLoghost" value="#{logHostController.selected.tipocrudLoghost}"  />
+                        <p:outputLabel value="#{bundle.fechaLoghost}" for="fechaLoghost" />
+                        <p:calendar id="fechaLoghost" pattern="yyyy-MM-dd HH:mm:ss"   timeZone="GMT-5" locale="es_EC" readonlyInput="true"  navigator="true" showButtonPanel="true"  value="#{logHostController.selected.fechaLoghost}"   showOn="button"/>
+                        <p:outputLabel value="#{bundle.idHost}" for="idHost" />
+                        <p:inputText id="idHost" value="#{logHostController.selected.idHost}"  />
+                        <p:outputLabel value="#{bundle.idEquipo}" for="idEquipo" />
+                        <p:inputText id="idEquipo" value="#{logHostController.selected.idEquipo}"  />
+                        <p:outputLabel value="#{bundle.idUsuariocrud}" for="idUsuariocrud" />
+                        <p:inputText id="idUsuariocrud" value="#{logHostController.selected.idUsuariocrud}"  />
+                        <p:outputLabel value="#{bundle.codigoLoghost}" for="codigoLoghost" />
+                        <p:inputText id="codigoLoghost" value="#{logHostController.selected.codigoLoghost}"  />
+                        <p:outputLabel value="#{bundle.hostnameLoghost}" for="hostnameLoghost" />
+                        <p:inputText id="hostnameLoghost" value="#{logHostController.selected.hostnameLoghost}"  />
+                        <p:outputLabel value="#{bundle.descripcionLoghost}" for="descripcionLoghost" />
+                        <p:inputText id="descripcionLoghost" value="#{logHostController.selected.descripcionLoghost}"  />
+                        <p:outputLabel value="#{bundle.ipadministracionLoghost}" for="ipadministracionLoghost" />
+                        <p:inputText id="ipadministracionLoghost" value="#{logHostController.selected.ipadministracionLoghost}"  />
+                        <p:outputLabel value="#{bundle.ipproduccionLoghost}" for="ipproduccionLoghost" />
+                        <p:inputText id="ipproduccionLoghost" value="#{logHostController.selected.ipproduccionLoghost}"  />
+                        <p:outputLabel value="#{bundle.ipvmotionLoghost}" for="ipvmotionLoghost" />
+                        <p:inputText id="ipvmotionLoghost" value="#{logHostController.selected.ipvmotionLoghost}"  />
+                        <p:outputLabel value="#{bundle.estadoLoghost}" for="estadoLoghost" />
+                        <p:selectBooleanCheckbox id="estadoLoghost" value="#{logHostController.selected.estadoLoghost}" />
+                        <p:outputLabel value="#{bundle.cantidadprocesadoresLoghost}" for="cantidadprocesadoresLoghost" />
+                        <p:inputText id="cantidadprocesadoresLoghost" value="#{logHostController.selected.cantidadprocesadoresLoghost}"  />
+                        <p:outputLabel value="#{bundle.versionprocesadorLoghost}" for="versionprocesadorLoghost" />
+                        <p:inputText id="versionprocesadorLoghost" value="#{logHostController.selected.versionprocesadorLoghost}"  />
+                        <p:outputLabel value="#{bundle.cantidadcoresLoghost}" for="cantidadcoresLoghost" />
+                        <p:inputText id="cantidadcoresLoghost" value="#{logHostController.selected.cantidadcoresLoghost}"  />
+                        <p:outputLabel value="#{bundle.cantidadthreadscoresLoghost}" for="cantidadthreadscoresLoghost" />
+                        <p:inputText id="cantidadthreadscoresLoghost" value="#{logHostController.selected.cantidadthreadscoresLoghost}"  />
+                        <p:outputLabel value="#{bundle.capacidadinstaladaramLoghost}" for="capacidadinstaladaramLoghost" />
+                        <p:inputText id="capacidadinstaladaramLoghost" value="#{logHostController.selected.capacidadinstaladaramLoghost}"  />
+                        <p:outputLabel value="#{bundle.cantidadtotaldiscosLoghost}" for="cantidadtotaldiscosLoghost" />
+                        <p:inputText id="cantidadtotaldiscosLoghost" value="#{logHostController.selected.cantidadtotaldiscosLoghost}"  />
+                        <p:outputLabel value="#{bundle.capacidadtotaldiscoLoghost}" for="capacidadtotaldiscoLoghost" />
+                        <p:inputText id="capacidadtotaldiscoLoghost" value="#{logHostController.selected.capacidadtotaldiscoLoghost}"  />
+                        <p:outputLabel value="#{bundle.sistemaoperativoLoghost}" for="sistemaoperativoLoghost" />
+                        <p:inputText id="sistemaoperativoLoghost" value="#{logHostController.selected.sistemaoperativoLoghost}"  />
+                        <p:outputLabel value="#{bundle.sistemaoperativodistribucionLoghost}" for="sistemaoperativodistribucionLoghost" />
+                        <p:inputText id="sistemaoperativodistribucionLoghost" value="#{logHostController.selected.sistemaoperativodistribucionLoghost}"  />
+                        <p:outputLabel value="#{bundle.sistemaoperativoversionLoghost}" for="sistemaoperativoversionLoghost" />
+                        <p:inputText id="sistemaoperativoversionLoghost" value="#{logHostController.selected.sistemaoperativoversionLoghost}"  />
+                        <p:outputLabel value="#{bundle.sistemaoperativosubversionLoghost}" for="sistemaoperativosubversionLoghost" />
+                        <p:inputText id="sistemaoperativosubversionLoghost" value="#{logHostController.selected.sistemaoperativosubversionLoghost}"  />
+                        <p:outputLabel value="#{bundle.cantidadtotalinterfacesredLoghost}" for="cantidadtotalinterfacesredLoghost" />
+                        <p:inputText id="cantidadtotalinterfacesredLoghost" value="#{logHostController.selected.cantidadtotalinterfacesredLoghost}"  />
+                        <p:outputLabel value="#{bundle.tienemovimientovmotionLoghost}" for="tienemovimientovmotionLoghost" />
+                        <p:selectBooleanCheckbox id="tienemovimientovmotionLoghost" value="#{logHostController.selected.tienemovimientovmotionLoghost}" />
+                        <p:outputLabel value="#{bundle.funcionalidadLoghost}" for="funcionalidadLoghost" />
+                        <p:inputText id="funcionalidadLoghost" value="#{logHostController.selected.funcionalidadLoghost}"  />
+                        <p:outputLabel value="#{bundle.proyectosistemaareaLoghost}" for="proyectosistemaareaLoghost" />
+                        <p:inputText id="proyectosistemaareaLoghost" value="#{logHostController.selected.proyectosistemaareaLoghost}"  />
+                        <p:outputLabel value="#{bundle.responsableapagadoLoghost}" for="responsableapagadoLoghost" />
+                        <p:inputText id="responsableapagadoLoghost" value="#{logHostController.selected.responsableapagadoLoghost}"  />
+                        <p:outputLabel value="#{bundle.observacionLoghost}" for="observacionLoghost" />
+                        <p:inputText id="observacionLoghost" value="#{logHostController.selected.observacionLoghost}"  />
+                        <p:outputLabel value="#{bundle.servicioLoghost}" for="servicioLoghost" />
+                        <p:inputText id="servicioLoghost" value="#{logHostController.selected.servicioLoghost}"  />
+                    </p:panelGrid>
+
+                    <div style="text-align: center !important;">
+                        <p:commandButton actionListener="#{logHostController.crear}" value="#{bundle.Save}" update="display,:LogHostListForm:datalist,:growl" oncomplete="handleSubmit(args,'LogHostCreateDialog');" icon="pi pi-check" styleClass="rounded-button ui-button-info"/>
+                        <p:commandButton type="button" value="#{bundle.Cancel}" onclick="PF('LogHostCreateDialog').hide()" icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

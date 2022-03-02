@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioCreateDlg" widgetVar="UsuarioCreateDialog" 
+                  header="#{bundle.Create} #{bundle.Usuario}" width="95%"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="UsuarioCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" rendered="#{usuarioController.selected != null}"
+                                             columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                             layout="grid"
+                                             styleClass="ui-panelgrid-blank ui-fluid"
+                                             style="border:0px none; background-color:transparent;">
+<!--                        <p:outputLabel value="#{bundle.idUsuario}" for="idUsuario" />
+                        <p:outputLabel id="idUsuario" value="#{bundle.SetAutomatically}"   />
+                        <p:outputLabel value="#{bundle.codigoUsuario}" for="codigoUsuario" />
+                        <p:inputText id="codigoUsuario" value="#{usuarioController.selected.codigoUsuario}" required="true" />-->
+                        <p:outputLabel value="#{bundle.nombreUsuario}" for="nombreUsuario" />
+                        <p:inputText id="nombreUsuario" value="#{usuarioController.selected.nombreUsuario}" required="true" />
+                        <p:outputLabel value="#{bundle.descripcionUsuario}" for="descripcionUsuario" />
+                        <p:inputText id="descripcionUsuario" value="#{usuarioController.selected.descripcionUsuario}" required="true" />
+                        <p:outputLabel value="#{bundle.cedulaUsuario}" for="cedulaUsuario" />
+                        <p:inputText id="cedulaUsuario" value="#{usuarioController.selected.cedulaUsuario}"/>
+                        <p:outputLabel value="#{bundle.rolUsuario}" for="rolUsuario" />
+                        <!--<p:inputText id="rolUsuario" value="#{usuarioController.selected.rolUsuario}" required="true" />-->
+                        <p:inputMask id="rolUsuario" value="#{usuarioController.selected.rolUsuario}" 
+                                     mask="*****" validateMask="true" required="true" />
+                        
+                        <p:outputLabel value="#{bundle.correoUsuario}" for="correoUsuario" />
+                        <p:inputText id="correoUsuario" value="#{usuarioController.selected.correoUsuario}" 
+                                     validator="correoValidator" required="true" />
+                        <p:outputLabel value="#{bundle.contraseniaUsuario}" for="contraseniaUsuario" />
+                        <p:inputText id="contraseniaUsuario" value="#{usuarioController.selected.contraseniaUsuario}" required="true" />
+                        <p:outputLabel value="#{bundle.estadoUsuario}" for="estadoUsuario"  />
+                        <p:outputLabel value="Activo" id="estadoUsuario" title="Para desabilitar seleccione la opción editar"/>
+                        <p:outputLabel value="#{bundle.cantidadIntentosLogeoUsuario}" for="cantidadIntentosLogeoUsuario" />
+                        <p:outputLabel id="cantidadIntentosLogeoUsuario" value="0"/>
+<!--                        <p:selectOneMenu filter="true" id="estadoUsuario" value="#{usuarioController.selected.estadoUsuario}"
+                                         var="item" disabled="true" title="Para desabilitar seleccione la opción editar">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItem itemValue="true" itemLabel="Activo"/>
+                            <f:selectItem itemValue="false" itemLabel="Inactivo"/>
+                        </p:selectOneMenu>-->
+
+                        <p:outputLabel value="#{bundle.idTipousuario}" for="idTipousuario"  />
+                        <p:selectOneMenu filter="true" id="idTipousuario" value="#{usuarioController.selected.idTipousuario}" required="true" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{tipoUsuarioController.itemsAvailableSelectOne}"
+                                           var="idTipousuarioItem"
+                                           itemLabel="#{idTipousuarioItem.nombreTipousuario}"
+                                           itemValue="#{idTipousuarioItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+
+                    <div style="text-align: center !important;">
+                        <p:commandButton actionListener="#{usuarioController.crear}" value="#{bundle.Save}" update="display,:UsuarioListForm:datalist,:growl" oncomplete="handleSubmit(args,'UsuarioCreateDialog');" icon="pi pi-check" styleClass="rounded-button ui-button-info"/>
+                        <p:commandButton type="button" value="#{bundle.Cancel}" onclick="PF('UsuarioCreateDialog').hide()" icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="HostViewDlg" widgetVar="HostViewDialog"
+                  header="#{bundle.View} #{bundle.Host}" width="85%"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="HostViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="6" rendered="#{hostController.selected != null}"
+                                             columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                             layout="grid"
+                                             styleClass="ui-panelgrid-blank ui-fluid"
+                                             style="border:0px none; background-color:transparent;">
+<!--                        <h:outputText value="#{bundle.idHost}"/>
+                        <h:outputText value="#{hostController.selected.idHost}" />-->
+<!--                        <h:outputText value="#{bundle.codigoHost}"/>
+                        <h:outputText value="#{hostController.selected.codigoHost}" />-->
+                        <h:outputText value="#{bundle.hostnameHost}"/>
+                        <h:outputText value="#{hostController.selected.hostnameHost}" />
+                        <h:outputText value="#{bundle.descripcionHost}"/>
+                        <h:outputText value="#{hostController.selected.descripcionHost}" />
+                        <h:outputText value="#{bundle.ipadministracionHost}"/>
+                        <h:outputText value="#{hostController.selected.ipadministracionHost}" />
+                        <h:outputText value="#{bundle.ipproduccionHost}"/>
+                        <h:outputText value="#{hostController.selected.ipproduccionHost}" />
+                        <h:outputText value="#{bundle.ipvmotionHost}"/>
+                        <h:outputText value="#{hostController.selected.ipvmotionHost}" />
+                        <h:outputText value="#{bundle.estadoHost}"/>
+                        <p:tag styleClass="p-mr-2" icon="#{hostController.selected.estadoHost eq true ? 'pi pi-sun': 'pi pi-moon'}" severity="#{hostController.selected.estadoHost eq true ? 'info': 'warning'}" 
+                               value="#{hostController.selected.estadoHost eq true ? 'Encendido': 'Apagado'}" rounded="false"></p:tag>
+                        <h:outputText value="#{bundle.cantidadprocesadoresHost}"/>
+                        <h:outputText value="#{hostController.selected.cantidadprocesadoresHost}" />
+                        <h:outputText value="#{bundle.versionprocesadorHost}"/>
+                        <h:outputText value="#{hostController.selected.versionprocesadorHost}" />
+                        <h:outputText value="#{bundle.cantidadcoresHost}"/>
+                        <h:outputText value="#{hostController.selected.cantidadcoresHost}" />
+                        <h:outputText value="#{bundle.cantidadthreadscoresHost}"/>
+                        <h:outputText value="#{hostController.selected.cantidadthreadscoresHost}" />
+                        <h:outputText value="#{bundle.capacidadinstaladaramHost}"/>
+                        <h:outputText value="#{hostController.selected.capacidadinstaladaramHost}" />
+                        <h:outputText value="#{bundle.cantidadtotaldiscosHost}"/>
+                        <h:outputText value="#{hostController.selected.cantidadtotaldiscosHost}" />
+                        <h:outputText value="#{bundle.capacidadtotaldiscoHost}"/>
+                        <h:outputText value="#{hostController.selected.capacidadtotaldiscoHost}" />
+                        <h:outputText value="#{bundle.sistemaoperativoHost}"/>
+                        <h:outputText value="#{hostController.selected.sistemaoperativoHost}" />
+                        <h:outputText value="#{bundle.sistemaoperativodistribucionHost}"/>
+                        <h:outputText value="#{hostController.selected.sistemaoperativodistribucionHost}" />
+                        <h:outputText value="#{bundle.sistemaoperativoversionHost}"/>
+                        <h:outputText value="#{hostController.selected.sistemaoperativoversionHost}" />
+                        <h:outputText value="#{bundle.sistemaoperativosubversionHost}"/>
+                        <h:outputText value="#{hostController.selected.sistemaoperativosubversionHost}" />
+                        <h:outputText value="#{bundle.cantidadtotalinterfacesredHost}"/>
+                        <h:outputText value="#{hostController.selected.cantidadtotalinterfacesredHost}" />
+                        <h:outputText value="#{bundle.tienemovimientovmotionHost}"/>
+                        <p:selectBooleanCheckbox value="#{hostController.selected.tienemovimientovmotionHost}" disabled="true"/>
+                        <h:outputText value="#{bundle.funcionalidadHost}"/>
+                        <h:outputText value="#{hostController.selected.funcionalidadHost}" />
+                        <h:outputText value="#{bundle.proyectosistemaareaHost}"/>
+                        <h:outputText value="#{hostController.selected.proyectosistemaareaHost}" />
+                        <h:outputText value="#{bundle.responsableapagadoHost}"/>
+                        <h:outputText value="#{hostController.selected.responsableapagadoHost}" />
+                        <h:outputText value="#{bundle.observacionHost}"/>
+                        <h:outputText value="#{hostController.selected.observacionHost}" />
+                        <h:outputText value="#{bundle.servicioHost}"/>
+                        <h:outputText value="#{hostController.selected.servicioHost}" />
+                        <h:outputText value="#{bundle.idEquipo}"/>
+                        <h:outputText value="#{hostController.selected.idEquipo}" />
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+
+            <f:facet name="footer">
+                <h:form style="text-align: center !important;">
+                    <p:commandButton type="button"  value="#{bundle.Close}" onclick="PF('HostViewDialog').hide()"
+                                     icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                </h:form>
+            </f:facet>
+        </p:dialog>
+
+    </ui:composition>
+</html>

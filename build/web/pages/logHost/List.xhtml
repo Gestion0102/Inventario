@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <h:form id="LogHostListForm">
+            <p:dataTable id="datalist" value="#{logHostController.items}" var="item"
+                         emptyMessage="#{bundle.NoRecordsFound}"
+                         rowKey="#{item.idLoghost}"  sortMode="multiple"
+                         paginator="true" rows="10"  rowsPerPageTemplate="5,10,15,20,30,40,50,70,100"
+                         currentPageReportTemplate="#{bundle.Total}:{totalRecords}   #{bundle.Page}:{currentPage}/{totalPages}"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport}"
+                         paginatorPosition="bottom"  paginatorAlwaysVisible="true"
+                         widgetVar="LogHostTable" filterEvent="enter"
+                         draggableRows="true" draggableColumns="true"
+                         scrollable="false" reflow="true">
+
+                <f:facet name="header">
+                    <div style="align-content: center; text-align: center;">
+                        <p:outputLabel value="#{bundle.List} #{bundle.LogHost}" />
+                        <p:outputLabel value="#{bundle.TipsLabel}" style="margin:0px;padding:0px;float:left"
+                                       title="#{bundle.TableTips}" />
+                        <br/>
+                        <p:commandButton id="refreshButton" title="#{bundle.Refresh}" actionListener="#{logHostController.refreshRows}" 
+                                         update=":growl,datalist" icon="pi pi-refresh" styleClass="ui-button-info ui-button-outlined ui-button-raised"/>
+<!--                            <p:commandButton id="createButton" title="#{bundle.Create}" value="#{bundle.Create}" actionListener="#{logHostController.prepareCreate}" 
+                                         update=":LogHostCreateForm" oncomplete="PF('LogHostCreateDialog').show()" icon="pi pi-plus" styleClass="ui-button-raised ui-button-info"/>-->
+                        <p:commandButton id="toggler" type="button" title="#{bundle.SelectColumns}"
+                                         icon="pi pi-list" styleClass="ui-button-outlined ui-button-raised"/>
+                        <p:columnToggler datasource="datalist" trigger="toggler" />
+
+                        <p:separator/>
+                    </div>
+
+                </f:facet>
+
+                <p:column
+                    sortBy="#{item.idLoghost}"
+                    headerText="#{bundle.idLoghost}"
+                    filterBy="#{item.idLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.idLoghost}"/>
+                </p:column>
+                <p:column
+                    sortBy="#{item.tipocrudLoghost}"
+                    headerText="#{bundle.tipocrudLoghost}"
+                    filterBy="#{item.tipocrudLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.tipocrudLoghost}"/>
+                </p:column>
+                <p:column
+                    sortBy="#{item.fechaLoghost}"
+                    headerText="#{bundle.fechaLog}"
+                    filterBy="#{item.fechaLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.fechaLoghost}">
+                        <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"  timeZone="GMT-5" locale="es_ES" />
+                    </h:outputText>
+                </p:column>
+                <p:column
+                    sortBy="#{item.idUsuario.nombreUsuario}"
+                    headerText="#{bundle.idUsuarioCrud}"
+                    filterBy="#{item.idUsuario.nombreUsuario}" filterMatchMode="contains">
+                    <h:outputText value="#{item.idUsuario.nombreUsuario} (id=#{item.idUsuario.idUsuario})"/>
+                </p:column>
+                <p:column
+                    sortBy="#{item.idHost.hostnameHost}"
+                    headerText="#{bundle.idHost}"
+                    filterBy="#{item.idHost.hostnameHost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.idHost.hostnameHost} (id=#{item.idHost.idHost})"/>
+                </p:column>
+                <p:column
+                    sortBy="#{item.idEquipo.nombreEquipo}"
+                    headerText="#{bundle.idEquipo}"
+                    filterBy="#{item.idEquipo.nombreEquipo}" filterMatchMode="contains">
+                    <h:outputText value="#{item.idEquipo.nombreEquipo} (id=#{item.idEquipo.idEquipo})"/>
+                </p:column>
+                <p:column visible="false"
+                    sortBy="#{item.codigoLoghost}"
+                    headerText="#{bundle.codigoHost}"
+                    filterBy="#{item.codigoLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.codigoLoghost}"/>
+                </p:column>
+                <p:column
+                    sortBy="#{item.hostnameLoghost}"
+                    headerText="#{bundle.hostnameHost}"
+                    filterBy="#{item.hostnameLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.hostnameLoghost}"/>
+                </p:column>
+                <p:column
+                    sortBy="#{item.descripcionLoghost}"
+                    headerText="#{bundle.descripcionHost}"
+                    filterBy="#{item.descripcionLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.descripcionLoghost}"/>
+                </p:column>
+                <p:column
+                    sortBy="#{item.ipadministracionLoghost}"
+                    headerText="#{bundle.ipadministracionHost}"
+                    filterBy="#{item.ipadministracionLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.ipadministracionLoghost}"/>
+                </p:column>
+                <p:column visible="false"
+                    sortBy="#{item.ipproduccionLoghost}"
+                    headerText="#{bundle.ipproduccionHost}"
+                    filterBy="#{item.ipproduccionLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.ipproduccionLoghost}"/>
+                </p:column>
+                <p:column visible="false" 
+                    sortBy="#{item.ipvmotionLoghost}"
+                    headerText="#{bundle.ipvmotionLoghost}"
+                    filterBy="#{item.ipvmotionLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.ipvmotionLoghost}"/>
+                </p:column>
+                <p:column visible="false" 
+                    sortBy="#{item.estadoLoghost}"
+                    headerText="#{bundle.estadoLoghost}"
+                    filterBy="#{item.estadoLoghost}" filterMatchMode="contains">
+                    <p:selectBooleanCheckbox value="#{item.estadoLoghost}" disabled="true"/>
+                </p:column>
+                <p:column visible="false" 
+                    sortBy="#{item.cantidadprocesadoresLoghost}"
+                    headerText="#{bundle.cantidadprocesadoresLoghost}"
+                    filterBy="#{item.cantidadprocesadoresLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.cantidadprocesadoresLoghost}"/>
+                </p:column>
+                <p:column visible="false" 
+                    sortBy="#{item.versionprocesadorLoghost}"
+                    headerText="#{bundle.versionprocesadorLoghost}"
+                    filterBy="#{item.versionprocesadorLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.versionprocesadorLoghost}"/>
+                </p:column>
+                <p:column visible="false" 
+                    sortBy="#{item.cantidadcoresLoghost}"
+                    headerText="#{bundle.cantidadcoresLoghost}"
+                    filterBy="#{item.cantidadcoresLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.cantidadcoresLoghost}"/>
+                </p:column>
+                <p:column visible="false" 
+                    sortBy="#{item.cantidadthreadscoresLoghost}"
+                    headerText="#{bundle.cantidadthreadscoresLoghost}"
+                    filterBy="#{item.cantidadthreadscoresLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.cantidadthreadscoresLoghost}"/>
+                </p:column>
+                <p:column visible="false" 
+                    sortBy="#{item.capacidadinstaladaramLoghost}"
+                    headerText="#{bundle.capacidadinstaladaramLoghost}"
+                    filterBy="#{item.capacidadinstaladaramLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.capacidadinstaladaramLoghost}"/>
+                </p:column>
+                <p:column visible="false" 
+                    sortBy="#{item.cantidadtotaldiscosLoghost}"
+                    headerText="#{bundle.cantidadtotaldiscosLoghost}"
+                    filterBy="#{item.cantidadtotaldiscosLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.cantidadtotaldiscosLoghost}"/>
+                </p:column>
+                <p:column visible="false" 
+                    sortBy="#{item.capacidadtotaldiscoLoghost}"
+                    headerText="#{bundle.capacidadtotaldiscoLoghost}"
+                    filterBy="#{item.capacidadtotaldiscoLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.capacidadtotaldiscoLoghost}"/>
+                </p:column>
+                <p:column visible="false" 
+                    sortBy="#{item.sistemaoperativoLoghost}"
+                    headerText="#{bundle.sistemaoperativoLoghost}"
+                    filterBy="#{item.sistemaoperativoLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.sistemaoperativoLoghost}"/>
+                </p:column>
+                <p:column visible="false" 
+                    sortBy="#{item.sistemaoperativodistribucionLoghost}"
+                    headerText="#{bundle.sistemaoperativodistribucionLoghost}"
+                    filterBy="#{item.sistemaoperativodistribucionLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.sistemaoperativodistribucionLoghost}"/>
+                </p:column>
+                <p:column visible="false" 
+                    sortBy="#{item.sistemaoperativoversionLoghost}"
+                    headerText="#{bundle.sistemaoperativoversionLoghost}"
+                    filterBy="#{item.sistemaoperativoversionLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.sistemaoperativoversionLoghost}"/>
+                </p:column>
+                <p:column visible="false" 
+                    sortBy="#{item.sistemaoperativosubversionLoghost}"
+                    headerText="#{bundle.sistemaoperativosubversionLoghost}"
+                    filterBy="#{item.sistemaoperativosubversionLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.sistemaoperativosubversionLoghost}"/>
+                </p:column>
+                <p:column visible="false" 
+                    sortBy="#{item.cantidadtotalinterfacesredLoghost}"
+                    headerText="#{bundle.cantidadtotalinterfacesredLoghost}"
+                    filterBy="#{item.cantidadtotalinterfacesredLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.cantidadtotalinterfacesredLoghost}"/>
+                </p:column>
+                <p:column visible="false" 
+                    sortBy="#{item.tienemovimientovmotionLoghost}"
+                    headerText="#{bundle.tienemovimientovmotionLoghost}"
+                    filterBy="#{item.tienemovimientovmotionLoghost}" filterMatchMode="contains">
+                    <p:selectBooleanCheckbox value="#{item.tienemovimientovmotionLoghost}" disabled="true"/>
+                </p:column>
+                <p:column visible="false" 
+                    sortBy="#{item.funcionalidadLoghost}"
+                    headerText="#{bundle.funcionalidadLoghost}"
+                    filterBy="#{item.funcionalidadLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.funcionalidadLoghost}"/>
+                </p:column>
+                <p:column visible="false" 
+                    sortBy="#{item.proyectosistemaareaLoghost}"
+                    headerText="#{bundle.proyectosistemaareaLoghost}"
+                    filterBy="#{item.proyectosistemaareaLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.proyectosistemaareaLoghost}"/>
+                </p:column>
+                <p:column visible="false" 
+                    sortBy="#{item.responsableapagadoLoghost}"
+                    headerText="#{bundle.responsableapagadoLoghost}"
+                    filterBy="#{item.responsableapagadoLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.responsableapagadoLoghost}"/>
+                </p:column>
+                <p:column visible="false" 
+                    sortBy="#{item.observacionLoghost}"
+                    headerText="#{bundle.observacionLoghost}"
+                    filterBy="#{item.observacionLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.observacionLoghost}"/>
+                </p:column>
+                <p:column visible="false" 
+                    sortBy="#{item.servicioLoghost}"
+                    headerText="#{bundle.servicioLoghost}"
+                    filterBy="#{item.servicioLoghost}" filterMatchMode="contains">
+                    <h:outputText value="#{item.servicioLoghost}"/>
+                </p:column>
+
+                <!--Botones de acciones-->
+                <p:column headerText="#{bundle.Actions}">
+                    <p:commandButton title="#{bundle.View}" ajax="true"  update="@(.ui-dialog)" oncomplete="PF('LogHostViewDialog').show()" icon="pi pi-search" styleClass="rounded-button ui-button-success">
+                        <f:setPropertyActionListener value="#{item}" target="#{logHostController.selected}" />
+                    </p:commandButton>
+<!--                        <p:commandButton title="#{bundle.Edit}" update=":LogHostEditForm" oncomplete="PF('LogHostEditDialog').show()" icon="pi pi-pencil" styleClass="rounded-button ui-button-info">
+                        <f:setPropertyActionListener value="#{item}" target="#{logHostController.selected}" />
+                    </p:commandButton>
+                    <p:commandButton title="#{bundle.Delete}" actionListener="#{logHostController.eliminar(item)}" update=":growl,datalist" icon="pi pi-trash" styleClass="rounded-button ui-button-danger" >
+                        <p:confirm header="#{bundle.ConfirmDeletion}" message="#{bundle.AreYouSureDelete}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:confirmDialog global="true">
+                        <p:commandButton value="#{bundle.Yes}" type="button" styleClass="ui-confirmdialog-yes rounded-button ui-button-success"
+                                         icon="pi pi-check" />
+                        <p:commandButton value="#{bundle.No}" type="button" styleClass="ui-confirmdialog-no rounded-button ui-button-danger"
+                                         icon="pi pi-times" />
+                    </p:confirmDialog>-->
+                </p:column>
+
+                <f:facet name="footer">                                
+
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+
+        <!--            <ui:include src="Create.xhtml"/>
+                    <ui:include src="Edit.xhtml"/>-->
+        <ui:include src="View.xhtml"/>
+    </ui:composition>
+
+</html>

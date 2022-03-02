@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LogMovimientoequipoViewDlg" widgetVar="LogMovimientoequipoViewDialog"
+                  header="#{bundle.View} #{bundle.LogMovimientoequipo}"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="LogMovimientoequipoViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" rendered="#{logMovimientoequipoController.selected != null}">
+                        <h:outputText value="#{bundle.idLogmovimientoequipo}"/>
+                        <h:outputText value="#{logMovimientoequipoController.selected.idLogmovimientoequipo}" />
+                        <h:outputText value="#{bundle.tipocrudLogmovimientoequipo}"/>
+                        <h:outputText value="#{logMovimientoequipoController.selected.tipocrudLogmovimientoequipo}" />
+                        <h:outputText value="#{bundle.fechaLog}"/>
+                        <h:outputText value="#{logMovimientoequipoController.selected.fechaLogmovimientoequipo}">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" timeZone="GMT-5" locale="es_EC" readonlyInput="true" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.idMovimientoequipo}"/>
+                        <h:outputText value="#{logMovimientoequipoController.selected.idMovimientoequipo.tipoMovimientoequipo}" />
+                        <h:outputText value="#{bundle.idEquipo}"/>
+                        <h:outputText value="#{logMovimientoequipoController.selected.idEquipo.nombreEquipo}" />
+                        <h:outputText value="#{bundle.idUsuario}"/>
+                        <h:outputText value="#{logMovimientoequipoController.selected.idUsuario.nombreUsuario}" />
+                        <h:outputText value="#{bundle.idUsuarioCrud}"/>
+                        <h:outputText value="#{logMovimientoequipoController.selected.usuIdUsuario.nombreUsuario}" />
+                        <h:outputText value="#{bundle.codigoMovimientoequipo}"/>
+                        <h:outputText value="#{logMovimientoequipoController.selected.codigoLogmovimientoequipo}" />
+                        <h:outputText value="#{bundle.descripcionMovimientoequipo}"/>
+                        <h:outputText value="#{logMovimientoequipoController.selected.descripcionLogmovimientoequipo}" />
+                        <h:outputText value="#{bundle.fechaMovimientoequipo}"/>
+                        <h:outputText value="#{logMovimientoequipoController.selected.fechaMovimientoequipo}">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" timeZone="GMT-5" locale="es_EC" readonlyInput="true" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.tipoMovimientoequipo}"/>
+                        <h:outputText value="#{logMovimientoequipoController.selected.tipoLogmovimientoequipo}" />
+                        <h:outputText value="#{bundle.sitioinicialMovimientoequipo}"/>
+                        <h:outputText value="#{logMovimientoequipoController.selected.sitioinicialLogmovimientoequipo}" />
+                        <h:outputText value="#{bundle.sitiofinalMovimientoequipo}"/>
+                        <h:outputText value="#{logMovimientoequipoController.selected.sitiofinalLogmovimientoequipo}" />
+                        <h:outputText value="#{bundle.descripcionresponsableMovimientoequipo}"/>
+                        <h:outputText value="#{logMovimientoequipoController.selected.descripcionresponsableLogmovimientoequipo}" />
+                        <h:outputText value="#{bundle.imagenMovimientoequipo}"/>
+                        <h:outputText value="#{logMovimientoequipoController.selected.imagenLogmovimientoequipo}" />
+                        <h:outputText value="#{bundle.documentorespaldoMovimientoequipo}"/>
+                        <h:outputText value="#{logMovimientoequipoController.selected.documentorespaldoLogmovimientoequipo}" />
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+
+            <f:facet name="footer">
+                <h:form style="text-align: center !important;">
+                    <p:commandButton type="button"  value="#{bundle.Close}" onclick="PF('LogMovimientoequipoViewDialog').hide()"
+                                     icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                </h:form>
+            </f:facet>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PermisoAccesoCreateDlg" widgetVar="PermisoAccesoCreateDialog" 
+                  header="#{bundle.Create} #{bundle.PermisoAcceso}"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="PermisoAccesoCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" rendered="#{permisoAccesoController.selected != null}">
+                        <p:outputLabel value="#{bundle.idPermisoacceso}" for="idPermisoacceso" />
+                        <p:outputLabel id="idPermisoacceso" value="#{bundle.SetAutomatically}"   />
+                        <p:outputLabel value="#{bundle.nombrePermisoacceso}" for="nombrePermisoacceso" />
+                        <p:inputText id="nombrePermisoacceso" value="#{permisoAccesoController.selected.nombrePermisoacceso}" required="true" />
+                        <p:outputLabel value="#{bundle.codigoPermisoacceso}" for="codigoPermisoacceso" />
+                        <p:inputText id="codigoPermisoacceso" value="#{permisoAccesoController.selected.codigoPermisoacceso}" required="true" />
+                        <p:outputLabel value="#{bundle.descripcionPermisoacceso}" for="descripcionPermisoacceso" />
+                        <p:inputText id="descripcionPermisoacceso" value="#{permisoAccesoController.selected.descripcionPermisoacceso}" required="true" />
+                        <p:outputLabel value="#{bundle.estadoPermisoacceso}" for="estadoPermisoacceso" />
+                        <p:selectBooleanCheckbox id="estadoPermisoacceso" value="#{permisoAccesoController.selected.estadoPermisoacceso}" required="true"/>
+                        <p:outputLabel value="soloverPermisoacceso" for="soloverPermisoacceso" />
+                        <p:selectBooleanCheckbox id="soloverPermisoacceso" value="#{permisoAccesoController.selected.soloverPermisoacceso}" required="true"/>
+                        <p:outputLabel value="#{bundle.OpcionSistema}" for="idOpcionsistema" />
+                        <p:selectOneMenu filter="true" id="idOpcionsistema" value="#{permisoAccesoController.selected.idOpcionsistema}" required="true">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{opcionSistemaController.itemsAvailableSelectOne}"
+                                           var="idOpcionsistemaItem"
+                                           itemLabel="#{idOpcionsistemaItem.nombreOpcionsistema}"
+                                           itemValue="#{idOpcionsistemaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.TipoUsuario}" for="idTipousuario" />
+                        <p:selectOneMenu filter="true" id="idTipousuario" value="#{permisoAccesoController.selected.idTipousuario}" required="true">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{tipoUsuarioController.itemsAvailableSelectOne}"
+                                           var="idTipousuarioItem"
+                                           itemLabel="#{idTipousuarioItem.nombreTipousuario}"
+                                           itemValue="#{idTipousuarioItem}"/>
+                        </p:selectOneMenu>
+
+                    </p:panelGrid>
+
+                    <div style="text-align: center !important;">
+                        <p:commandButton actionListener="#{permisoAccesoController.crear}" value="#{bundle.Save}" update="display,:PermisoAccesoListForm:datalist,:growl" oncomplete="handleSubmit(args,'PermisoAccesoCreateDialog');" icon="pi pi-check" styleClass="rounded-button ui-button-info"/>
+                        <p:commandButton type="button" value="#{bundle.Cancel}" onclick="PF('PermisoAccesoCreateDialog').hide()" icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

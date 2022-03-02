@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EquipoViewDlg" widgetVar="EquipoViewDialog"
+                  header="#{bundle.View} #{bundle.Equipo}" width="95%"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="EquipoViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="6" rendered="#{equipoController.selected != null}"
+                                             columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                             layout="grid"
+                                             styleClass="ui-panelgrid-blank ui-fluid"
+                                             style="border:0px none; background-color:transparent;">
+<!--                        <h:outputText value="#{bundle.idEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.idEquipo}" />-->
+<!--                        <h:outputText value="#{bundle.codigoEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.codigoEquipo}" />-->
+                        <h:outputText value="#{bundle.nombreEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.nombreEquipo}" />
+                        <h:outputText value="#{bundle.imagenEquipo}"/>
+                        <!--<h:outputText value="#{equipoController.selected.imagenEquipo}" />-->
+                        <p:commandButton icon="pi pi-images" title="Ver imagen" value="#{equipoController.selected.imagenEquipo eq null? bundle.NoImage:bundle.View}"
+                                         disabled="#{equipoController.selected.imagenEquipo eq null}"
+                                         actionListener="#{imagenBean.visualizar(equipoController.selected.imagenEquipo)}" 
+                                         onclick="form.target = '_blank'" ajax="false"/>
+                        <h:outputText value="#{bundle.servicioEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.servicioEquipo}" />
+                        <h:outputText value="#{bundle.idProveedor}"/>
+                        <h:outputText value="#{equipoController.selected.idProveedor.nombreProveedor}" />
+                        <h:outputText value="#{bundle.idRack}"/>
+                        <h:outputText value="#{equipoController.selected.idRack.nombreRack}" />
+                        <h:outputText value="#{bundle.idTipoequipo}"/>
+                        <h:outputText value="#{equipoController.selected.idTipoequipo.nombreTipoequipo}" />
+                        <h:outputText value="#{bundle.posicionrackEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.posicionrackEquipo}" />
+                        <h:outputText value="#{bundle.unidadrackEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.unidadrackEquipo}" />
+                        <h:outputText value="#{bundle.marcaEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.marcaEquipo}" />
+                        <h:outputText value="#{bundle.mtmEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.mtmEquipo}" />
+                        <h:outputText value="#{bundle.serieEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.serieEquipo}" />
+                        <h:outputText value="#{bundle.modeloEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.modeloEquipo}" />
+                        <h:outputText value="#{bundle.piduidEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.piduidEquipo}" />
+                        <h:outputText value="#{bundle.hostnameEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.hostnameEquipo}" />
+                        <h:outputText value="#{bundle.ipadministracionEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.ipadministracionEquipo}" />
+                        <h:outputText value="#{bundle.ipproduccionEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.ipproduccionEquipo}" />
+                        <h:outputText value="#{bundle.ipvmotionEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.ipvmotionEquipo}" />
+                        <h:outputText value="#{bundle.estadoEquipo}"/>
+                        <!--<h:outputText value="#{equipoController.selected.estadoEquipo}" />-->
+                        <p:tag styleClass="p-mr-2" icon="#{equipoController.selected.estadoEquipo eq true ? 'pi pi-sun': 'pi pi-moon'}" severity="#{equipoController.selected.estadoEquipo eq true ? 'info': 'warning'}" 
+                               value="#{equipoController.selected.estadoEquipo eq true ? 'Encendido': 'Apagado'}" rounded="false"></p:tag>
+                        <h:outputText value="#{bundle.cantidadprocesadoresEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.cantidadprocesadoresEquipo}" />
+                        <h:outputText value="#{bundle.velocidadprocesadorEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.velocidadprocesadorEquipo}" />
+                        <h:outputText value="#{bundle.versionprocesadorEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.versionprocesadorEquipo}" />
+                        <h:outputText value="#{bundle.cantidadcoresEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.cantidadcoresEquipo}" />
+                        <h:outputText value="#{bundle.cantidadthreadscoresEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.cantidadthreadscoresEquipo}" />
+                        <h:outputText value="#{bundle.capacidadinstaladaramEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.capacidadinstaladaramEquipo}" />
+                        <h:outputText value="#{bundle.velocidadramEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.velocidadramEquipo}" />
+                        <h:outputText value="#{bundle.cantidadslotsramEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.cantidadslotsramEquipo}" />
+                        <h:outputText value="#{bundle.cantidadslotsutilizadasramEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.cantidadslotsutilizadasramEquipo}" />
+                        <h:outputText value="#{bundle.posicionesutilizadasslotsramEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.posicionesutilizadasslotsramEquipo}" />
+                        <h:outputText value="#{bundle.cantidadtotaldiscosEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.cantidadtotaldiscosEquipo}" />
+                        <h:outputText value="#{bundle.cantidaddiscosutilizadosEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.cantidaddiscosutilizadosEquipo}" />
+                        <h:outputText value="#{bundle.cantidaddiscosvaciosEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.cantidaddiscosvaciosEquipo}" />
+                        <h:outputText value="#{bundle.capacidadtotaldiscoEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.capacidadtotaldiscoEquipo}" />
+                        <h:outputText value="#{bundle.frudiscoEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.frudiscoEquipo}" />
+                        <h:outputText value="#{bundle.informaciondiscoEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.informaciondiscoEquipo}" />
+                        <h:outputText value="#{bundle.raiddiscoEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.raiddiscoEquipo}" />
+                        <h:outputText value="#{bundle.sistemaoperativoEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.sistemaoperativoEquipo}" />
+                        <h:outputText value="#{bundle.sistemaoperativodistribucionEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.sistemaoperativodistribucionEquipo}" />
+                        <h:outputText value="#{bundle.sistemaoperativoversionEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.sistemaoperativoversionEquipo}" />
+                        <h:outputText value="#{bundle.sistemaoperativosubversionEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.sistemaoperativosubversionEquipo}" />
+                        <h:outputText value="#{bundle.cantidadtotalinterfacesredEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.cantidadtotalinterfacesredEquipo}" />
+                        <h:outputText value="#{bundle.tienemovimientovmotionEquipo}"/>
+                        <p:selectBooleanCheckbox value="#{equipoController.selected.tienemovimientovmotionEquipo}" disabled="true"/>
+                        <h:outputText value="#{bundle.funcionalidadEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.funcionalidadEquipo}" />
+                        <h:outputText value="#{bundle.proyectosistemaareaEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.proyectosistemaareaEquipo}" />
+                        <h:outputText value="#{bundle.responsableapagadoEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.responsableapagadoEquipo}" />
+                        <h:outputText value="#{bundle.etiquetaEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.etiquetaEquipo}" />
+                        <h:outputText value="#{bundle.controlbienesEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.controlbienesEquipo}" />
+                        <h:outputText value="#{bundle.fechaadquisicionEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.fechaadquisicionEquipo}">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" timeZone="GMT-5" locale="es_EC"/>
+                        </h:outputText>
+                        <h:outputText value="#{bundle.faseadquisicionEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.faseadquisicionEquipo}" />
+                        <h:outputText value="#{bundle.hitoadquisicionEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.hitoadquisicionEquipo}" />
+                        <h:outputText value="#{bundle.observacionEquipo}"/>
+                        <h:outputText value="#{equipoController.selected.observacionEquipo}" />
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+
+            <f:facet name="footer">
+                <h:form style="text-align: center !important;">
+                    <p:commandButton type="button"  value="#{bundle.Close}" onclick="PF('EquipoViewDialog').hide()"
+                                     icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                </h:form>
+            </f:facet>
+        </p:dialog>
+
+    </ui:composition>
+</html>

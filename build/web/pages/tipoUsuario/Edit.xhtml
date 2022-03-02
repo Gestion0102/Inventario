@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoUsuarioEditDlg" widgetVar="TipoUsuarioEditDialog"
+                  header="#{bundle.Edit} #{bundle.TipoUsuario}"
+                  modal="true" resizable="true" appendTo="@(body)" width="85%"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true"
+                  onHide="PF('wiz').loadStep('tipoUsuario', false)">
+
+            <h:form id="TipoUsuarioEditForm">
+                <h:panelGroup id="display">
+                    <p:wizard flowListener="#{tipoUsuarioController.onFlujoProcesoPermisoAccesoWizard}" backLabel="Anterior" nextLabel="Siguiente"
+                              id="wzd" widgetVar="wiz">
+                        <p:tab id="tipoUsuario" title="Descripción">
+                            <p:panel header="Descripción del Perfil de Acceso">
+                                <p:messages />
+                                <p:panelGrid columns="4" rendered="#{tipoUsuarioController.selected != null}" 
+                                             columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                             layout="grid"
+                                             styleClass="ui-panelgrid-blank ui-fluid"
+                                             style="border:0px none; background-color:transparent;">
+
+                                    <p:outputLabel value="#{bundle.nombreTipousuario}" for="nombreTipousuario" style="font-weight: bolder;"/>
+                                    <p:inputText id="nombreTipousuario" value="#{tipoUsuarioController.selected.nombreTipousuario}" required="true" label="#{bundle.nombreTipousuario}"/>
+
+                                    <p:outputLabel value="#{bundle.descripcionTipousuario}" for="descripcionTipousuario" style="font-weight: bolder;"/>
+                                    <p:inputText id="descripcionTipousuario" value="#{tipoUsuarioController.selected.descripcionTipousuario}" required="true" label="#{bundle.descripcionTipousuario}"/>
+
+                                </p:panelGrid>
+
+                                <h5><p:outputLabel value="Permisos de acceso a opciones del sistema" for="pickList" /></h5>
+                                <p:pickList id="pickList" value="#{tipoUsuarioController.dualListPermisoAcceso}" 
+                                            var="permiso" itemLabel="#{permiso.idOpcionsistema.nombreOpcionsistema}" itemValue="#{permiso}"
+                                            converter="permisoAccesoPickListConverter" responsive="true"
+                                            rendered="#{not empty (tipoUsuarioController.selected)}"
+                                            required="true" >
+                                    <f:facet name="sourceCaption">Disponibles</f:facet>
+                                    <f:facet name="targetCaption">Seleccionados</f:facet>
+
+                                    <p:ajax event="transfer" listener="#{tipoUsuarioController.onTransferPermisoAcceso}" update=":growl"/>
+                                </p:pickList>
+                            </p:panel>
+                        </p:tab>
+                        <p:tab id="tipo_gestion_pa" title="Tipo de gestión">
+                            <p:messages id="msg"  />
+
+                            <p:panel rendered="#{not empty (tipoUsuarioController.selected)}">
+                                <p:dataTable id="tblPermisosAcceso" value="#{tipoUsuarioController.listPermisosAccesoTemp}" var="item" 
+                                             reflow="true" size="50%" rendered="#{tipoUsuarioController.selected != null}"
+                                             editable="true" editMode="row" widgetVar="wdgPermisosAcceso"
+                                             paginator="true" rows="10"  rowsPerPageTemplate="5,10,15,20,30,40,50,70,100"
+                                             currentPageReportTemplate="#{bundle.Total}:{totalRecords}   #{bundle.Page}:{currentPage}/{totalPages}"
+                                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport}"
+                                             paginatorPosition="bottom"  paginatorAlwaysVisible="true">
+
+                                    <p:ajax event="rowEditInit" listener="#{tipoUsuarioController.onIniciarEdicionFila}" update=":growl @parent:btnEditar"/>
+                                    <p:ajax event="rowEdit" listener="#{tipoUsuarioController.onActualizarFila}"  update=":growl @parent:btnEditar"/>
+                                    <p:ajax event="rowEditCancel" listener="#{tipoUsuarioController.onCancelEditarFila}" update=":growl @parent:btnEditar"/>
+
+                                    <f:facet name="header">
+                                        <div style="align-content: center; text-align: center;">
+                                            <p:outputLabel value="#{bundle.List} #{bundle.PermisoAcceso}" />
+                                            <br/>
+                                        </div>
+                                    </f:facet>
+
+                                    <p:column visible="false"
+                                              headerText="#{bundle.id}">
+                                        <h:outputText value="#{item.idPermisoacceso}"/>
+                                    </p:column>
+                                    <p:column
+                                        headerText="#{bundle.OpcionSistema}">
+                                        <h:outputText value="#{item.idOpcionsistema.nombreOpcionsistema}"/>
+                                    </p:column>
+
+                                    <p:column 
+                                        headerText="#{bundle.estadoPermisoacceso}">
+                                        <p:cellEditor>
+                                            <f:facet name="output"> 
+                                                <h:outputText value="#{item.estadoPermisoacceso eq true ? 'Activo': 'Inactivo'}"/> 
+                                                <!--<p:commandButton type="button" icon="pi pi-pencil" styleClass="rounded-button ui-button-flat" disabled="true"/>-->
+                                            </f:facet>
+                                            <f:facet name="input">
+                                                <p:selectOneMenu filter="true" value="#{item.estadoPermisoacceso}" required="true" onchange="">
+                                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                                                    <f:selectItem itemLabel="Activo" itemValue="true"/>
+                                                    <f:selectItem itemLabel="Inactivo" itemValue="false"/>
+                                                </p:selectOneMenu>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <p:column 
+                                        headerText="#{bundle.soloverPermisoacceso}">
+                                        <p:cellEditor>
+                                            <f:facet name="output"> 
+                                                <h:outputText value="#{item.soloverPermisoacceso eq true ? 'Solo visualizar': 'Crear, Actualizar, Eliminar y Ver'}"/>
+                                                <!--<p:commandButton type="button" icon="pi pi-pencil" styleClass="rounded-button ui-button-flat" disabled="true"/>-->
+                                            </f:facet>
+                                            <f:facet name="input">
+                                                <p:selectOneMenu filter="true" value="#{item.soloverPermisoacceso}" required="true">
+                                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                                                    <f:selectItem itemLabel="Solo visualizar" itemValue="true"/>
+                                                    <f:selectItem itemLabel="Crear, Actualizar, Eliminar y Ver" itemValue="false"/>
+                                                </p:selectOneMenu>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+
+
+                                    <p:column style="width:6rem" headerText="#{bundle.Actions}">
+                                        <p:rowEditor editTitle="Edit Row" cancelTitle="Cancel Edit" saveTitle="Save Row" styleClass="rounded-button ui-button-info">
+                                        </p:rowEditor>
+                                    </p:column>
+
+                                </p:dataTable>
+                                <div style="text-align: center !important;">
+                                    <p:commandButton id="btnEditar" actionListener="#{tipoUsuarioController.actualizar}" value="#{bundle.Save}" update="display,:TipoUsuarioListForm:datalist,:growl, TipoUsuarioEditForm" 
+                                                     oncomplete="handleSubmit(args, 'TipoUsuarioEditDialog'); PF('wiz').loadStep('tipoUsuario',false)" icon="pi pi-check" styleClass="rounded-button ui-button-info"
+                                                     disabled="#{tipoUsuarioController.desabilitadoPorEdicion}"/>
+                                    <p:commandButton type="button" value="#{bundle.Cancel}" onclick="PF('TipoUsuarioEditDialog').hide(); PF('wiz').loadStep('tipoUsuario', false)" icon="pi pi-times" styleClass="rounded-button ui-button-danger" update="TipoUsuarioEditForm"/>                                
+                                </div>
+                            </p:panel>
+                        </p:tab>
+                    </p:wizard>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

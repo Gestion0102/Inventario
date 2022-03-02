@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RackViewDlg" widgetVar="RackViewDialog"
+                  header="#{bundle.View} #{bundle.Rack}" width="95%"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="RackViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" rendered="#{rackController.selected != null}"
+                                             columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                             layout="grid"
+                                             styleClass="ui-panelgrid-blank ui-fluid"
+                                             style="border:0px none; background-color:transparent;">
+<!--                         <h:outputText value="#{bundle.idRack}"/>
+                        <h:outputText value="#{rackController.selected.idRack}" />
+                       <h:outputText value="#{bundle.codigoRack}"/>
+                        <h:outputText value="#{rackController.selected.codigoRack}" />-->
+                        <h:outputText value="#{bundle.nombreRack}"/>
+                        <h:outputText value="#{rackController.selected.nombreRack}" />
+                        <h:outputText value="#{bundle.descripcionRack}"/>
+                        <h:outputText value="#{rackController.selected.descripcionRack}" />
+                        <h:outputText value="#{bundle.marcaRack}"/>
+                        <h:outputText value="#{rackController.selected.marcaRack}" />
+                        <h:outputText value="#{bundle.modeloRack}"/>
+                        <h:outputText value="#{rackController.selected.modeloRack}" />
+                        <h:outputText value="#{bundle.serieRack}"/>
+                        <h:outputText value="#{rackController.selected.serieRack}" />
+<!--                        <h:outputText value="#{bundle.tipoRack}"/>
+                        <h:outputText value="#{rackController.selected.tipoRack}" />-->
+<!--                        <h:outputText value="#{bundle.ubicaciongeograficaRack}"/>
+                        <h:outputText value="#{rackController.selected.ubicaciongeograficaRack}" />-->
+                        <h:outputText value="#{bundle.imagenRack}"/>
+                        <!--<h:outputText value="#{rackController.selected.imagenRack}" />-->
+                        <p:commandButton icon="pi pi-images" title="Ver imagen" value="#{rackController.selected.imagenRack eq null? bundle.NoImage:bundle.View}"
+                                         disabled="#{rackController.selected.imagenRack eq null}"
+                                         actionListener="#{imagenBean.visualizar(rackController.selected.imagenRack)}" 
+                                         onclick="form.target = '_blank'" ajax="false"/>
+                        <h:outputText value="#{bundle.CentroDatos}"/>
+                        <h:outputText value="#{rackController.selected.idCentrodatos.nombreCentrodatos}" />
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+
+            <f:facet name="footer">
+                <h:form style="text-align: center !important;">
+                    <p:commandButton type="button"  value="#{bundle.Close}" onclick="PF('RackViewDialog').hide()"
+                                     icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                </h:form>
+            </f:facet>
+        </p:dialog>
+
+    </ui:composition>
+</html>

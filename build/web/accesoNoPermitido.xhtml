@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="template.xhtml">
+
+        <ui:define name="title">
+            Gestión de Inventarios SICDN
+
+        </ui:define>
+        <ui:define name="body">
+            <f:event type="preRenderView" listener="#{controladorSesionUsuario.presentarMensajeUsuario()}" id="presentarMensaje"/>                    
+
+            <h:form id="frmSidebar" rendered="#{controladorSesionUsuario.usuarioLogeado.contraseniaTemporalUsuario != null}">
+                <p:sidebar widgetVar="sidebar" position="top" >
+                    <h3>Se requiere cambiar la contraseña del usuario</h3>
+                    <p:commandButton value="Cambiar mi contraseña" update=":MiUsuarioChangeForm frmSidebar" oncomplete="PF('MiUsuarioChangeDialog').show()"
+                                     icon="pi pi-key">
+                        <f:setPropertyActionListener value="#{controladorSesionUsuario.usuarioLogeado}" target="#{usuarioController.selected}" />
+                    </p:commandButton>
+                </p:sidebar>
+                <p:commandButton value="Mensaje de usuario" icon="pi pi-arrow-down" type="button" onclick="PF('sidebar').show()" styleClass="p-mr-2" />
+            </h:form>
+
+            <p:messages showDetail="true" closable="true"/>
+            <img class="alinear_img_center" src="resources/imagenes/CDN.png" alt="Imagen CDN" height="200px"/>
+            <h1 style="text-align: center; color: #0b5186">
+                Bienvenid@ #{controladorSesionUsuario.usuarioLogeado.nombreUsuario}
+            </h1>
+
+
+        </ui:define>
+
+    </ui:composition>
+</html>

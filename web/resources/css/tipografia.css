@@ -1,0 +1,119 @@
+/*Permite definir los estilos para la tipografía y letras del sistema*/
+
+.titulo{
+    position: relative;
+    background-color: #004258;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    display: block;
+    font-size: 24px !important;
+    letter-spacing: 0.6px;
+}
+/*Titulo de cada pagina*/
+
+.titulo_tabla{
+    font-weight: bolder !important;
+    font-size: 28px !important;
+    vertical-align: bottom !important;
+    color: #004258 !important;
+}
+
+.titulo_login{
+    position: relative;
+    background-color: #00588c;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    display: block;
+    font-size: 24px !important;
+    letter-spacing: 0.6px;
+}
+
+.titulo_segundo_nivel{
+    position: relative;
+    background-color: #0499d9;
+    color: white;
+    padding: 10px;
+    margin-top: 20px !important;
+    text-align: center;
+    display: block;
+    font-size: 24px !important;
+}
+
+/*SubTitulo masterDetail*/
+.subtitulo{
+    color: #094c71;
+    font-size: 16px !important;
+    font-family: Trebuchet;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 20px;
+    /*text-decoration: underline;*/
+    font-style: italic;
+    display: block;
+    vertical-align: bottom;
+    text-align: center !important;
+}
+
+.nombre{
+    font-size: 24px!important; 
+    font-style: italic!important; 
+    padding-top: 20px!important; 
+    padding-bottom: 20px!important;
+}
+
+/******************************* Mensaje de ayuda ********************************/
+.descripcion{
+    color: #094c71;
+    font-family: Raavi;
+    font-size: 14px !important;
+    font-weight: normal !important;
+    letter-spacing: 0.5px;
+    text-align: justify;
+    /*padding: 10px 15px;*/
+}
+
+/******************************* Mensaje de campo obligatorio *********************************/
+.campo_obligatorio{
+    font-family: Raavi;
+    color: #bc3604;
+    font-size: 12px !important;
+    font-style: oblique;
+    letter-spacing: 0.5px;
+    text-align: right;
+}  
+
+/******************************* Mensaje de campo informativo *********************************/
+.campo_informativo{
+    font-family: Raavi;
+    /*color: #bc3604;*/
+    font-size: 24px !important;
+    font-style: oblique;
+    letter-spacing: 0.5px;
+    display: block;
+    vertical-align: bottom;
+    text-align: center !important;
+    margin: 0px 10px 0px 10px;
+    padding: 20px;
+}  
+
+/*Tamaño de texto para tabla*/
+.ui-datatable {
+    font-size: 12px!important;
+}
+
+/*Tamaño de texto para labels*/
+.ui-outputlabel{
+    font-size: 14px!important;
+    font-weight: bold;
+}
+
+.ui-inputfield{
+    font-size: 14px!important;
+    font-weight: bold;
+} 
+
+.ui-button {
+  margin-top: 0px !important;
+}

@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AlarmaFisicaEditDlg" widgetVar="AlarmaFisicaEditDialog" 
+                  header="#{bundle.Edit} #{bundle.AlarmaFisica}" width="95%"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true"
+                  onHide="PF('wiz').loadStep('general', false)">
+
+            <h:form id="AlarmaFisicaEditForm">
+                <h:panelGroup id="display">
+                    <p:wizard id="wzd" widgetVar="wiz" flowListener="#{alarmaFisicaController.onFlowProcess}"
+                              backLabel="Anterior" nextLabel="Siguiente">
+                        <p:tab id="general" title="Información general">
+
+                            <p:panel header="Información general de la alarma física">
+                                <p:messages id="msg"/>
+                                <p:panelGrid columns="4" rendered="#{alarmaFisicaController.selected != null}"
+                                             columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                             layout="grid"
+                                             styleClass="ui-panelgrid-blank ui-fluid"
+                                             style="border:0px none; background-color:transparent;">
+            <!--                        <p:outputLabel value="#{bundle.idAlarma}" for="idAlarma" />
+                                    <p:outputLabel id="idAlarma" value="#{bundle.SetAutomatically}"   />-->
+            <!--                        <p:outputLabel value="#{bundle.codigoAlarma}" for="codigoAlarma" />
+                                    <p:inputText id="codigoAlarma" value="#{alarmaFisicaController.selected.codigoAlarma}"  />-->
+                                    <p:outputLabel value="#{bundle.idEquipo}" for="idEquipo" />
+                                    <p:selectOneMenu filter="true" id="idEquipo" value="#{alarmaFisicaController.selected.idEquipo}" required="true"  >
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                                        <f:selectItems value="#{equipoController.itemsAvailableSelectOne}"
+                                                       var="idEquipoItem"
+                                                       itemLabel="#{idEquipoItem.nombreEquipo}"
+                                                       itemValue="#{idEquipoItem}"/>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="#{bundle.fechainiciaAlarma}" for="fechainiciaAlarma" />
+                                    <p:calendar id="fechainiciaAlarma" value="#{alarmaFisicaController.selected.fechainiciaAlarma}" pattern="yyyy-MM-dd HH:mm:ss" 
+                                                required="true" timeZone="GMT-5" locale="es_EC" navigator="true" showOn="button" showButtonPanel="true"
+                                                readonlyInput="true" maxdate="#{alarmaFisicaController.selected.fechafinalizaAlarma}">
+                                        <p:ajax event="dateSelect" update="fechafinalizaAlarma :growl" 
+                                                listener="#{alarmaFisicaController.validarFechas}"/>
+                                    </p:calendar>
+
+                                    <p:outputLabel value="#{bundle.estaequipoalarmadoAlarma}" for="estaequipoalarmadoAlarma" />
+                                    <p:selectOneButton id="estaequipoalarmadoAlarma"  value="#{alarmaFisicaController.selected.estaequipoalarmadoAlarma}"
+                                                       required="true" >
+                                        <f:selectItem itemValue="#{true}" itemLabel="Alarmado" />
+                                        <f:selectItem itemValue="#{false}" itemLabel="No alarmado"/>
+                                    </p:selectOneButton>
+<!--                                    <p:selectBooleanButton  id="estaequipoalarmadoAlarma" onLabel="Alarmado" offLabel="No alarmado" required="true" value="#{alarmaFisicaController.selected.estaequipoalarmadoAlarma}"
+                                                            onIcon="pi pi-check" offIcon="pi pi-times" />-->
+                                    <p:outputLabel value="#{bundle.descripcionAlarma}" for="descripcionAlarma" />
+                                    <p:inputText id="descripcionAlarma" value="#{alarmaFisicaController.selected.descripcionAlarma}" required="true" />
+
+                                    <p:outputLabel value="#{bundle.tienecomponentealarmadoAlarma}" for="tienecomponentealarmadoAlarma" />
+
+                                    <p:selectOneButton id="tienecomponentealarmadoAlarma" value="#{alarmaFisicaController.selected.tienecomponentealarmadoAlarma}"
+                                                       required="true" style="width:6rem" >
+                                        <f:selectItem itemValue="#{true}" itemLabel="Si" />
+                                        <f:selectItem itemValue="#{false}" itemLabel="No"/>
+                                        <p:ajax event="change" update="descripcioncomponentealarmadoAlarma lbldescripcioncomponentealarmadoAlarma"/>
+
+                                    </p:selectOneButton>
+<!--                                    <p:selectBooleanButton  id="tienecomponentealarmadoAlarma" onLabel="Sí, alarmados" offLabel="No alarmados" required="true" value="#{alarmaFisicaController.selected.tienecomponentealarmadoAlarma}"
+                                                            onIcon="pi pi-check" offIcon="pi pi-times" />-->
+
+
+                                    <p:outputLabel id="lbldescripcioncomponentealarmadoAlarma" value="#{bundle.descripcioncomponentealarmadoAlarma}" for="descripcioncomponentealarmadoAlarma" />
+                                    <p:inputText id="descripcioncomponentealarmadoAlarma" value="#{alarmaFisicaController.selected.descripcioncomponentealarmadoAlarma}"  
+                                                 disabled="#{! alarmaFisicaController.selected.tienecomponentealarmadoAlarma}"
+                                                 required="#{alarmaFisicaController.selected.tienecomponentealarmadoAlarma}"/>
+                                    <p:outputLabel value="#{bundle.estadoactualAlarma}" for="estadoactualAlarma" />
+                                    <!--<p:inputText id="estadoactualAlarma" value="#{alarmaFisicaController.selected.estadoactualAlarma}"  />-->
+                                    <p:selectOneMenu filter="true" id="estadoactualAlarma" label="#{bundle.estadoactualAlarma}" value="#{alarmaFisicaController.selected.estadoactualAlarma}" 
+                                                     required="true" class="form-control">
+
+                                        <f:selectItems value="#{alarmaFisicaController.estadosAlarma}"
+                                                       var="item" itemLabel="#{item}"
+                                                       itemValue="#{alarmaFisicaController.estadosAlarma.indexOf(item) eq 0 ? null: alarmaFisicaController.estadosAlarma.indexOf(item)}"/>
+                                    </p:selectOneMenu>
+
+                                </p:panelGrid>
+
+                                <div style="text-align: right;">
+                                    <p:outputLabel value="Ir al final: "/>
+                                    <p:selectBooleanCheckbox value="#{alarmaFisicaController.skip}"/>
+                                </div>
+                            </p:panel>
+
+                        </p:tab>
+                        <p:tab id="adicional" title="Adicional">
+                            <p:panel header="Información adicional">
+                                <p:messages/>
+
+                                <p:panelGrid columns="4" rendered="#{alarmaFisicaController.selected != null}"
+                                             columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                             layout="grid"
+                                             styleClass="ui-panelgrid-blank ui-fluid"
+                                             style="border:0px none; background-color:transparent;">
+                                    <p:outputLabel value="#{bundle.fechafinalizaAlarma}" for="fechafinalizaAlarma" />
+                                    <p:calendar id="fechafinalizaAlarma" pattern="yyyy-MM-dd HH:mm:ss" timeZone="GMT-5" locale="es_EC" navigator="true" showButtonPanel="true"  value="#{alarmaFisicaController.selected.fechafinalizaAlarma}" showOn="button" 
+                                                readonlyInput="true" mindate="#{alarmaFisicaController.selected.fechainiciaAlarma}">
+                                        <p:ajax event="dateSelect" update="fechainiciaAlarma :growl" 
+                                                listener="#{alarmaFisicaController.validarFechas}"/>
+                                    </p:calendar>
+            <!--                        <p:outputLabel value="#{bundle.fecharegistroAlarma}" for="fecharegistroAlarma" />
+                                    <p:calendar id="fecharegistroAlarma" pattern="yyyy-MM-dd HH:mm:ss"   timeZone="GMT-5" locale="es_EC" readonlyInput="true" navigator="true" showButtonPanel="true"  value="#{alarmaFisicaController.selected.fecharegistroAlarma}"   showOn="button"/>-->
+                                    <p:outputLabel value="#{bundle.numerocasoAlarma}" for="numerocasoAlarma" />
+                                    <!--<p:inputText id="numerocasoAlarma" value="#{alarmaFisicaController.selected.numerocasoAlarma}"  />-->
+                                    <p:inputMask id="numerocasoAlarma" value="#{alarmaFisicaController.selected.numerocasoAlarma}"
+                                                 validatorMessage="Se requiere al menos 3 letras o 3 números">
+                                        <f:validateRegex pattern="([a-z]|[A-Z]|ñ|Ñ|[0-9]){3,}"/>
+                                    </p:inputMask>
+
+
+                                    <p:outputLabel value="#{bundle.mostrarmonitoreodiarioAlarma}" for="mostrarmonitoreodiarioAlarma" />
+                                    <p:selectBooleanCheckbox id="mostrarmonitoreodiarioAlarma" value="#{alarmaFisicaController.selected.mostrarmonitoreodiarioAlarma}" />
+                                    <p:outputLabel value="#{bundle.observacionAlarma}" for="observacionAlarma" />
+                                    <p:inputText id="observacionAlarma" value="#{alarmaFisicaController.selected.observacionAlarma}"  />
+
+                                    <p:outputLabel value="#{bundle.idProveedor}" for="idProveedor" />
+                                    <p:selectOneMenu filter="true" id="idProveedor" value="#{alarmaFisicaController.selected.idProveedor}" >
+                                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                                        <f:selectItems value="#{proveedorController.itemsAvailableSelectOne}"
+                                                       var="idProveedorItem"
+                                                       itemLabel="#{idProveedorItem.nombreProveedor}"
+                                                       itemValue="#{idProveedorItem}"/>
+                                    </p:selectOneMenu>
+
+<!--                                <p:outputLabel value="#{bundle.idUsuario}" for="idUsuario" />
+                        <p:selectOneMenu filter="true" id="idUsuario" value="#{alarmaFisicaController.selected.idUsuario}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"
+                                           var="idUsuarioItem"
+                                           itemLabel="#{idUsuarioItem.nombreUsuario}"
+                                           itemValue="#{idUsuarioItem.nombreUsuario}"/>                      
+                        </p:selectOneMenu>-->
+
+                                </p:panelGrid>
+                                <div style="text-align: right;">
+                                    <p:outputLabel value="Ir al final: "/>
+                                    <p:selectBooleanCheckbox value="#{alarmaFisicaController.skip}"/>
+                                </div>
+                            </p:panel>
+                        </p:tab>
+                        <p:tab id="image" title="Imagen">
+                            <p:panel header="Imagen de la alarma" style="text-align: center;">
+
+                                <!--<p:outputLabel value="#{bundle.imagenunoAlarma}" />-->
+                                <!--
+                                <p:fileUpload id="fileImg" listener="#{alarmaFisicaController.handleFileUpload}"
+                                              update=":growl @this pnlImg"
+                                              mode="advanced" multiple="false" auto="true" global="true"
+                                              sizeLimit="512000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                              invalidSizeMessage="Tamaño máximo del archivo es 512 KB" 
+                                              invalidFileMessage="only gif | jpg | jpeg | png is allowed">
+        
+                                    <p:panel id="pnlImg" rendered="#{!(alarmaFisicaController.selected.imagenunoAlarma eq null) }" style="text-align: center;">
+                                        <p:graphicImage id="grpImg" cache="false" title="#{alarmaFisicaController.selected.imagenunoAlarma}"
+                                                        height="#{alarmaFisicaController.selected.imagenunoAlarma eq null ? 0 : 80}" 
+                                                        value="#{alarmaFisicaController.selected.imagenunoAlarma}" alt="Imagen_1"
+                                                        style="margin-right: 2px;"/>
+        
+                                        <p:commandButton id="btnVerImg" icon="pi pi-search" title="Ver imagen" 
+                                                         process="btnVerImagen"  partialSubmit="#{true}" immediate="#{true}"
+                                                         disabled="#{alarmaFisicaController.selected.imagenunoAlarma eq null}"
+                                                         action="#{imagenBean.visualizar(alarmaFisicaController.selected.imagenunoAlarma)}" 
+                                                         onclick="form.target = '_blank'" ajax="false"
+                                                         styleClass="ui-button-success" style="padding: 0px 5px 0px 5px"/>
+        
+                                        <p:commandButton id="btnQuitarImg" icon="pi pi-times" title="Quitar imagen"
+                                                         disabled="#{alarmaFisicaController.selected.imagenunoAlarma eq null}"
+                                                         actionListener="#{alarmaFisicaController.quitarImagenUno()}"
+                                                         update=":growl pnlImg fileImg" process="@this"
+                                                         styleClass="ui-button-danger" style="padding: 0px 5px 0px 5px"/>
+                                    </p:panel>
+                                </p:fileUpload>-->
+
+                                <p:commandButton id="btnEditarImg" icon="pi pi-plus" 
+                                                 value="Imagen" title="Editar imagen"
+                                                 process="@this" update=":EditarImagenForm" 
+                                                 oncomplete="PF('EditarImagenDialog').show()"
+                                                 styleClass="ui-button-info" style="padding: 0px 5px 0px 5px; margin-left: 10px;"/>
+
+                                <br/>
+                                <br/>
+                                <p:panel id="pnlImg" header="Gestión de la imagen" >
+
+                                    <p:graphicImage id="grpImg" cache="false" title="#{alarmaFisicaController.selected.imagenunoAlarma}"
+                                                    height="#{alarmaFisicaController.selected.imagenunoAlarma eq null ? 0 : 80}" 
+                                                    value="#{alarmaFisicaController.selected.imagenunoAlarma}" alt="Imagen_1"
+                                                    style="margin-right: 2px;"/>
+
+                                    <p:commandButton id="btnVerImg" icon="pi pi-search" title="Ver imagen" 
+                                                     process="@this"  partialSubmit="#{true}" immediate="#{true}"
+                                                     disabled="#{alarmaFisicaController.selected.imagenunoAlarma eq null}"
+                                                     action="#{imagenBean.visualizar(alarmaFisicaController.selected.imagenunoAlarma)}" 
+                                                     onclick="form.target = '_blank'" ajax="false"
+                                                     styleClass="ui-button-success" style="padding: 0px 5px 0px 5px"/>
+
+                                    <p:commandButton id="btnCropImg" icon="pi pi-pencil" title="Cortar imagen" 
+                                                     process="@this" update=":EditarImagenForm"
+                                                     disabled="#{alarmaFisicaController.selected.imagenunoAlarma eq null}" 
+                                                     oncomplete="PF('EditarImagenDialog').show()"
+                                                     styleClass="ui-button-info" style="padding: 0px 5px 0px 5px"/>
+
+                                    <p:commandButton id="btnQuitarImg" icon="pi pi-times" title="Quitar imagen"
+                                                     disabled="#{alarmaFisicaController.selected.imagenunoAlarma eq null}"
+                                                     actionListener="#{alarmaFisicaController.quitarImagen()}"
+                                                     update=":growl pnlImg" process="@this"
+                                                     styleClass="ui-button-danger" style="padding: 0px 5px 0px 5px"/>
+                                </p:panel>
+
+                            </p:panel>
+                        </p:tab>
+                        <p:tab id="confirm" title="Confirmación">
+                            <p:panel header="Confirmación" >
+
+                                <f:view>
+                                    <h:form>
+                                        <p:panelGrid columns="4" 
+                                                     columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3"
+                                                     layout="grid"
+                                                     styleClass="ui-panelgrid-blank ui-fluid"
+                                                     style="border:0px none; background-color:transparent;">
+                                            <!--                                            <h:outputLabel value="IdAlarma:" for="idAlarma" />
+                                                                                        <h:outputLabel id="idAlarma" value="#{alarmaFisicaController.selected.idAlarma}" title="IdAlarma"/>
+                                                                                        <h:outputLabel value="CodigoAlarma:" for="codigoAlarma" />
+                                                                                        <h:outputLabel id="codigoAlarma" value="#{alarmaFisicaController.selected.codigoAlarma}" title="CodigoAlarma" />-->
+                                            <p:outputLabel value="#{bundle.descripcionAlarma}" for="descripcionAlarma" />
+                                            <h:outputLabel id="descripcionAlarma" value="#{alarmaFisicaController.selected.descripcionAlarma}" title="DescripcionAlarma" />
+                                            <p:outputLabel value="#{bundle.fechainiciaAlarma}" for="fechainiciaAlarma" />
+                                            <h:outputLabel id="fechainiciaAlarma" value="#{alarmaFisicaController.selected.fechainiciaAlarma}" title="FechainiciaAlarma" >
+                                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                            </h:outputLabel>
+                                            <p:outputLabel value="#{bundle.fechafinalizaAlarma}" for="fechafinalizaAlarma" />
+                                            <h:outputLabel id="fechafinalizaAlarma" value="#{alarmaFisicaController.selected.fechafinalizaAlarma}" title="FechafinalizaAlarma" >
+                                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                            </h:outputLabel>
+                                            <p:outputLabel value="#{bundle.fecharegistroAlarma}" for="fecharegistroAlarma" />
+                                            <h:outputLabel id="fecharegistroAlarma" value="#{alarmaFisicaController.selected.fecharegistroAlarma}" title="FecharegistroAlarma" >
+                                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                            </h:outputLabel>
+                                            <p:outputLabel value="#{bundle.numerocasoAlarma}" for="numerocasoAlarma" />
+                                            <h:outputLabel id="numerocasoAlarma" value="#{alarmaFisicaController.selected.numerocasoAlarma}" title="NumerocasoAlarma" />
+                                            <p:outputLabel value="#{bundle.estaequipoalarmadoAlarma}" for="estaequipoalarmadoAlarma" />
+                                            <h:outputLabel id="estaequipoalarmadoAlarma" value="#{alarmaFisicaController.selected.estaequipoalarmadoAlarma}" title="EstaequipoalarmadoAlarma" />
+                                            <p:outputLabel value="#{bundle.tienecomponentealarmadoAlarma}" for="tienecomponentealarmadoAlarma" />
+                                            <h:outputLabel id="tienecomponentealarmadoAlarma" value="#{alarmaFisicaController.selected.tienecomponentealarmadoAlarma}" title="TienecomponentealarmadoAlarma" />
+                                            <p:outputLabel value="#{bundle.descripcioncomponentealarmadoAlarma}" for="descripcioncomponentealarmadoAlarma" />
+                                            <h:outputLabel id="descripcioncomponentealarmadoAlarma" value="#{alarmaFisicaController.selected.descripcioncomponentealarmadoAlarma}" title="DescripcioncomponentealarmadoAlarma" />
+                                            <p:outputLabel value="#{bundle.estadoactualAlarma}" for="estadoactualAlarma" />
+                                            <h:outputText id="estadoactualAlarma" value="#{alarmaFisicaController.estadosAlarma.get(alarmaFisicaController.selected.estadoactualAlarma)}" title="EstadoactualAlarma"/>
+                                            <!--                                            <h:outputLabel value="ImagenunoAlarma:" for="imagenunoAlarma" />
+                                                                                        <h:outputLabel id="imagenunoAlarma" value="#{alarmaFisicaController.selected.imagenunoAlarma}" title="ImagenunoAlarma" />
+                                                                                        <h:outputLabel value="ImagendosAlarma:" for="imagendosAlarma" />
+                                                                                        <h:outputLabel id="imagendosAlarma" value="#{alarmaFisicaController.selected.imagendosAlarma}" title="ImagendosAlarma" />-->
+                                            <p:outputLabel value="#{bundle.mostrarmonitoreodiarioAlarma}" for="mostrarmonitoreodiarioAlarma" />
+                                            <h:outputLabel id="mostrarmonitoreodiarioAlarma" value="#{alarmaFisicaController.selected.mostrarmonitoreodiarioAlarma}" title="MostrarmonitoreodiarioAlarma" />
+                                            <p:outputLabel value="#{bundle.observacionAlarma}" for="observacionAlarma" />
+                                            <h:outputLabel id="observacionAlarma" value="#{alarmaFisicaController.selected.observacionAlarma}" title="ObservacionAlarma" />
+                                            <p:outputLabel value="#{bundle.idEquipo}" for="idEquipo" />
+                                            <h:outputLabel id="idEquipo" value="#{alarmaFisicaController.selected.idEquipo.nombreEquipo}"  />
+                                            <p:outputLabel value="#{bundle.idProveedor}" for="idProveedor" />
+                                            <h:outputLabel id="idProveedor" value="#{alarmaFisicaController.selected.idProveedor.nombreProveedor}" />
+                                            <p:outputLabel value="#{bundle.idUsuario}" for="idUsuario" />
+                                            <h:outputLabel id="idUsuario" value="#{alarmaFisicaController.selected.idUsuario.nombreUsuario}" />
+
+                                        </p:panelGrid>
+                                    </h:form>
+                                </f:view>
+
+                                <div  style="text-align: center !important;">
+                                    <p:commandButton actionListener="#{alarmaFisicaController.actualizar}" value="#{bundle.Save}" update="display,:AlarmaFisicaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'AlarmaFisicaEditDialog');" icon="pi pi-check" styleClass="rounded-button ui-button-info"/>
+                                    <p:commandButton type="button" value="#{bundle.Cancel}" onclick="PF('AlarmaFisicaEditDialog').hide(); PF('wiz').loadStep('general', false)" icon="pi pi-times" styleClass="rounded-button ui-button-danger" update="AlarmaFisicaEditForm"/>                                    
+                                </div>
+                            </p:panel>
+                        </p:tab>
+                    </p:wizard>
+
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

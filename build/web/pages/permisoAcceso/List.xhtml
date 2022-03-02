@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.List} #{bundle.PermisoAcceso}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+
+            <style type="text/css">
+                button.ui-button {
+                    margin-right: .1rem;
+                }
+            </style>
+
+            <h:form id="PermisoAccesoListForm">
+                <p:dataTable id="datalist" value="#{permisoAccesoController.items}" var="item"
+                             emptyMessage="#{bundle.NoRecordsFound}"
+                             rowKey="#{item.idPermisoacceso}"  sortMode="multiple"
+                             paginator="true" rows="10"  rowsPerPageTemplate="5,10,15,20,30,40,50,70,100"
+                             currentPageReportTemplate="#{bundle.Total}:{totalRecords}   #{bundle.Page}:{currentPage}/{totalPages}"
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport}"
+                             paginatorPosition="bottom"  paginatorAlwaysVisible="true"
+                             widgetVar="PermisoAccesoTable" filterEvent="keyup"
+                             
+                             scrollable="false" reflow="true">
+
+                    <f:facet name="header">
+                        <div style="align-content: center; text-align: center;">
+                            <p:outputLabel value="#{bundle.List} #{bundle.PermisoAcceso}" style="font-weight: bolder;" />
+                            <p:outputLabel value="#{bundle.TipsLabel}" style="margin:0px;padding:0px;float:left"
+                                           title="#{bundle.TableTips}" />
+                            <br/>
+                            <p:commandButton id="refreshButton" title="#{bundle.Refresh}" actionListener="#{permisoAccesoController.refreshRows}" 
+                                             update=":growl,datalist" icon="pi pi-refresh" styleClass="ui-button-info ui-button-outlined ui-button-raised"/>
+                            <p:commandButton id="createButton" title="#{bundle.Create}" value="#{bundle.Create}" actionListener="#{permisoAccesoController.prepareCreate}" 
+                                             update=":PermisoAccesoCreateForm" oncomplete="PF('PermisoAccesoCreateDialog').show()" icon="pi pi-plus" styleClass="ui-button-raised ui-button-info"/>
+                            <p:commandButton id="toggler" type="button" title="#{bundle.SelectColumns}"
+                                             icon="pi pi-list" styleClass="ui-button-outlined ui-button-raised"/>
+                            <p:columnToggler datasource="datalist" trigger="toggler" />
+
+                            <p:separator/>
+                        </div>
+
+                    </f:facet>
+
+                    <p:column visible="false"
+                              sortBy="#{item.idPermisoacceso}"
+                              headerText="#{bundle.idPermisoacceso}"
+                              filterBy="#{item.idPermisoacceso}" filterMatchMode="contains">
+                        <h:outputText value="#{item.idPermisoacceso}"/>
+                    </p:column>
+                    <p:column
+                        sortBy="#{item.nombrePermisoacceso}"
+                        headerText="#{bundle.nombrePermisoacceso}"
+                        filterBy="#{item.nombrePermisoacceso}" filterMatchMode="contains">
+                        <h:outputText value="#{item.nombrePermisoacceso}"/>
+                    </p:column>
+                    <p:column
+                        sortBy="#{item.codigoPermisoacceso}"
+                        headerText="#{bundle.codigoPermisoacceso}"
+                        filterBy="#{item.codigoPermisoacceso}" filterMatchMode="contains">
+                        <h:outputText value="#{item.codigoPermisoacceso}"/>
+                    </p:column>
+                    <p:column
+                        sortBy="#{item.descripcionPermisoacceso}"
+                        headerText="#{bundle.descripcionPermisoacceso}"
+                        filterBy="#{item.descripcionPermisoacceso}" filterMatchMode="contains">
+                        <h:outputText value="#{item.descripcionPermisoacceso}"/>
+                    </p:column>
+                    <p:column
+                        sortBy="#{item.estadoPermisoacceso}"
+                        headerText="#{bundle.estadoPermisoacceso}"
+                        filterBy="#{item.estadoPermisoacceso}" filterMatchMode="contains">
+                        <p:selectBooleanCheckbox value="#{item.estadoPermisoacceso}" disabled="true"/>
+                    </p:column>
+                    <p:column
+                        sortBy="#{item.soloverPermisoacceso}"
+                        headerText="#{bundle.soloverPermisoacceso}"
+                        filterBy="#{item.soloverPermisoacceso}" filterMatchMode="contains">
+                        <p:selectBooleanCheckbox value="#{item.soloverPermisoacceso}" disabled="true"/>
+                    </p:column>
+                    <p:column
+                        sortBy="#{item.idOpcionsistema.nombreOpcionsistema}"
+                        headerText="#{bundle.OpcionSistema}"
+                        filterBy="#{item.idOpcionsistema.nombreOpcionsistema}" filterMatchMode="contains">
+                        <h:outputText value="#{item.idOpcionsistema.nombreOpcionsistema}"/>
+                    </p:column>
+                    <p:column
+                        sortBy="#{item.idTipousuario.nombreTipousuario}"
+                        headerText="#{bundle.TipoUsuario}"
+                        filterBy="#{item.idTipousuario.nombreTipousuario}" filterMatchMode="contains">
+                        <h:outputText value="#{item.idTipousuario.nombreTipousuario}"/>
+                    </p:column>
+
+                    <!--Botones de acciones-->
+                    <p:column headerText="#{bundle.Actions}">
+                        <p:commandButton title="#{bundle.View}" ajax="true" update=":PermisoAccesoViewForm" oncomplete="PF('PermisoAccesoViewDialog').show()" icon="pi pi-search" styleClass="rounded-button ui-button-success">
+                            <f:setPropertyActionListener value="#{item}" target="#{permisoAccesoController.selected}" />
+                        </p:commandButton>
+                        <p:commandButton title="#{bundle.Edit}" update=":PermisoAccesoEditForm" oncomplete="PF('PermisoAccesoEditDialog').show()" icon="pi pi-pencil" styleClass="rounded-button ui-button-info">
+                            <f:setPropertyActionListener value="#{item}" target="#{permisoAccesoController.selected}" />
+                        </p:commandButton>
+                        <p:commandButton title="#{bundle.Delete}" actionListener="#{permisoAccesoController.eliminar(item)}" update=":growl,datalist" icon="pi pi-trash" styleClass="rounded-button ui-button-danger" >
+                            <p:confirm header="#{bundle.ConfirmDeletion}" message="#{bundle.AreYouSureDelete}" icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:confirmDialog global="true">
+                            <p:commandButton value="#{bundle.Yes}" type="button" styleClass="ui-confirmdialog-yes rounded-button ui-button-success"
+                                             icon="pi pi-check" />
+                            <p:commandButton value="#{bundle.No}" type="button" styleClass="ui-confirmdialog-no rounded-button ui-button-danger"
+                                             icon="pi pi-times" />
+                        </p:confirmDialog>
+                    </p:column>
+
+                    <f:facet name="footer">                                
+
+                    </f:facet>
+                </p:dataTable>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

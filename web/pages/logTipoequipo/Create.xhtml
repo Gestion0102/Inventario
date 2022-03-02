@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LogTipoequipoCreateDlg" widgetVar="LogTipoequipoCreateDialog" 
+                  header="#{bundle.Create} #{bundle.LogTipoequipo}"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="LogTipoequipoCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" rendered="#{logTipoequipoController.selected != null}">
+                        <p:outputLabel value="#{bundle.idTipoequipo}" for="idLogtipoequipo" />
+                        <p:outputLabel id="idLogtipoequipo" value="#{bundle.SetAutomatically}"   />
+                        <p:outputLabel value="#{bundle.tipocrudTipoequipo}" for="tipocrudLogtipoequipo" />
+                        <p:inputText id="tipocrudLogtipoequipo" value="#{logTipoequipoController.selected.tipocrudLogtipoequipo}"  />
+                        <p:outputLabel value="#{bundle.fechaTipoequipo}" for="fechaLogtipoequipo" />
+                        <p:calendar id="fechaLogtipoequipo" pattern="yyyy-MM-dd HH:mm:ss"   timeZone="GMT-5" locale="es_EC" readonlyInput="true"  navigator="true" showButtonPanel="true"  value="#{logTipoequipoController.selected.fechaLogtipoequipo}"   showOn="button"/>
+                        <p:outputLabel value="#{bundle.idTipoequipo}" for="idTipoequipo" />
+                        <p:inputText id="idTipoequipo" value="#{logTipoequipoController.selected.idTipoequipo}"  />
+                        <p:outputLabel value="#{bundle.idUsuariocrud}" for="idUsuariocrud" />
+                        <p:inputText id="idUsuariocrud" value="#{logTipoequipoController.selected.idUsuario.nombreUsuario}"  />
+                        <p:outputLabel value="#{bundle.codigoTipoequipo}" for="codigoLogtipoequipo" />
+                        <p:inputText id="codigoLogtipoequipo" value="#{logTipoequipoController.selected.codigoLogtipoequipo}"  />
+                        <p:outputLabel value="#{bundle.nombreTipoequipo}" for="nombreLogtipoequipo" />
+                        <p:inputText id="nombreLogtipoequipo" value="#{logTipoequipoController.selected.nombreLogtipoequipo}"  />
+                        <p:outputLabel value="#{bundle.descripcionTipoequipo}" for="descripcionLogtipoequipo" />
+                        <p:inputText id="descripcionLogtipoequipo" value="#{logTipoequipoController.selected.descripcionLogtipoequipo}"  />
+                    </p:panelGrid>
+
+                    <div style="text-align: center !important;">
+                        <p:commandButton actionListener="#{logTipoequipoController.crear}" value="#{bundle.Save}" update="display,:LogTipoequipoListForm:datalist,:growl" oncomplete="handleSubmit(args,'LogTipoequipoCreateDialog');" icon="pi pi-check" styleClass="rounded-button ui-button-info"/>
+                        <p:commandButton type="button" value="#{bundle.Cancel}" onclick="PF('LogTipoequipoCreateDialog').hide()" icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

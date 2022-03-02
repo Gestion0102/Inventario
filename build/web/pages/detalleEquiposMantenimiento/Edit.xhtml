@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DetalleEquiposMantenimientoEditDlg" widgetVar="DetalleEquiposMantenimientoEditDialog" 
+                  header="#{bundle.Edit} #{bundle.DetalleEquiposMantenimiento}"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="DetalleEquiposMantenimientoEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" rendered="#{detalleEquiposMantenimientoController.selected != null}">
+<!--                        <p:outputLabel value="#{bundle.idDetalleequipomantenimiento}" for="idDetalleequipomantenimiento" />
+                        <p:inputText id="idDetalleequipomantenimiento" disabled="true" value="#{detalleEquiposMantenimientoController.selected.idDetalleequipomantenimiento}"   />-->
+<!--                        <p:outputLabel value="#{bundle.codigoDetalleequipomantenimiento}" for="codigoDetalleequipomantenimiento" />
+                        <p:inputText id="codigoDetalleequipomantenimiento" value="#{detalleEquiposMantenimientoController.selected.codigoDetalleequipomantenimiento}"  />-->
+                        <p:outputLabel value="#{bundle.coberturaDetalleequipomantenimiento}" for="coberturaDetalleequipomantenimiento" />
+                        <p:inputText id="coberturaDetalleequipomantenimiento" value="#{detalleEquiposMantenimientoController.selected.coberturaDetalleequipomantenimiento}"  />
+                        <p:outputLabel value="#{bundle.idEquipo}" for="idEquipo" />
+<!--                        <p:selectOneMenu disabled="true" filter="true" id="idEquipo" value="#{detalleEquiposMantenimientoController.selected.idEquipo}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{equipoController.itemsAvailableSelectOne}"
+                                           var="idEquipoItem"
+                                           itemLabel="#{idEquipoItem.nombreEquipo} (#{idEquipoItem.serieEquipo})"
+                                           itemValue="#{idEquipoItem}"/>
+                        </p:selectOneMenu>-->
+                        
+                        <p:column>
+                            <h:outputText id="idEquipo" value="#{detalleEquiposMantenimientoController.selected.idEquipo.nombreEquipo} (#{detalleEquiposMantenimientoController.selected.idEquipo.serieEquipo})" />
+                            <p:commandButton title="#{bundle.View}" ajax="true" update=":EquipoViewForm" oncomplete="PF('EquipoViewDialog').show()" icon="pi pi-search" styleClass="rounded-button ui-button-success">
+                                <f:setPropertyActionListener value="#{detalleEquiposMantenimientoController.selected.idEquipo}" target="#{equipoController.selected}" />
+                            </p:commandButton>
+                        </p:column>
+                        
+                        <p:outputLabel value="#{bundle.idMantenimiento}" for="idMantenimiento" />
+                        <p:selectOneMenu disabled="true" filter="true" id="idMantenimiento" value="#{detalleEquiposMantenimientoController.selected.idMantenimiento}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{mantenimientoController.itemsAvailableSelectOne}"
+                                           var="idMantenimientoItem"
+                                           itemLabel="#{idMantenimientoItem.nombreMantenimiento} (#{idMantenimientoItem.codigoMantenimiento})"
+                                           itemValue="#{idMantenimientoItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+
+                    <div style="text-align: center !important;">
+                        <!--<p:commandButton actionListener="#{detalleEquiposMantenimientoController.actualizar}" value="#{bundle.Save}" update="display,:DetalleEquiposMantenimientoListForm:datalist,:growl, :MantenimientoCreateForm:datalist :MantenimientoEditForm:datalist" oncomplete="handleSubmit(args, 'DetalleEquiposMantenimientoEditDialog');" icon="pi pi-check" styleClass="rounded-button ui-button-info"/>-->
+                        <p:commandButton value="#{bundle.Save}" update="display,:DetalleEquiposMantenimientoListForm:datalist,:growl, :MantenimientoCreateForm:datalist :MantenimientoEditForm:datalist" oncomplete="handleSubmit(args, 'DetalleEquiposMantenimientoEditDialog');" icon="pi pi-check" styleClass="rounded-button ui-button-info"/>
+                        <p:commandButton type="button" value="#{bundle.Cancel}" onclick="PF('DetalleEquiposMantenimientoEditDialog').hide()" icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

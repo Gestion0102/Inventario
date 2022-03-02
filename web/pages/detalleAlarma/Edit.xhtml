@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DetalleAlarmaEditDlg" widgetVar="DetalleAlarmaEditDialog" 
+                  header="#{bundle.Edit} #{bundle.DetalleAlarma}"
+                  modal="true" resizable="true" appendTo="@(body)"
+                  showEffect="explode" hideEffect="explode" responsive="true" closeOnEscape="true"
+                  fitViewport="true" maximizable="true">
+
+            <h:form id="DetalleAlarmaEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" rendered="#{detalleAlarmaController.selected != null}">
+                        <p:outputLabel value="#{bundle.idDetallealarma}" for="idDetallealarma" />
+                        <p:inputText id="idDetallealarma" disabled="true" value="#{detalleAlarmaController.selected.idDetallealarma}"   />
+                        <p:outputLabel value="#{bundle.codigoDetallealarma}" for="codigoDetallealarma" />
+                        <p:inputText id="codigoDetallealarma" value="#{detalleAlarmaController.selected.codigoDetallealarma}"  />
+                        <p:outputLabel value="#{bundle.nombreDetallealarma}" for="nombreDetallealarma" />
+                        <p:inputText id="nombreDetallealarma" value="#{detalleAlarmaController.selected.nombreDetallealarma}"  />
+                        <p:outputLabel value="#{bundle.descripcionDetallealarma}" for="descripcionDetallealarma" />
+                        <p:inputText id="descripcionDetallealarma" value="#{detalleAlarmaController.selected.descripcionDetallealarma}"  />
+                        <p:outputLabel value="#{bundle.fechaDetallealarma}" for="fechaDetallealarma" />
+                        <p:calendar id="fechaDetallealarma" pattern="yyyy-MM-dd HH:mm:ss" timeZone="GMT-5" locale="es_EC" readonlyInput="true"  navigator="true" value="#{detalleAlarmaController.selected.fechaDetallealarma}" showButtonPanel="true"   showOn="button"/>
+                        <p:outputLabel value="#{bundle.tipoDetallealarma}" for="tipoDetallealarma" />
+                        <p:inputText id="tipoDetallealarma" value="#{detalleAlarmaController.selected.tipoDetallealarma}"  />
+                        <p:outputLabel value="#{bundle.imagenDetallealarma}" for="imagenDetallealarma" />
+                        <p:inputTextarea rows="4" cols="30" id="imagenDetallealarma" value="#{detalleAlarmaController.selected.imagenDetallealarma}"  />
+                        <p:outputLabel value="#{bundle.idAlarma}" for="idAlarma" />
+                        <p:selectOneMenu filter="true" id="idAlarma" value="#{detalleAlarmaController.selected.idAlarma}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{alarmaFisicaController.itemsAvailableSelectOne}"
+                                           var="idAlarmaItem"
+                                           itemValue="#{idAlarmaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.idUsuario}" for="idUsuario" />
+                        <p:selectOneMenu filter="true" id="idUsuario" value="#{detalleAlarmaController.selected.idUsuario}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"
+                                           var="idUsuarioItem"
+                                           itemValue="#{idUsuarioItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+
+                    <div style="text-align: center !important;">
+                        <p:commandButton actionListener="#{detalleAlarmaController.actualizar}" value="#{bundle.Save}" update="display,:DetalleAlarmaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'DetalleAlarmaEditDialog');" icon="pi pi-check" styleClass="rounded-button ui-button-info"/>
+                        <p:commandButton type="button" value="#{bundle.Cancel}" onclick="PF('DetalleAlarmaEditDialog').hide()" icon="pi pi-times" styleClass="rounded-button ui-button-danger"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

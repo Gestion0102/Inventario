@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Acceso al sistema</title>
+        <link href="#{request.contextPath}/resources/css/login.css" rel="stylesheet" type="text/css"/>
+
+        <style type="text/css">
+            .animated .ui-progressbar-value { 
+                background-image: url("#{resource['demo/images/pbar-ani.gif']}"); 
+            }
+
+            .Bimage{
+                background-image:url(#{request.contextPath}/resources/images/imag.jpg);
+            }
+        </style>
+
+        <script type="text/javascript">
+            //<![CDATA[
+            function start() {
+                PF('startButton1').disable();
+
+                window['progress'] = setInterval(function () {
+                    var pbClient = PF('pbClient'),
+                            oldValue = pbClient.getValue(),
+                            newValue = oldValue + 10;
+
+                    pbClient.setValue(pbClient.getValue() + 10);
+
+                    if (newValue === 100) {
+                        clearInterval(window['progress']);
+                    }
+
+
+                }, 1000);
+            }
+
+            function cancel() {
+                clearInterval(window['progress']);
+                PF('pbClient').setValue(0);
+                PF('startButton1').enable();
+            }
+            //]]>
+        </script>
+
+        <script type="text/javascript">
+            function handleLoginRequest(xhr, status, args) {
+                if (args.validationFailed || !args.loggedIn) {
+                    jQuery('#formLogin').effect('shake', {times: 3}, 350);
+                } else {
+                    location.href = args.ruta;
+                }
+            }
+        </script>
+    </h:head>
+    <h:body class="body" style="
+            background-color: #93c3cd!important;
+            background-image:url(#{request.contextPath}/resources/imagenes/centro_datos.png);
+            background-size: cover;
+            background-repeat: no-repeat; 
+            background-attachment:fixed;">
+        <div class="login" >
+
+            <h:form id="formLogin">
+
+                <p:growl id="growl" sticky="true" showDetail="true" life="5000" />
+
+                <p:panel header="Login" widgetVar="dlg" style=" box-shadow: 5px 5px 5px gray; border-radius: 10px;">
+
+                    <div style="padding: 35px;">
+
+                        <p:outputLabel value="Rol del usuario" for="txtRolUsuario"/>
+                        <br/>
+<!--                        <p:inputText id="txtRolUsuario" value="#{controladorLogin.usuarioTemp.rolUsuario}" required="true"
+                                     style="display: block!important;width: 100%!important; padding: 5px; margin: 5px; margin-top:"
+                                     placeholder="Ingrese su Rol" /> -->
+
+                        <p:inputMask id="txtRolUsuario" value="#{controladorLogin.usuarioTemp.rolUsuario}" 
+                                     style="display: block!important;width: 100%!important; padding: 5px; margin: 5px; margin-top:"
+                                     mask="*****" validateMask="true" required="true" placeholder="Ingrese su rol" />
+<!--mask="[a|9][a|9][a|9][a|9][a|9]"-->
+                        <br/>
+                        <p:outputLabel value="Contraseña del usuario" for="txtContraseniaUsuario"/>
+                        <br/>
+
+                        <p:password id="txtContraseniaUsuario" value ="#{controladorLogin.usuarioTemp.contraseniaUsuario}" required="true" 
+                                    style="display: block!important;width: 100%!important; padding: 5px; margin: 5px"
+                                    placeholder="Ingrese su contraseña" toggleMask="true" redisplay="true"
+                                    goodLabel="ok"/>
+                        
+                        <f:facet name="header">
+                            <img src="#{request.contextPath}/resources/imagenes/EEQ_completo.png" alt="eeq" width="200px"
+                                 style="display: block !important;
+                                 margin-left: auto !important;
+                                 margin-right: auto !important;
+                                 margin: 10px;"/>
+                        </f:facet>
+                        <f:facet name="footer" >
+                            <p:commandButton value="Ingresar" update="formLogin" action="#{controladorLogin.iniciarSesionUsuario()}"
+                                             style="display: block!important;width: 100%!important;border: none!important; padding: 5px; margin: 5px;
+                                             background-color: #007aab!important" 
+                                             oncomplete="handleLoginRequest(xhr, status, args)" 
+                                             onclick="PF('dlg1').show(); start()" 
+                                             widgetVar="startButton1"/>
+                            <p:commandButton value="Limpiar" actionListener="#{controladorLogin.limpiarCamposLogin()}" update= "txtRolUsuario txtContraseniaUsuario" 
+                                             style="display: block!important;width: 100%!important;border: none!important; padding: 5px; margin: 5px;" 
+                                             styleClass="ui-button-warning "/>
+                            <p:link value="Olvidaste tu contraseña..." outcome="restablecer_contrasenia.xhtml" style="padding: 20px; margin-top: 100px"/>
+
+
+                            <p:dialog header="Cargando recursos de inicio del sistema..." widgetVar="dlg1" minHeight="40" resizable="false" >
+                                <i class="pi pi-spin pi-sync" style="font-size: 2rem; float: left;"></i>
+                                <p:progressBar id="progressBarClient" widgetVar="pbClient" style="width:300px; float:right;"/>
+                            </p:dialog>
+                        </f:facet>  
+                    </div>
+
+                </p:panel>  
+            </h:form>
+
+        </div>
+    </h:body>
+</html>
+
